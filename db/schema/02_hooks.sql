@@ -11,5 +11,5 @@ CREATE TABLE hooks (
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   like_id INTEGER REFERENCES likes(id) ON DELETE CASCADE,
   rating INTEGER,
-  category_id INTEGER REFERENCES categories(id) ON DELETE CASCADE,
+  category_id INTEGER REFERENCES categories(id) ON DELETE CASCADE
 );
