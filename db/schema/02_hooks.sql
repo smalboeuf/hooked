@@ -7,9 +7,9 @@ CREATE TABLE hooks (
   title VARCHAR(255) NOT NULL,
   description TEXT,
   content TEXT,
-  comment_id INTEGER REFERENCES comments(id) ON DELETE CASCADE,
+  comment_id INTEGER,
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-  like_id INTEGER REFERENCES likes(id) ON DELETE CASCADE,
+  like_id INTEGER,
   rating INTEGER,
-  category_id INTEGER REFERENCES categories(id) ON DELETE CASCADE
+  category_id INTEGER
 );
