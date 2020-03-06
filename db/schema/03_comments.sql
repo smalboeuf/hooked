@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS comments CASCADE;
 
 CREATE TABLE comments (
   id SERIAL PRIMARY KEY NOT NULL,
-  content TEXT,
+  comment TEXT,
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   hook_id INTEGER REFERENCES hooks(id) ON DELETE CASCADE
 );
