@@ -6,6 +6,6 @@ VALUES ('github'),
 ('blog'),
 ('wikipedia'),
 ('steam'),
-('twitter'),
+('google'),
 ('css-trick'),
 ('yahoo');
