@@ -1,5 +1,5 @@
 -- Likes table seeds here (Example)
-INSERT INTO likes (user_id, hook_id)
+INSERT INTO likes (user_id, hook_id, favourite)
 VALUES (1, 1, true),
 (2, 2, true),
 (3, 2, true),

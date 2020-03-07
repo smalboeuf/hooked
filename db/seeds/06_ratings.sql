@@ -1,5 +1,5 @@
 -- Ratings table seeds here (Example)
-INSERT INTO ratings (hook_id, ratings)
+INSERT INTO ratings (hook_id, rating)
 VALUES (1, 5),
 (2, 5),
 (3, 3),
