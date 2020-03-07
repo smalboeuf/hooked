@@ -1,0 +1,49 @@
+body {
+  background-color: #c7eaf2;
+}
+
+main {
+  margin: 2rem;
+  width: 60%;
+  display: flex;
+  margin-left:auto;
+  margin-right:auto;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+}
+
+.searchDiv {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  width: auto;
+}
+
+.searchDiv h2 {
+  font-size: 1.5rem;
+  margin: 2rem;
+}
+
+.search-icon {
+  padding-left: 0.5em;
+}
+
+#searchContent {
+  height: 2rem;
+  width: 30em;
+}
+
+.fa-search {
+  height: 2rem;
+  height: 3rem;
+}
+
+form {
+  display: flex;
+  flex-direction: row;
+  padding-top: 2rem;
+}
+
+

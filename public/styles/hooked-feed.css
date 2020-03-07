@@ -1,0 +1,77 @@
+.hooked-feed {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  height: auto;
+  width: 80%;
+  background-color: #c7eaf2;
+}
+
+.hooked-post {
+  width: 85%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 2rem;
+  min-height: 25em;
+  background-color: white;
+  padding: 3em;
+  overflow: visible;
+  border: solid #ffc107;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+#commentBox {
+  height: 3.5rem;
+}
+
+.post-description {
+
+}
+
+.post-content {
+
+}
+
+.hook-ratings {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.addComment {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1em;
+}
+
+.commentFeed {
+
+}
+
+.comment {
+  margin-top: 2em;
+  padding: 1em;
+  display:flex;
+  flex-direction: column;
+  background-color: whitesmoke;
+}
+
+#ratingNumb {
+  width: 2rem;
+}
+
+#addNewComment {
+  font-size: 100%;
+  width: 30%;
+}
