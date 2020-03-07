@@ -33,7 +33,7 @@ app.use(express.static("public"));
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
-const userPageRoutes = require("./routes/userPage");
+const userPageRoutes = require("./routes/userHooks");
 const registerRoutes = require("./routes/register");
 const loginRoutes = require("./routes/login");
 const usersRoutes = require("./routes/users");
