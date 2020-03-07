@@ -5,7 +5,7 @@ VALUES ('github'),
 ('comapass'),
 ('blog'),
 ('wikipedia'),
-('instagram'),
+('steam'),
 ('twitter'),
 ('css-trick'),
 ('yahoo');
