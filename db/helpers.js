@@ -2,7 +2,7 @@ const db = require('/db');
 
 const howManyPeopleLike = function(hookId) {
   const queryStr = `
-    SELECT COUNT(like.*) AS likes
+    SELECT COUNT(like.*) AS likes                 //shows # of likes of a hook
     FROM likes
     WHERE hook_id = $1
   `
@@ -25,7 +25,7 @@ const avgRatings = function(hookId) {
 exports.avgRatings = avgRatings;
 
 const myLikes = function(userId) {
-  const queryStr = `
+  const queryStr = `                                //this shows only hooks which a user likes.
     SELECT hooks.*
     FROM hooks
     JOIN likes ON likes.user_id = hooks.user_id
@@ -39,7 +39,7 @@ exports.myLikes = myLikes;
 
 const myPosts = function(userId) {
   const queryStr = `
-    SELECT hooks.*
+    SELECT hooks.*                                    //shows hooks which a user posts.
     FROM hooks
     WHERE user_id = $1
   `
@@ -51,9 +51,9 @@ exports.myPosts = myPosts;
 
 const search = function(whatAUserIsLookingFor) {
   const queryStr = `
-    SELECT hooks.*
+    SELECT hooks.*                                      //search function. This will check titles and descriptions.
     FROM hooks
-    WHERE content LIKE $1
+    WHERE description LIKE $1
     OR title LIKE $1
   `
   db.query(queryStr, [whatAUserIsLookingFor])
