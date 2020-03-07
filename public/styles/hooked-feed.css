@@ -17,7 +17,7 @@
   min-height: 25em;
   background-color: white;
   padding: 3em;
-  overflow: hidden;
+  overflow: visible;
   border: solid #ffc107;
 }
 
@@ -62,9 +62,16 @@
 .comment {
   margin-top: 2em;
   padding: 1em;
+  display:flex;
+  flex-direction: column;
   background-color: whitesmoke;
 }
 
 #ratingNumb {
   width: 2rem;
+}
+
+#addNewComment {
+  font-size: 100%;
+  width: 30%;
 }
