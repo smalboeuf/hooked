@@ -17,9 +17,6 @@
   <link rel="stylesheet" href="/styles/main.css">
   <link rel="stylesheet" href="/styles/hooked-feed.css">
 
-  <!-- JS -->
-  <script src="/public/scripts/events.js"></script>
-
    <!-- External JS -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
@@ -27,26 +24,14 @@
 <body>
  <%- include('partials/_header.ejs') %>
   <main class="rounded">
-    <section class="search">
-      <div class="searchDiv">
-        <h2>Search:</h2>
-        <form method="POST" name="newSearch">
-          <textarea id="searchContent" name="text" placeholder="What are you looking for?"></textarea> <br>
-          <div class="searchInput">
-          <a class="searchIcon" href="#"><span class="search-icon fa fa-search fa-lg"></span></a>
-        </div>
-        </form>
-      </div>
-    </section>
-     <br>
+    <h2>Username's Page</h2>
   </main>
 
 <div class="hooked-feed rounded">
-
   <div class="hooked-post rounded">
     <div class="title">
-      <span class="titleSpan">Title</span>
-      <span class="usernameSpan">Username</span>
+      <span>Title</span>
+      <span>Username</span>
     </div>
     <hr>
     <div class="content">
@@ -69,10 +54,9 @@
     </div>
     <div class="commentFeed">
       <span>Comments: </span>
-
       <div class="comment">
-        <span class="commentUsername">Username:</span>
-        <p class="commentContent">This is where the comment is going to be written. Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus obcaecati ea, officiis aperiam voluptas iusto, numquam dolor, eligendi alias dolorum saepe porro. Cupiditate, rerum. In alias magni corporis ad ratione!</p>
+        <span>Username</span>
+        <p>This is where the comment is going to be written. Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus obcaecati ea, officiis aperiam voluptas iusto, numquam dolor, eligendi alias dolorum saepe porro. Cupiditate, rerum. In alias magni corporis ad ratione!</p>
       </div>
     </div>
 
