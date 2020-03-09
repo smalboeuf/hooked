@@ -1,4 +1,3 @@
-//REQUIRE THE HELPERS
 
 const loadPosts = function () {
   //Get the amount of posts from the data base for a for loop
@@ -8,7 +7,6 @@ const loadPosts = function () {
   for (let i = 0; i < USERPOSTSFROMDB.length; i++) {
 
   }
-
 }
 
 

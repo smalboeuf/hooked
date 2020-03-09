@@ -1,4 +1,5 @@
-const db = require('/index');
+const db = require('./index');
+const bcrypt = require('bcrypt');
 
 const howManyPeopleLike = function(hookId) {
   const queryStr = `
@@ -8,9 +9,9 @@ const howManyPeopleLike = function(hookId) {
   `
   db.query(queryStr, [hookId])
     .then(res => res.rows[0])
-    .catch(() => null)
+    //.catch(() => null)
 };
-exports.howManyPeopleLike = howManyPeopleLike;
+// exports.howManyPeopleLike = howManyPeopleLike;
 
 const avgRatings = function(hookId) {
   const queryStr = `
@@ -20,9 +21,9 @@ const avgRatings = function(hookId) {
   `
   db.query(queryStr, [hookId])
     .then(res => res.rows[0])
-    .catch(() => null)
+   // .catch(() => null)
 };
-exports.avgRatings = avgRatings;
+// exports.avgRatings = avgRatings;
 
 const myLikes = function(userId) {
   const queryStr = `                                //this shows only hooks which a user likes.
@@ -33,9 +34,9 @@ const myLikes = function(userId) {
   `
   db.query(queryStr, [userId])
     .then(res => res.rows)
-    .catch(() => null)
+    //.catch(() => null)
 }
-exports.myLikes = myLikes;
+// exports.myLikes = myLikes;
 
 const myPosts = function(userId) {
   const queryStr = `
@@ -45,9 +46,9 @@ const myPosts = function(userId) {
   `
   db.query(queryStr, [userId])
     .then(res => res.rows)
-    .catch(() => null)
+  //  .catch(() => null)
 };
-exports.myPosts = myPosts;
+// exports.myPosts = myPosts;
 
 const search = function(whatAUserIsLookingFor) {
   const queryStr = `
@@ -59,7 +60,7 @@ const search = function(whatAUserIsLookingFor) {
   db.query(queryStr, [whatAUserIsLookingFor])
     .then(res => res.rows)
 };
-exports.search = search;
+// exports.search = search;
 
 const rateTheHook = function(hookId, rating) {
 
@@ -70,9 +71,9 @@ const rateTheHook = function(hookId, rating) {
   `
   return db.query(queryStr, [hookId, rating])
   .then(res => res.rows)
-  .catch(() => null)
+  //.catch(() => null)
 };
-exports.rateTheHook = rateTheHook;
+// exports.rateTheHook = rateTheHook;
 
 const isAnExistingUser = function(username, email) {
   const queryStr = `
@@ -83,22 +84,31 @@ const isAnExistingUser = function(username, email) {
   `
   return db.query(queryStr, [username, email])
     .then(() => true)
-    .catch(() => false)
+    //.catch(() => false)
 };
-exports.isAnExistingUser = isAnExistingUser;
+// exports.isAnExistingUser = isAnExistingUser;
 
-const correctEmailAndPassword = function(email, password) {
+const correctPassword = function(email, password) {
+  const queryStr = `
+    SELECT password
+    FROM users
+    WHERE email = $1
+  `
+  return db.query(queryStr, [email])
+    .then (res => bcrypt.compareSync(password, res.rows[0].password));
+    //.catch(() => null)
+};
+
+const correctEmail = function(email) {
   const queryStr = `
     SELECT id
     FROM users
     WHERE email = $1
-    AND passwoord = $2
   `
-  return db.query(queryStr, [email, password])
-    .then (() => true)
-    .catch(() => false)
+  return db.query(queryStr, [email])
+    .then (res => res.rows[0])
 };
-exports.correctEmailAndPassword = correctEmailAndPassword;
+// exports.correctEmailAndPassword = correctEmailAndPassword;
 
 const addUser = function(username, email, passwoord) {
   const queryStr = `
@@ -108,6 +118,9 @@ const addUser = function(username, email, passwoord) {
   `
   return db.query(queryStr, [username, email, passwoord])
     .then(res => res.rows)
-    .catch(e => null)
+    //.catch(e => null)
 };
-exports.addUser = addUser;
+// exports.addUser = addUser;
+
+
+module.exports = { addUser, howManyPeopleLike, avgRatings, myLikes, myPosts, isAnExistingUser, search, rateTheHook, correctEmail, correctPassword }

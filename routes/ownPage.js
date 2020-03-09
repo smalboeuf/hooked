@@ -15,12 +15,12 @@ let users = { id: 1, name: "Alice", email: "alice@email.ca", password: "password
 module.exports = () => {
 
   router.get("/ownPage", (req, res) => {
-    const templateVars = {id: req.session.user_id};
+    const templateVars = {id: req.session.userId};
     res.render("ownPage", templateVars);
   });
 
   router.get("/editProfile", (req, res) => {
-    const templateVars = {id: req.session.user_id};
+    const templateVars = {id: req.session.userId};
 
     res.render("editProfile", templateVars);
   });
