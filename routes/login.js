@@ -9,42 +9,31 @@ router.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000
 }));
 
-// let users = { id: 1, name: "Alice", email: "alice@email.ca", password: "password" };
-
 const { correctEmail, correctPassword } = require('../db/helpers')
 
 module.exports = () => {
 
   router.get("/", (req, res) => {
     let templateVars = {}
-     templateVars = {id: req.session.userId};
-
-     console.log(req.session);
+    templateVars = { id: req.session.userId };
     res.render("index", templateVars);
   });
 
   router.get("/login", (req, res) => {
-    let templateVars = {id: req.session.userId};
+    let templateVars = { id: req.session.userId };
     res.render("login", templateVars);
   });
 
-  // router.get("/login/:id", (req, res) => {
-  //   if (req.body.email === users.email) {
-  //     user = users;
-  //   }
-  //   req.session.user_id = req.params.id;
-  //   res.redirect("/urls");
-  // });
-
   router.post("/login", (req, res) => {
-    const {email, password} = req.body;
+    const { email, password } = req.body;
 
     correctPassword(email, password)
       .then(() => correctEmail(email))
       .then((result) => {
         console.log(result);
         req.session.userId = result;
-        res.redirect("/")})
+        res.redirect("/")
+      })
       .catch(e => res.send(e));
     ;
   });

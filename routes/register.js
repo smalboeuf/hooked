@@ -9,21 +9,24 @@ router.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000
 }));
 
-let users = { id: 1, name: "Alice", email: "alice@email.ca", password: "password" };
+
+const { addUser } = require('../db/helpers');
 
 module.exports = () => {
 
   router.get("/register", (req, res) => {
-    let templateVars = {id: req.session.user_id};
+    let templateVars = { id: req.session.user_id };
     res.render("register", templateVars);
   });
 
   router.post("/register", (req, res) => {
-    if (req.body.email === users.email) {
-      user = users;
-      req.session['user_id'] = user.id;
-      templateVars = {id: req.session.user_id};
-    }
+
+    const { username, email, password } = req.body;
+
+    addUser(username, email, password)
+
+      .then()
+
     res.redirect("/");
   });
 
