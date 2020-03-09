@@ -10,3 +10,17 @@ header .navbar {
 .navbar-nav .nav-item {
   font-size: 1.3rem;
 }
+
+.navElements {
+display: flex;
+flex-direction: column;
+}
+
+.loggedIn {
+  display: flex;
+  flex-direction: row;
+}
+
+.myPagebtn {
+  margin-right: 2em;
+}

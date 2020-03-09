@@ -36,7 +36,6 @@ main {
 }
 
 .fa-search {
-  height: 2rem;
   height: 3rem;
 }
 
@@ -44,6 +43,10 @@ form {
   display: flex;
   flex-direction: row;
   padding-top: 2rem;
+  width: auto;
 }
 
+.searchWord {
+  font-size: 10em;
+}
 
