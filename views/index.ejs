@@ -17,11 +17,11 @@
   <link rel="stylesheet" href="/styles/main.css">
   <link rel="stylesheet" href="/styles/hooked-feed.css">
 
-  <!-- JS -->
-  <script src="/public/scripts/events.js"></script>
-
    <!-- External JS -->
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  <!-- JS -->
+  <script src="/scripts/events.js"></script>
 
 </head>
 <body>
@@ -65,10 +65,11 @@
     <div class="addComment">
       <span>Add Comment:</span>
       <textarea name="comment" id="commentBox" cols="20" rows="10"></textarea>
-      <input id="addNewComment" type="submit" value="Hook a comment!">
+      <input id="addNewComment" value="Hook a comment!">
+      <br>
+      <span>Comments: </span>
     </div>
     <div class="commentFeed">
-      <span>Comments: </span>
 
       <div class="comment">
         <span class="commentUsername">Username:</span>
