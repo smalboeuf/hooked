@@ -119,8 +119,8 @@ const addUser = function (username, email, password) {
   `
   return db.query(queryStr, [username, email, password])
     .then(res => {
-      console.log(res.rows[0])
-      res.rows[0]
+      console.log(res.rows.length)
+      res.rows.length
     })
   //.catch(e => null)
 };

@@ -24,7 +24,6 @@ module.exports = () => {
     const { username, email, password } = req.body;
 
     addUser(username, email, password)
-
       .then()
 
     res.redirect("/");
