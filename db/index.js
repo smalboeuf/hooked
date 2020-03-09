@@ -4,7 +4,7 @@ const pool = new Pool({
   user: 'hooked',
   password: 'LAS',
   host: 'localhost',
-  database: 'template1'
+  database: 'midterm'
 });
 
 module.exports = {

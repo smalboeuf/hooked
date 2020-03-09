@@ -1,4 +1,5 @@
-const db = require('/db');
+const db = require('./index');
+
 
 const howManyPeopleLike = function(hookId) {
   const queryStr = `
@@ -10,7 +11,7 @@ const howManyPeopleLike = function(hookId) {
     .then(res => res.rows[0])
     .catch(() => null)
 };
-exports.howManyPeopleLike = howManyPeopleLike;
+// exports.howManyPeopleLike = howManyPeopleLike;
 
 const avgRatings = function(hookId) {
   const queryStr = `
@@ -22,7 +23,7 @@ const avgRatings = function(hookId) {
     .then(res => res.rows[0])
     .catch(() => null)
 };
-exports.avgRatings = avgRatings;
+// exports.avgRatings = avgRatings;
 
 const myLikes = function(userId) {
   const queryStr = `                                //this shows only hooks which a user likes.
@@ -35,7 +36,7 @@ const myLikes = function(userId) {
     .then(res => res.rows)
     .catch(() => null)
 }
-exports.myLikes = myLikes;
+// exports.myLikes = myLikes;
 
 const myPosts = function(userId) {
   const queryStr = `
@@ -47,7 +48,7 @@ const myPosts = function(userId) {
     .then(res => res.rows)
     .catch(() => null)
 };
-exports.myPosts = myPosts;
+// exports.myPosts = myPosts;
 
 const search = function(whatAUserIsLookingFor) {
   const queryStr = `
@@ -59,7 +60,7 @@ const search = function(whatAUserIsLookingFor) {
   db.query(queryStr, [whatAUserIsLookingFor])
     .then(res => res.rows)
 };
-exports.search = search;
+// exports.search = search;
 
 const rateTheHook = function(hookId, rating) {
 
@@ -72,7 +73,7 @@ const rateTheHook = function(hookId, rating) {
   .then(res => res.rows)
   .catch(() => null)
 };
-exports.rateTheHook = rateTheHook;
+// exports.rateTheHook = rateTheHook;
 
 const isAnExistingUser = function(username, email) {
   const queryStr = `
@@ -85,20 +86,35 @@ const isAnExistingUser = function(username, email) {
     .then(() => true)
     .catch(() => false)
 };
-exports.isAnExistingUser = isAnExistingUser;
+// exports.isAnExistingUser = isAnExistingUser;
 
-const correctEmailAndPassword = function(email, password) {
+const correctPassword = function(email, password) {
   const queryStr = `
-    SELECT id
+    SELECT password
     FROM users
     WHERE email = $1
-    AND passwoord = $2
   `
-  return db.query(queryStr, [email, password])
-    .then (() => true)
+return db.query(queryStr, [email])
+  .then(res => res.rows[0])
+  .then(res => bcrypt.compareSync(password, res))
+  .catch(() => false)
+
+
+};
+// exports.correctPassword = correctPassword;
+
+const correctEmail = function(email) {
+  const queryStr = `
+    SELECT *
+    FROM users
+    WHERE email = $1
+  `
+  return db.query(queryStr, [email])
+    .then(res => res.rows[0])
     .catch(() => false)
 };
-exports.correctEmailAndPassword = correctEmailAndPassword;
+// exports.correctEmail = correctEmail;
+module.exports = { correctEmail, correctPassword }
 
 const addUser = function(username, email, passwoord) {
   const queryStr = `
@@ -110,4 +126,4 @@ const addUser = function(username, email, passwoord) {
     .then(res => res.rows)
     .catch(e => null)
 };
-exports.addUser = addUser;
+// exports.addUser = addUser;
