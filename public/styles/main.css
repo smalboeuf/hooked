@@ -18,7 +18,7 @@ main {
   display: flex;
   justify-content: center;
   flex-direction: row;
-  width: auto;
+  width: 80%;
 }
 
 .searchDiv h2 {
@@ -32,11 +32,10 @@ main {
 
 #searchContent {
   height: 2rem;
-  width: 30em;
+  width: 100%;
 }
 
 .fa-search {
-  height: 2rem;
   height: 3rem;
 }
 
@@ -44,6 +43,23 @@ form {
   display: flex;
   flex-direction: row;
   padding-top: 2rem;
+  width: 100%;
+  margin: 0;
+}
+
+.searchWord {
+  font-size: 10em;
 }
 
 
+.myPagebtn {
+  margin-right: 2em;
+}
+
+.toggleBlue {
+  color: blue;
+}
+
+.fa-thumbs-up:hover {
+  cursor: pointer;
+}

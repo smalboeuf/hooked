@@ -1,4 +1,7 @@
 
+
+
+
 const loadPosts = function () {
   //Get the amount of posts from the data base for a for loop
   //Or can just loop through the top 10
@@ -57,9 +60,11 @@ const createPost = function(postData) {
   commentBoxArea.attr("id", "commentBox");
   commentBoxArea.attr("cols", "20");
   commentBoxArea.attr("rows", "10");
-  let commentInputBox = $("<input>").attr("id", "addNewComment");
+  let commentInputBox = $("<button>").attr("id", "addNewComment");
   commentInputBox.attr("type", "submit");
-  commentInputBox.attr("value", "Hook a comment!");
+  commentInputBox.append("Hook a comment!");
+
+
   addCommentElement.append(addCommentSpan);
   addCommentElement.append(commentBoxArea);
   addCommentElement.append(commentInputBox);
@@ -78,7 +83,6 @@ const createPost = function(postData) {
   }
 
   postElement.append(commentFeedElement);
-
 
   return postElement;
 }
@@ -138,5 +142,12 @@ $(function () {
   })
 });
 
+$(function () {
+  $(".fa-thumbs-up").on("click", function (){
+    $(".fa-thumbs-up").toggleClass("toggleBlue");
 
+    //INCREMENT THE AMOUNT OF LIKES ON THE DATABASE
+
+  });
+});
 
