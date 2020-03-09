@@ -27,7 +27,6 @@
 <body>
  <%- include('partials/_header.ejs') %>
   <main class="rounded">
-    <section class="search">
       <div class="searchDiv">
         <h2 class="searchWord">Search:</h2>
         <form method="POST" name="newSearch">
@@ -38,7 +37,6 @@
         </div>
         </form>
       </div>
-    </section>
      <br>
   </main>
 
@@ -66,7 +64,7 @@
     <div class="addComment">
       <span>Add Comment:</span>
       <textarea name="comment" id="commentBox" cols="20" rows="10"></textarea>
-      <input id="addNewComment" value="Hook a comment!">
+      <button id="addNewComment" value="Hook a comment!">Hook a comment!</button>
       <br>
       <span>Comments: </span>
     </div>
