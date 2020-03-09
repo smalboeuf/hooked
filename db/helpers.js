@@ -51,9 +51,9 @@ exports.myPosts = myPosts;
 
 const search = function(whatAUserIsLookingFor) {
   const queryStr = `
-    SELECT hooks.*                                      //search function. This will check titles and descriptions.
+    SELECT hooks.*                                      //search function. Check titles and descriptions.
     FROM hooks
-    WHERE description iLIKE $1
+    WHERE description iLIKE $1                          //case insensitive
     OR title iLIKE $1
   `
   db.query(queryStr, [whatAUserIsLookingFor])
@@ -99,3 +99,15 @@ const correctEmailAndPassword = function(email, password) {
     .catch(() => false)
 };
 exports.correctEmailAndPassword = correctEmailAndPassword;
+
+const addUser = function(username, email, passwoord) {
+  const queryStr = `
+    INSERT INTO users (username, email, password)
+    VALUES ($1, $2, $3)
+    RETURNING *;
+  `
+  return db.query(queryStr, [username, email, passwoord])
+    .then(res => res.rows)
+    .catch(e => null)
+};
+exports.addUser = addUser;
