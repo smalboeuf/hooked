@@ -9,8 +9,6 @@ router.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000
 }));
 
-// let users = { id: 1, name: "Alice", email: "alice@email.ca", password: "password" };
-
 const { correctEmail, correctPassword } = require('../db/helpers')
 
 module.exports = () => {
@@ -28,25 +26,27 @@ module.exports = () => {
     res.render("login", templateVars);
   });
 
-  // router.get("/login/:id", (req, res) => {
-  //   if (req.body.email === users.email) {
-  //     user = users;
-  //   }
-  //   req.session.user_id = req.params.id;
-  //   res.redirect("/urls");
-  // });
-
   router.post("/login", (req, res) => {
     const {email, password} = req.body;
+    const logInErrMsg = 'Please enter valid email and/or password'
 
-    correctPassword(email, password)
-      .then(() => correctEmail(email))
-      .then((result) => {
-        console.log(result);
-        req.session.userId = result;
-        res.redirect("/")})
-      .catch(e => res.send(e));
-    ;
+    if (email === '' || password === '') {
+      res.send(logInErrMsg)
+    } else {
+      correctPassword(email, password)
+        .then(pwdCheck => {
+          pwdCheck ? correctEmail(email) : res.send(logInErrMsg);
+        })
+        .then((emailCheck) => {
+          if (emailCheck) {
+            req.session.userId = emailCheck;
+            res.redirect("/");
+          } else {
+            res.send(logInErrMsg);
+          }
+        })
+        .catch(e => res.send(e));
+    }
   });
 
   router.post("/logout", (req, res) => {
