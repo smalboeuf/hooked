@@ -22,7 +22,7 @@ module.exports = () => {
   router.post("/register", (req, res) => {
 
     const { username, email, password } = req.body;
-
+    // const error = { 'That email already exists.  Please login or register with another email'};
     addUser(username, email, password)
       .then()
 

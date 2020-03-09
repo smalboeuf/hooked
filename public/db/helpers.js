@@ -122,7 +122,8 @@ const addUser = function (username, email, password) {
       console.log(res.rows.length)
       res.rows.length
     })
-  //.catch(e => null)
+    .catch(e => console.log(e))
+
 };
 // exports.addUser = addUser;
 

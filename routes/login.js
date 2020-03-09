@@ -25,20 +25,7 @@ module.exports = () => {
   });
 
   router.post("/login", (req, res) => {
-<<<<<<< HEAD
     const { email, password } = req.body;
-
-    correctPassword(email, password)
-      .then(() => correctEmail(email))
-      .then((result) => {
-        console.log(result);
-        req.session.userId = result;
-        res.redirect("/")
-      })
-      .catch(e => res.send(e));
-    ;
-=======
-    const {email, password} = req.body;
     const logInErrMsg = 'Please enter valid email and/or password'
 
     if (email === '' || password === '') {
@@ -46,7 +33,7 @@ module.exports = () => {
       res.send(logInErrMsg)
     } else {
       correctPassword(email, password)
-      .then(pwdCheck => {
+        .then(pwdCheck => {
           if (pwdCheck === true) {
             correctEmail(email)
               .then(result => {
@@ -59,7 +46,6 @@ module.exports = () => {
         })
         .catch(e => res.send(e));
     }
->>>>>>> 663c630528906335ba577c374875e458ac5c9252
   });
 
   router.post("/logout", (req, res) => {
