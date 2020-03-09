@@ -53,8 +53,8 @@ const search = function(whatAUserIsLookingFor) {
   const queryStr = `
     SELECT hooks.*                                      //search function. This will check titles and descriptions.
     FROM hooks
-    WHERE description LIKE $1
-    OR title LIKE $1
+    WHERE description iLIKE $1
+    OR title iLIKE $1
   `
   db.query(queryStr, [whatAUserIsLookingFor])
     .then(res => res.rows)
@@ -74,4 +74,28 @@ const rateTheHook = function(hookId, rating) {
 };
 exports.rateTheHook = rateTheHook;
 
-// const isAnExistingUser = function() {}
+const isAnExistingUser = function(username, email) {
+  const queryStr = `
+    SELECT id
+    FROM users
+    WHERE username = $1
+    OR email = $2
+  `
+  return db.query(queryStr, [username, email])
+    .then(() => true)
+    .catch(() => false)
+};
+exports.isAnExistingUser = isAnExistingUser;
+
+const correctEmailAndPassword = function(email, password) {
+  const queryStr = `
+    SELECT id
+    FROM users
+    WHERE email = $1
+    AND passwoord = $2
+  `
+  return db.query(queryStr, [email, password])
+    .then (() => true)
+    .catch(() => false)
+};
+exports.correctEmailAndPassword = correctEmailAndPassword;
