@@ -13,8 +13,16 @@ let users = { id: 1, name: "Alice", email: "alice@email.ca", password: "password
 
 module.exports = () => {
 
+  router.get("/", (req, res) => {
+    let templateVars = {}
+     templateVars = {id: req.session.user_id};
+
+    res.render("index", templateVars);
+  });
+
   router.get("/login", (req, res) => {
-    res.render("login");
+    let templateVars = {id: req.session.user_id};
+    res.render("login", templateVars);
   });
 
   // router.get("/login/:id", (req, res) => {
@@ -30,11 +38,11 @@ module.exports = () => {
       user = users;
       req.session['user_id'] = user.id;
     }
-    res.render("index");
+    res.redirect("/");
   });
 
   router.post("/logout", (req, res) => {
-    res.session = null;
+    req.session = null;
     res.redirect("/login");
   });
 
