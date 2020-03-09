@@ -101,7 +101,18 @@ const correctPassword = function(email, password) {
 
 const correctEmail = function(email) {
   const queryStr = `
-    SELECT id
+    SELECT password
+    FROM users
+    WHERE email = $1
+  `
+  return db.query(queryStr, [email, passwoord])
+    .then (res => bcrypt.compareSync(password, res))
+    .catch(() => null)
+};
+
+const correctEmail = function(email) {
+  const queryStr = `
+    SELECT *
     FROM users
     WHERE email = $1
   `
