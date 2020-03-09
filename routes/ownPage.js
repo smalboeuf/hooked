@@ -19,5 +19,11 @@ module.exports = () => {
     res.render("ownPage", templateVars);
   });
 
+  router.get("/editProfile", (req, res) => {
+    const templateVars = {id: req.session.user_id};
+
+    res.render("editProfile", templateVars);
+  });
+
   return router;
 };

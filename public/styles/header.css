@@ -2,6 +2,10 @@ nav #hooked-brand {
   font-size: 2rem;
 }
 
+.hookIcon {
+  height: 2.5rem;
+}
+
 header .navbar {
   display: flex;
   justify-content: space-between;
@@ -22,5 +26,6 @@ header .navbar {
 }
 
 .myPagebtn {
+  min-width: 7em;
   margin-right: 2em;
 }

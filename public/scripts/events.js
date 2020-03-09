@@ -1,10 +1,13 @@
-
-
-
+//REQUIRE THE HELPERS
 
 const loadPosts = function () {
   //Get the amount of posts from the data base for a for loop
   //Or can just loop through the top 10
+  const userPosts = USERPOSTSFROMDB;
+
+  for (let i = 0; i < USERPOSTSFROMDB.length; i++) {
+
+  }
 
 }
 
@@ -47,8 +50,13 @@ const createPost = function(postData) {
   ratingInput.attr("max", "5");
   ratingDiv.append(ratingInput);
   ratingDiv.append(" /5 Stars");
+  let thumbsUpDiv = $("<div>");
   let thumbsUpSpan = $("<span>").addClass("fa fa-thumbs-up");
-  ratingDiv.append(thumbsUpSpan);
+  let numbOfLikesSpan = $("<span>").addClass("numbOfLikes");
+  thumbsUpDiv.append(thumbsUpSpan);
+  thumbsUpDiv.append(numbOfLikesSpan);
+
+  ratingDiv.append(thumbsUpDiv);
   hookRatingsElement.append(ratingDiv);
   postElement.append(hookRatingsElement);
   postElement.append("<hr>");
@@ -145,8 +153,12 @@ $(function () {
 $(function () {
   $(".fa-thumbs-up").on("click", function (){
     $(".fa-thumbs-up").toggleClass("toggleBlue");
+    $(".numbOfLikes").toggleClass("toggleBlue");
+
+    $(".numbOfLikes").text(13);
 
     //INCREMENT THE AMOUNT OF LIKES ON THE DATABASE
+    console.log("dbHelpers");
 
   });
 });
