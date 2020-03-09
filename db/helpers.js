@@ -1,6 +1,5 @@
 const db = require('./index');
 
-
 const howManyPeopleLike = function(hookId) {
   const queryStr = `
     SELECT COUNT(like.*) AS likes                 //shows # of likes of a hook
@@ -88,20 +87,16 @@ const isAnExistingUser = function(username, email) {
 };
 // exports.isAnExistingUser = isAnExistingUser;
 
-const correctPassword = function(email, password) {
+const correctPassord = function(email, passwoord) {
   const queryStr = `
     SELECT password
     FROM users
     WHERE email = $1
   `
-return db.query(queryStr, [email])
-  .then(res => res.rows[0])
-  .then(res => bcrypt.compareSync(password, res))
-  .catch(() => false)
-
-
+  return db.query(queryStr, [email, passwoord])
+    .then (res => bcrypt.compareSync(password, res))
+    .catch(() => null)
 };
-// exports.correctPassword = correctPassword;
 
 const correctEmail = function(email) {
   const queryStr = `
@@ -110,11 +105,10 @@ const correctEmail = function(email) {
     WHERE email = $1
   `
   return db.query(queryStr, [email])
-    .then(res => res.rows[0])
+    .then (res => res.rows[0])
     .catch(() => false)
 };
-// exports.correctEmail = correctEmail;
-module.exports = { correctEmail, correctPassword }
+// exports.correctEmailAndPassword = correctEmailAndPassword;
 
 const addUser = function(username, email, passwoord) {
   const queryStr = `
@@ -127,3 +121,6 @@ const addUser = function(username, email, passwoord) {
     .catch(e => null)
 };
 // exports.addUser = addUser;
+
+
+module.exports = { addUser, howManyPeopleLike, avgRatings, myLikes, myPosts, isAnExistingUser, search, rateTheHook, correctEmail, correctPassord }
