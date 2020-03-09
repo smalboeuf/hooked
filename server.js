@@ -9,6 +9,8 @@ const bodyParser = require("body-parser");
 const sass = require("node-sass-middleware");
 const app = express();
 const morgan = require('morgan');
+const cookieSession = require('cookie-session');
+
 
 // PG database client/connection setup
 const { Pool } = require('pg');
@@ -56,18 +58,6 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-app.get("/login", (req, res) => {
-  res.render("login");
-});
-
-// app.post("/login", (req,res) => {
-
-//   res.render("index");
-// });
-
-app.get("/register", (req, res) => {
-  res.render("register");
-});
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);

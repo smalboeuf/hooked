@@ -10,6 +10,9 @@ const loadComments = function() {
   //Load the top 10 comments
 }
 
+const loadOwnPage = function () {
+
+}
 
 const createPost = function(postData) {
 
@@ -70,6 +73,9 @@ const createPost = function(postData) {
 
   //We will then run a function to append all the comments here for the commentFeed
   //GENERATE COMMENTS
+  for (let i = 0; i < AMOUNTOFCOMMENTS; i++) {
+    commentFeedElement.append(createComment(COMMENTDATAFROMDATABASE));
+  }
 
   postElement.append(commentFeedElement);
 
@@ -85,9 +91,10 @@ const createComment = function (commentData) {
 
   let commentElement = $("<div>").addClass("comment");
   let usernameSpan = $("<span>").addClass("commentUsername").text("Username");
-  let commentContentElement = $("<p>").addClass("commentContent").text(commentContent);
+  let commentContentElement = $("<p>").addClass("commentContent").text(commentData);
 
 
+  console.log(commentData);
   commentElement.append(usernameSpan);
   commentElement.append(commentContentElement);
 
@@ -97,8 +104,8 @@ const createComment = function (commentData) {
 
 
 
-$( document ).ready(function() {
-
+$(document).ready(function() {
+  $(".hookForm").hide();
 });
 
 //Adds new comment on click of the button
@@ -106,17 +113,30 @@ $(function() {
   $('#addNewComment').on('click', function(event) {
     event.preventDefault();
 
-    let commentContent = $("#tweetChars").val();
+    let commentContent = $("#commentBox").val();
 
     //Make sure they can only comment if they are logged in
 
-      $(".commentFeed").append(createComment(commentContent));
-
+    if(commentContent){
+      $(".commentFeed").prepend(createComment(commentContent));
       //COMMIT COMMENT TO DATABASE HERE
+    } else {
+      console.log("Please input a message to comment");
+    }
 
-      //Clearing the text area
-      $("#commentBox").val("");
+    //Clearing the text area
+    $("#commentBox").val("");
 
   });
 });
+
+$(function () {
+  $("#createPostButton").on("click", function(event) {
+    event.preventDefault();
+    $("#createPostButton").hide();
+    $(".hookForm").slideDown();
+  })
+});
+
+
 
