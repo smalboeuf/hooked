@@ -31,16 +31,17 @@ module.exports = () => {
     const logInErrMsg = 'Please enter valid email and/or password'
 
     if (email === '' || password === '') {
+      console.log('validation')
       res.send(logInErrMsg)
     } else {
       correctPassword(email, password)
-        .then(pwdCheck => {
-          pwdCheck ? correctEmail(email) : res.send(logInErrMsg);
-        })
-        .then((emailCheck) => {
-          if (emailCheck) {
-            req.session.userId = emailCheck;
-            res.redirect("/");
+      .then(pwdCheck => {
+          if (pwdCheck === true) {
+            correctEmail(email)
+              .then(result => {
+                req.session.userId = result;
+                res.redirect('/');
+              });
           } else {
             res.send(logInErrMsg);
           }

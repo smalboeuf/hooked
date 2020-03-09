@@ -95,8 +95,13 @@ const correctPassword = function(email, password) {
     WHERE email = $1
   `
   return db.query(queryStr, [email])
-    .then (res => bcrypt.compareSync(password, res.rows[0].password));
-    //.catch(() => null)
+    .then(res => {
+      if (res.rows.length !== 0) {
+        return bcrypt.compareSync(password, res.rows[0].password)
+      } else {
+        return false
+      }
+    })
 };
 
 const correctEmail = function(email) {
@@ -107,6 +112,7 @@ const correctEmail = function(email) {
   `
   return db.query(queryStr, [email])
     .then (res => res.rows[0])
+
 };
 // exports.correctEmailAndPassword = correctEmailAndPassword;
 
