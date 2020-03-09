@@ -13,3 +13,5 @@
 \i db/seeds/03_comments.sql;
 \i db/seeds/05_likes.sql;
 \i db/seeds/06_ratings.sql;
+
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO hooked;

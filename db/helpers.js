@@ -1,4 +1,4 @@
-const db = require('/db');
+const db = require('/index');
 
 const howManyPeopleLike = function(hookId) {
   const queryStr = `
