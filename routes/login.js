@@ -28,15 +28,26 @@ module.exports = () => {
 
   router.post("/login", (req, res) => {
     const {email, password} = req.body;
+    const logInErrMsg = 'Please enter valid email and/or password'
 
-    correctPassword(email, password)
-      .then(() => correctEmail(email))
-      .then((result) => {
-        console.log(result);
-        req.session.userId = result;
-        res.redirect("/")})
-      .catch(e => res.send(e));
-    ;
+    if (email === '' || password === '') {
+      console.log('validation')
+      res.send(logInErrMsg)
+    } else {
+      correctPassword(email, password)
+      .then(pwdCheck => {
+          if (pwdCheck === true) {
+            correctEmail(email)
+              .then(result => {
+                req.session.userId = result;
+                res.redirect('/');
+              });
+          } else {
+            res.send(logInErrMsg);
+          }
+        })
+        .catch(e => res.send(e));
+    }
   });
 
   router.post("/logout", (req, res) => {
