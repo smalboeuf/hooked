@@ -1,7 +1,7 @@
 const db = require('./index');
 const bcrypt = require('bcrypt');
 
-const howManyPeopleLike = function(hookId) {
+const howManyPeopleLike = function (hookId) {
   const queryStr = `
     SELECT COUNT(like.*) AS likes                 //shows # of likes of a hook
     FROM likes
@@ -9,11 +9,11 @@ const howManyPeopleLike = function(hookId) {
   `
   db.query(queryStr, [hookId])
     .then(res => res.rows[0])
-    //.catch(() => null)
+  //.catch(() => null)
 };
 // exports.howManyPeopleLike = howManyPeopleLike;
 
-const avgRatings = function(hookId) {
+const avgRatings = function (hookId) {
   const queryStr = `
     SELECT AVG(ratings) AS rating
     FROM ratings
@@ -21,11 +21,11 @@ const avgRatings = function(hookId) {
   `
   db.query(queryStr, [hookId])
     .then(res => res.rows[0])
-   // .catch(() => null)
+  // .catch(() => null)
 };
 // exports.avgRatings = avgRatings;
 
-const myLikes = function(userId) {
+const myLikes = function (userId) {
   const queryStr = `                                //this shows only hooks which a user likes.
     SELECT hooks.*
     FROM hooks
@@ -34,11 +34,11 @@ const myLikes = function(userId) {
   `
   db.query(queryStr, [userId])
     .then(res => res.rows)
-    //.catch(() => null)
+  //.catch(() => null)
 }
 // exports.myLikes = myLikes;
 
-const myPosts = function(userId) {
+const myPosts = function (userId) {
   const queryStr = `
     SELECT hooks.*                                    //shows hooks which a user posts.
     FROM hooks
@@ -50,7 +50,7 @@ const myPosts = function(userId) {
 };
 // exports.myPosts = myPosts;
 
-const search = function(whatAUserIsLookingFor) {
+const search = function (whatAUserIsLookingFor) {
   const queryStr = `
     SELECT hooks.*                                      //search function. Check titles and descriptions.
     FROM hooks
@@ -62,7 +62,7 @@ const search = function(whatAUserIsLookingFor) {
 };
 // exports.search = search;
 
-const rateTheHook = function(hookId, rating) {
+const rateTheHook = function (hookId, rating) {
 
   const queryStr = `
     INSERT INTO ratings (hook_id, rating)
@@ -70,12 +70,13 @@ const rateTheHook = function(hookId, rating) {
     RETURNING *;
   `
   return db.query(queryStr, [hookId, rating])
-  .then(res => res.rows)
+    .then(res => res.rows)
   //.catch(() => null)
 };
 // exports.rateTheHook = rateTheHook;
 
-const isAnExistingUser = function(username, email) {
+
+const isAnExistingUser = function (username, email) {
   const queryStr = `
     SELECT id
     FROM users
@@ -84,11 +85,11 @@ const isAnExistingUser = function(username, email) {
   `
   return db.query(queryStr, [username, email])
     .then(() => true)
-    //.catch(() => false)
+  // .catch(() => false)
 };
 // exports.isAnExistingUser = isAnExistingUser;
 
-const correctPassword = function(email, password) {
+const correctPassword = function (email, password) {
   const queryStr = `
     SELECT password
     FROM users
@@ -104,19 +105,19 @@ const correctPassword = function(email, password) {
     })
 };
 
-const correctEmail = function(email) {
+const correctEmail = function (email) {
   const queryStr = `
     SELECT id
     FROM users
     WHERE email = $1
   `
   return db.query(queryStr, [email])
-    .then (res => res.rows[0])
+    .then(res => res.rows[0])
 
 };
 // exports.correctEmailAndPassword = correctEmailAndPassword;
 
-const addUser = function(username, email, passwoord) {
+const addUser = function (username, email, passwoord) {
   const queryStr = `
     INSERT INTO users (username, email, password)
     VALUES ($1, $2, $3)
@@ -124,7 +125,7 @@ const addUser = function(username, email, passwoord) {
   `
   return db.query(queryStr, [username, email, passwoord])
     .then(res => res.rows)
-    //.catch(e => null)
+  //.catch(e => null)
 };
 // exports.addUser = addUser;
 

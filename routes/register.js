@@ -10,7 +10,7 @@ router.use(cookieSession({
 }));
 
 
-const { addUser } = require('../db/helpers');
+const { addUser, isAnExistingUser } = require('../db/helpers');
 
 module.exports = () => {
 
@@ -22,11 +22,36 @@ module.exports = () => {
   router.post("/register", (req, res) => {
 
     const { username, email, password } = req.body;
-    // const error = { 'That email already exists.  Please login or register with another email'};
-    addUser(username, email, password)
-      .then()
+    const hashedPassword = bcrypt.hashSync(password, 10);
 
-    res.redirect("/");
+    const emptyFields = "Please fill all registration fields"
+
+    const existingUser = 'That email already exists.  Please login or register with another email';
+    // console.log(username)
+    // console.log(email)
+
+    if (username === '' || email === '' || password === '') {
+      res.send(emptyFields);
+    } else {
+
+      // isAnExistingUser(username, email)
+      // .then(result => console.log('after', result))
+      // .then(userCheck => {
+      //   console.log(userCheck)
+      //   if (userCheck === true) {
+
+      //     res.send(existingUser);
+
+      //   } else {
+
+      addUser(username, email, hashedPassword)
+        .then()
+
+      res.redirect("/");
+    }
+    // });
+    // .catch (e => res.send(e));
+    // }
   });
 
   return router;

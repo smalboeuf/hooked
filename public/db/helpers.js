@@ -76,17 +76,28 @@ const rateTheHook = function (hookId, rating) {
 };
 // exports.rateTheHook = rateTheHook;
 
-const isAnExistingUser = function (username, email) {
-  const queryStr = `
+const isAnExistingUser =
+
+  function (username, email) {
+
+    const queryStr = `
     SELECT id
     FROM users
     WHERE username = $1
     OR email = $2
-  `
-  return db.query(queryStr, [username, email])
-    .then(() => true)
-  //.catch(() => false)
-};
+    `
+    return db.query(queryStr, [username, email])
+
+      .then(res => {
+        console.log(res.rows)
+        if (res.rows[0].id) {
+          return true;
+        } else {
+          return false;
+        }
+      })
+    // .catch(() => false)
+  };
 // exports.isAnExistingUser = isAnExistingUser;
 
 const correctPassword = function (email, password) {
