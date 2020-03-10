@@ -128,5 +128,62 @@ const addUser = function(username, email, passwoord) {
 };
 // exports.addUser = addUser;
 
+const profileEditor = function(userId, username, email, password) {
 
-module.exports = { addUser, howManyPeopleLike, avgRatings, myLikes, myPosts, isAnExistingUser, search, rateTheHook, correctEmail, correctPassword }
+  let queryStr = `
+    UPDATE users
+    SET
+  `
+  const values = [userId];
+
+  if (username !== '') {
+    values.push(username);
+    queryStr += `username = $${values.length}`;
+  }
+
+  if (username !== '' && email !== '') {
+    values.push(email);
+    queryStr += `,
+    email = $${values.length}`;
+  } else if (username === '' && email !== '') {
+    values.push(email);
+    queryStr += `
+    email = $${values.length}`;
+  }
+
+  const hashedPwd = bcrypt.hashSync(password, 10);
+
+  if (username !== '' || email !== '') {
+    if (password !== '') {
+      values.push(hashedPwd);
+      queryStr += `,
+      password = $${values.length}`;
+    }
+  } else if (username === '' && email === '' && password !== '') {
+    values.push(hashedPwd);
+    queryStr += `password = $${values.length}`;
+  }
+  queryStr += `
+  WHERE id = $1
+  `;
+
+  return db.query(queryStr, values)
+    .then(res => res.rows[0])
+}
+
+
+module.exports = {
+
+  addUser,
+  howManyPeopleLike,
+  avgRatings,
+  myLikes,
+  myPosts,
+  isAnExistingUser,
+  search,
+  rateTheHook,
+  correctEmail,
+  correctPassword,
+  profileEditor,
+
+}
