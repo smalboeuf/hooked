@@ -1,37 +1,59 @@
 
-$(document).ready(function() {
+$(document).ready(function () {
   $(".hookForm").hide();
 
   //Adds new comment on click of the button
-$(function() {
-  $('#addNewComment').on('click', function(event) {
-    event.preventDefault();
+  $(function () {
+    $('#addNewComment').on('click', function (event) {
+      event.preventDefault();
 
-    let commentContent = $("#commentBox").val();
+      let commentContent = $("#commentBox").val();
 
-    //Make sure they can only comment if they are logged in
+      //Make sure they can only comment if they are logged in
 
-    if(commentContent){
-      $(".commentFeed").prepend(createComment(commentContent));
-      //COMMIT COMMENT TO DATABASE HERE
-    } else {
-      console.log("Please input a message to comment");
-    }
+      if (commentContent) {
+        $(".commentFeed").prepend(createComment(commentContent));
+        //COMMIT COMMENT TO DATABASE HERE
+      } else {
+        console.log("Please input a message to comment");
+      }
 
-    //Clearing the text area
-    $("#commentBox").val("");
+      //Clearing the text area
+      $("#commentBox").val("");
 
+    });
+  });
+
+  $(function () {
+    $("#createPostButton").on("click", function (event) {
+      event.preventDefault();
+      $("#createPostButton").hide();
+      $(".hookForm").slideDown();
+    })
   });
 });
 
-$(function () {
-  $("#createPostButton").on("click", function(event) {
-    event.preventDefault();
-    $("#createPostButton").hide();
-    $(".hookForm").slideDown();
-  })
-});
-});
+// const getCookie = function () {
+//   let postData;
+//   $.ajax({
+//     method: "POST",
+//     url: `http://localhost:8080/getCookie/`,
+//     data: postData
+//   })
+//     .done(newPost);
+// }
+
+// const newPost = function (userId) {
+//   let postData;
+//   $.ajax({
+//     method: "POST",
+//     url: `http://localhost:8080/user/${userId}/newPost`,
+//     data: postData
+//   })
+//     .done(result => {
+//       console.log(result);
+//     })
+// }
 
 const setUsername = function (userId, element) {
   let postData;
@@ -40,7 +62,7 @@ const setUsername = function (userId, element) {
     url: `http://localhost:8080/user/${userId}/`,
     data: postData
   })
-  .done((result) => renderUsername(result, element));
+    .done((result) => renderUsername(result, element));
 }
 
 const renderUsername = function (userObj, element) {
@@ -54,7 +76,9 @@ const loadPosts = function (postArray) {
   }
 }
 
-const getComments = function(postId, commentsElement) {
+// const addToPosts = function ()
+
+const getComments = function (postId, commentsElement) {
 
   let postData;
   $.ajax({
@@ -62,22 +86,22 @@ const getComments = function(postId, commentsElement) {
     url: `http://localhost:8080/user/${postId}/comments`,
     data: postData
   })
-  .done((result) => renderComments(result, commentsElement));
+    .done((result) => renderComments(result, commentsElement));
 }
 
-const renderComments = function(commentArray, commentsElement){
+const renderComments = function (commentArray, commentsElement) {
 
   for (let i = 0; i < commentArray.length; i++) {
-      commentsElement.append(createComment(commentArray[i]));
+    commentsElement.append(createComment(commentArray[i]));
   }
 }
 
 const loadOwnPage = function () {
   //TO get a user who is logged in's data
-//req.session.userId
+  //req.session.userId
 }
 
-const createPost = function(postData, postId) {
+const createPost = function (postData, postId) {
 
   let postElement = $("<div>").addClass("hooked-post rounded");
 
@@ -173,7 +197,7 @@ const createComment = function (commentData) {
 }
 
 
-const amountOfLikes = function(postId, element) {
+const amountOfLikes = function (postId, element) {
   let postData;
   $.ajax({
     method: 'GET',
@@ -182,7 +206,7 @@ const amountOfLikes = function(postId, element) {
   }).done((result) => renderLikes(result, element));
 }
 
-const renderLikes = function(amountOfLikes, element) {
+const renderLikes = function (amountOfLikes, element) {
   element.text(amountOfLikes.love);
 }
 

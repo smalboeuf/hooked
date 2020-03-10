@@ -25,7 +25,7 @@ const avgRatings = function (hookId) {
 };
 // exports.avgRatings = avgRatings;
 
-const myLikes = function(userId) {
+const myLikes = function (userId) {
   const queryStr = `
     SELECT hooks.*
     FROM hooks
@@ -43,12 +43,22 @@ const myPosts = function (userId) {
     FROM hooks
     WHERE user_id = $1
   `
-    return db.query(queryStr, [userId])
+  return db.query(queryStr, [userId])
     .then(res => res.rows)
 
 };
 
-const postComments = function(postId) {
+const newPost = function (title, description, userId, content) {
+  const queryStr = `
+  INSERT INTO hooks (title, description, user_id, content)
+  VALUES ($1, $2, $3, $4)
+  RETURNING *;
+  `
+  return db.query(queryStr, [title, description, userId, content])
+    .then(res => res.rows)
+}
+
+const postComments = function (postId) {
   const queryStr = `
   SELECT *
   FROM comments
@@ -57,7 +67,7 @@ const postComments = function(postId) {
   `;
 
   return db.query(queryStr, [postId])
-  .then(res => res.rows);
+    .then(res => res.rows);
 }
 // exports.myPosts = myPosts;
 
@@ -81,7 +91,7 @@ const rateTheHook = function (hookId, rating) {
     RETURNING *;
   `
   return db.query(queryStr, [hookId, rating])
-  .then(res => res.rows)
+    .then(res => res.rows)
 
 };
 // exports.rateTheHook = rateTheHook;
@@ -145,7 +155,7 @@ const addUser = function (username, email, passwoord) {
 };
 // exports.addUser = addUser;
 
-const profileEditor = function(userId, username, email, password) {
+const profileEditor = function (userId, username, email, password) {
 
   let queryStr = `
     UPDATE users
@@ -196,7 +206,7 @@ const findUsernameBasedOnId = function (userId) {
   `;
 
   return db.query(queryStr, [userId])
-  .then(res => res.rows[0]);
+    .then(res => res.rows[0]);
 };
 
 const getCategories = function() {
@@ -234,7 +244,7 @@ const incrementLikes = function (userId, hookId) {
       VALUES ($1, $2, true)
     `;
 
-    return db.query(queryStr, [userId, hookId]);
+  return db.query(queryStr, [userId, hookId]);
 }
 
 const decreaseLikes = function (userId, hookId) {
@@ -243,10 +253,11 @@ const decreaseLikes = function (userId, hookId) {
       WHERE user_id = $1 AND hook_id = $2;
     `;
 
-    return db.query(queryStr, [userId, hookId]);
+  return db.query(queryStr, [userId, hookId]);
 }
 
 
+<<<<<<< HEAD
 module.exports = {
 
   addUser,
@@ -268,3 +279,6 @@ module.exports = {
   incrementLikes,
   decreaseLikes,
 }
+=======
+module.exports = { addUser, howManyPeopleLike, avgRatings, myLikes, newPost, myPosts, isAnExistingUser, search, rateTheHook, correctEmail, correctPassword, postComments, findUsernameBasedOnId, incrementLikes, decreaseLikes }
+>>>>>>> createNewHook
