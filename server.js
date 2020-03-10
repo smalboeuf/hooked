@@ -37,7 +37,6 @@ app.use(express.static("public"));
 // Note: Feel free to replace the example routes below with your own
 const registerRoutes = require("./routes/register");
 const loginRoutes = require("./routes/login");
-const filterRoutes = require("./routes/filter");
 const usersRoutes = require("./routes/users");
 const ownPageRoutes = require("./routes/ownPage");
 const widgetsRoutes = require("./routes/widgets");
@@ -49,7 +48,6 @@ const apiRoutes = require("./routes/api");
 // Note: Feel free to replace the example routes below with your own
 app.use("/", registerRoutes());
 app.use("/", loginRoutes());
-app.use("/", filterRoutes());
 app.use("/", ownPageRoutes());
 app.use("/", apiRoutes());
 app.use("/api/users", usersRoutes(db));

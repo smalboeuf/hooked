@@ -9,25 +9,64 @@ router.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000
 }));
 
-const { correctEmail, correctPassword, getCategories } = require('../db/helpers')
+const { correctEmail, correctPassword, myPosts, findUsernameBasedOnId, postComments, howManyPeopleLike, getCategories } = require('../db/helpers')
 
 module.exports = () => {
 
   router.get("/", (req, res) => {
-    getCategories().then(categories => {
-      const templateVars = {id: req.session.userId, categories: categories};
-      console.log(templateVars.categories)
-      res.render("index", templateVars);
-    })
+    let templateVars = {}
+    let posts;
+    let commentsPromise = [];
+    let postLikesPromise = [];
+
+    myPosts(1).then(result => {
+      posts = result;
+      for(const post of posts){
+        commentsPromise.push(postComments(post.id));
+      }
+      Promise.all(commentsPromise).then(
+        values => {
+          findUsernameBasedOnId(1).then( result => {
+            const postUsername = result.username;
+
+            for (const post of posts) {
+              postLikesPromise.push(howManyPeopleLike(post.id));
+            }
+            Promise.all(postLikesPromise).then(
+              postLikes => {
+
+                getCategories().then(categories => {
+                    templateVars = {
+                      id: req.session.userId,
+                      userPosts: posts,
+                      username: postUsername,
+                      commentsArray: values,
+                      likesArray: postLikes,
+                      categories: categories,
+                    };
+                    res.render("index", templateVars);
+                })
+
+              }
+            );
+
+
+
+
+           }
+          );
+        }
+      );
+    });
   });
 
   router.get("/login", (req, res) => {
-    let templateVars = {id: req.session.userId};
+    let templateVars = { id: req.session.userId };
     res.render("login", templateVars);
   });
 
   router.post("/login", (req, res) => {
-    const {email, password} = req.body;
+    const { email, password } = req.body;
     const logInErrMsg = 'Please enter valid email and/or password'
 
     if (email === '' || password === '') {
@@ -35,7 +74,7 @@ module.exports = () => {
       res.send(logInErrMsg)
     } else {
       correctPassword(email, password)
-      .then(pwdCheck => {
+        .then(pwdCheck => {
           if (pwdCheck === true) {
             correctEmail(email)
               .then(result => {

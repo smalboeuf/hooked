@@ -15,3 +15,6 @@
 \i db/seeds/06_ratings.sql;
 
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO hooked;
+
+GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO hooked;
+
