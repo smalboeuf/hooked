@@ -53,6 +53,7 @@ const postComments = function(postId) {
   const queryStr = `
   SELECT *
   FROM comments
+  JOIN users ON user_id = users.id
   WHERE hook_id = $1
   `;
 
@@ -150,4 +151,23 @@ const findUsernameBasedOnId = function (userId) {
   .then(res => res.rows[0]);
 }
 
-module.exports = { addUser, howManyPeopleLike, avgRatings, myLikes, myPosts, isAnExistingUser, search, rateTheHook, correctEmail, correctPassword, postComments, findUsernameBasedOnId }
+const incrementLikes = function (userId, hookId) {
+  const queryStr = `
+      INSERT INTO likes (user_id, hook_id, favourite)
+      VALUES ($1, $2, true)
+    `;
+
+    return db.query(queryStr, [userId, hookId]);
+}
+
+const decreaseLikes = function (userId, hookId) {
+  const queryStr = `
+      DELETE FROM likes
+      WHERE user_id = $1 AND hook_id = $2;
+    `;
+
+    return db.query(queryStr, [userId, hookId]);
+}
+
+
+module.exports = { addUser, howManyPeopleLike, avgRatings, myLikes, myPosts, isAnExistingUser, search, rateTheHook, correctEmail, correctPassword, postComments, findUsernameBasedOnId, incrementLikes, decreaseLikes }

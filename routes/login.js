@@ -9,16 +9,33 @@ router.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000
 }));
 
-const { correctEmail, correctPassword } = require('../db/helpers')
+const { correctEmail, correctPassword, myPosts, findUsernameBasedOnId, postComments } = require('../db/helpers')
 
 module.exports = () => {
 
   router.get("/", (req, res) => {
     let templateVars = {}
-     templateVars = {id: req.session.userId};
+    let posts;
+    let commentsPromise = [];
 
-     console.log(req.session);
-    res.render("index", templateVars);
+    myPosts(1).then(result => {
+      posts = result;
+      for(const post of posts){
+        commentsPromise.push(postComments(post.id));
+      }
+      Promise.all(commentsPromise).then(
+        values => {
+          console.log(values);
+          findUsernameBasedOnId(1).then( result => {
+            const postUsername = result.username;
+            templateVars = {id: req.session.userId, userPosts: posts, username: postUsername, commentsArray: values };
+            res.render("index", templateVars);
+           }
+          );
+        }
+      );
+
+    });
   });
 
   router.get("/login", (req, res) => {
