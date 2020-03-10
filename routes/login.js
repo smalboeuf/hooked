@@ -35,16 +35,15 @@ module.exports = () => {
             Promise.all(postLikesPromise).then(
               postLikes => {
 
+                const loggedUser = findUsernameBasedOnId(req.session.userId.id).then(
+                  user => {
 
-
-                templateVars = {id: req.session.userId, userPosts: posts, username: postUsername, commentsArray: values, likesArray: postLikes };
-               res.render("index", templateVars);
+                    templateVars = {id: req.session.userId, currentLoggedInUsername: user,userPosts: posts, username: postUsername, commentsArray: values, likesArray: postLikes };
+                    res.render("index", templateVars);
+                  }
+                );
               }
             );
-
-
-
-
            }
           );
         }

@@ -197,7 +197,7 @@ const incrementLikes = function (userId, hookId) {
       INSERT INTO likes (user_id, hook_id, favourite)
       VALUES ($1, $2, true)
     `;
-
+  console.log("userid: ", userId, hookId)
     return db.query(queryStr, [userId, hookId]);
 }
 
@@ -210,5 +210,14 @@ const decreaseLikes = function (userId, hookId) {
     return db.query(queryStr, [userId, hookId]);
 }
 
+const addComment = function (commentContent, userId, hookId) {
+  const queryStr =`
+  INSERT INTO comments (comment, user_id, hook_id)
+  VALUES ($1, $2, $3)
+  `;
 
-module.exports = { addUser, howManyPeopleLike, avgRatings, myLikes, myPosts, isAnExistingUser, search, rateTheHook, correctEmail, correctPassword, postComments, findUsernameBasedOnId, incrementLikes, decreaseLikes }
+  return db.query(queryStr, [commentContent, userId, hookId]);
+}
+
+
+module.exports = { addUser, howManyPeopleLike, avgRatings, myLikes, myPosts, isAnExistingUser, search, rateTheHook, correctEmail, correctPassword, postComments, findUsernameBasedOnId, incrementLikes, decreaseLikes, addComment }
