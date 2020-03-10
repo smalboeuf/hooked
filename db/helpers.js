@@ -3,13 +3,13 @@ const bcrypt = require('bcrypt');
 
 const howManyPeopleLike = function(hookId) {
   const queryStr = `
-    SELECT COUNT(like.*) AS likes                 //shows # of likes of a hook
-    FROM likes
-    WHERE hook_id = $1
+  select hook_id, likes.favourite, count(favourite) as love
+  from likes
+  where hook_id = $1
+  group by hook_id, likes.favourite
   `
-  db.query(queryStr, [hookId])
+  return db.query(queryStr, [hookId])
     .then(res => res.rows[0])
-
 };
 // exports.howManyPeopleLike = howManyPeopleLike;
 
@@ -19,20 +19,20 @@ const avgRatings = function(hookId) {
     FROM ratings
     WHERE hook_id = $1
   `
-  db.query(queryStr, [hookId])
+  return db.query(queryStr, [hookId])
     .then(res => res.rows[0])
 
 };
 // exports.avgRatings = avgRatings;
 
 const myLikes = function(userId) {
-  const queryStr = `                                //this shows only hooks which a user likes.
+  const queryStr = `
     SELECT hooks.*
     FROM hooks
     JOIN likes ON likes.user_id = hooks.user_id
     WHERE likes.user_id = $1
   `
-  db.query(queryStr, [userId])
+  return db.query(queryStr, [userId])
     .then(res => res.rows)
 
 }
@@ -68,7 +68,7 @@ const search = function(whatAUserIsLookingFor) {
     WHERE description iLIKE $1
     OR title iLIKE $1
   `
-  db.query(queryStr, [whatAUserIsLookingFor])
+  return db.query(queryStr, [whatAUserIsLookingFor])
     .then(res => res.rows)
 };
 // exports.search = search;

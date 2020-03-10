@@ -92,12 +92,14 @@ const createPost = function(postData, postId) {
   ratingDiv.append(" /5 Stars");
   let thumbsUpDiv = $("<div>");
   let thumbsUpSpan = $("<span>").addClass("fa fa-thumbs-up");
-  let numbOfLikesSpan = $("<span>").addClass("numbOfLikes");
+  thumbsUpSpan.attr("onclick", "likePost()")
+  let numbOfLikesSpan = $("<span>").addClass("numbOfLikes").text(24);
+
   thumbsUpDiv.append(thumbsUpSpan);
   thumbsUpDiv.append(numbOfLikesSpan);
 
-  ratingDiv.append(thumbsUpDiv);
   hookRatingsElement.append(ratingDiv);
+  hookRatingsElement.append(thumbsUpDiv);
   postElement.append(hookRatingsElement);
   postElement.append("<hr>");
 
@@ -128,13 +130,12 @@ const createPost = function(postData, postId) {
   postElement.append(commentFeedElement);
 
   //CALL GET COMMENTS AND USE DATA FROM AJAX
+  amountOfLikes(postId, numbOfLikesSpan);
   setUsername(postData.user_id, usernameSpan);
   getComments(postId, commentFeedElement);
 
   return postElement;
 }
-
-
 
 const createComment = function (commentData) {
   //Create a comment element
@@ -153,6 +154,35 @@ const createComment = function (commentData) {
 }
 
 
+const amountOfLikes = function(postId, element) {
+  let postData;
+  $.ajax({
+    method: 'GET',
+    url: `http://localhost:8080/${postId}/likes`,
+    data: postData
+  }).done((result) => renderLikes(result, element));
+}
+
+const renderLikes = function(amountOfLikes, element) {
+  element.text(amountOfLikes.love);
+}
+
+const likePost = function (postId) {
+  $(".fa-thumbs-up").toggleClass("toggleBlue");
+  $(".numbOfLikes").toggleClass("toggleBlue");
+
+  //Increment 1 to the amount of likes this post has
+  //After render it again
+
+  $.ajax({
+    method: 'POST',
+    url: '/:postid/increaseLikes'
+  });
+
+  $(".numbOfLikes").text(25);
+
+  //INCREMENT THE AMOUNT OF LIKES ON THE DATABASE
+}
 
 
 
@@ -185,17 +215,3 @@ $(function () {
     $(".hookForm").slideDown();
   })
 });
-
-$(function () {
-  $(".fa-thumbs-up").on("click", function (){
-    $(".fa-thumbs-up").toggleClass("toggleBlue");
-    $(".numbOfLikes").toggleClass("toggleBlue");
-
-    $(".numbOfLikes").text(13);
-
-    //INCREMENT THE AMOUNT OF LIKES ON THE DATABASE
-    console.log("dbHelpers");
-
-  });
-});
-
