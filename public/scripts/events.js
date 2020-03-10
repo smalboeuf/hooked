@@ -3,40 +3,35 @@ $(document).ready(function () {
   $(".hookForm").hide();
 
   //Adds new comment on click of the button
-$(function() {
-  $('#addNewComment').on('click', function(event) {
-    event.preventDefault();
+  $(function () {
+    $('#addNewComment').on('click', function (event) {
+      event.preventDefault();
 
-    let commentContent = $("#commentBox").val();
+      let commentContent = $("#commentBox").val();
 
-    //Make sure they can only comment if they are logged in
+      //Make sure they can only comment if they are logged in
 
-    if(commentContent){
-      $(".commentFeed").prepend(createComment(commentContent));
-      //COMMIT COMMENT TO DATABASE HERE
-    } else {
-      console.log("Please input a message to comment");
-    }
+      if (commentContent) {
+        $(".commentFeed").prepend(createComment(commentContent));
+        //COMMIT COMMENT TO DATABASE HERE
+      } else {
+        console.log("Please input a message to comment");
+      }
 
-    //Clearing the text area
-    $("#commentBox").val("");
+      //Clearing the text area
+      $("#commentBox").val("");
 
+    });
+  });
+
+  $(function () {
+    $("#createPostButton").on("click", function (event) {
+      event.preventDefault();
+      $("#createPostButton").hide();
+      $(".hookForm").slideDown();
+    })
   });
 });
-
-$(function () {
-  $("#createPostButton").on("click", function(event) {
-    event.preventDefault();
-    $("#createPostButton").hide();
-    $(".hookForm").slideDown();
-  })
-<<<<<<< HEAD
-    .done(loadPosts);
-}
-=======
-});
-});
->>>>>>> 5c693f0856f7ef8f9493784ea3f6b179e23c045f
 
 // const getCookie = function () {
 //   let postData;
@@ -247,35 +242,3 @@ const likePost = function (postId, element) {
 
 
 
-<<<<<<< HEAD
-//Adds new comment on click of the button
-$(function () {
-  $('#addNewComment').on('click', function (event) {
-    event.preventDefault();
-
-    let commentContent = $("#commentBox").val();
-
-    //Make sure they can only comment if they are logged in
-
-    if (commentContent) {
-      $(".commentFeed").prepend(createComment(commentContent));
-      //COMMIT COMMENT TO DATABASE HERE
-    } else {
-      console.log("Please input a message to comment");
-    }
-
-    //Clearing the text area
-    $("#commentBox").val("");
-
-  });
-});
-
-$(function () {
-  $("#createPostButton").on("click", function (event) {
-    event.preventDefault();
-    $("#createPostButton").hide();
-    $(".hookForm").slideDown();
-  })
-});
-=======
->>>>>>> 5c693f0856f7ef8f9493784ea3f6b179e23c045f

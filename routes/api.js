@@ -10,11 +10,7 @@ router.use(cookieSession({
 }));
 
 
-<<<<<<< HEAD
-const { myPosts, newPost, postComments, findUsernameBasedOnId, howManyPeopleLike } = require('../db/helpers');
-=======
-const {myPosts, postComments, findUsernameBasedOnId, howManyPeopleLike, incrementLikes, decreaseLikes} = require('../db/helpers');
->>>>>>> 5c693f0856f7ef8f9493784ea3f6b179e23c045f
+const { myPosts, postComments, findUsernameBasedOnId, howManyPeopleLike, incrementLikes, decreaseLikes } = require('../db/helpers');
 
 module.exports = () => {
 

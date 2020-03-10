@@ -14,14 +14,17 @@ const { profileEditor, myPosts, newPost } = require('../db/helpers')
 module.exports = () => {
 
   router.get("/ownPage", (req, res) => {
-    // myPosts(req.session.userId.id).then(res => res.row[0]);
-    // console.log(req.session.userId.id);
+
     const templateVars = { id: req.session.userId };
     res.render("ownPage", templateVars);
   });
 
   router.post("/ownPage", (req, res) => {
 
+    const id = req.session.userId.id;
+    const { title, description, content } = req.body;
+
+    newPost(title, description, id, content).then()
 
     res.redirect("/ownPage")
   })
