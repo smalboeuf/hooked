@@ -276,4 +276,5 @@ module.exports = {
   getCategoryId,
   incrementLikes,
   decreaseLikes,
+  addComment
 }
