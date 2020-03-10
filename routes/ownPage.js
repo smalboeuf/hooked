@@ -9,13 +9,16 @@ router.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000
 }));
 
-const { profileEditor } = require('../db/helpers')
+const { profileEditor, getCategories } = require('../db/helpers')
 
 module.exports = () => {
 
   router.get("/ownPage", (req, res) => {
-    const templateVars = {id: req.session.userId};
-    res.render("ownPage", templateVars);
+    getCategories().then(categories => {
+      const templateVars = {id: req.session.userId, categories: categories};
+      console.log(templateVars.categories)
+      res.render("ownPage", templateVars);
+    })
   });
 
   router.get("/editProfile", (req, res) => {

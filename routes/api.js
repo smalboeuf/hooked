@@ -10,7 +10,12 @@ router.use(cookieSession({
 }));
 
 
-const {myPosts, postComments, findUsernameBasedOnId, howManyPeopleLike} = require('../db/helpers');
+const {myPosts,
+  postComments,
+  findUsernameBasedOnId,
+  howManyPeopleLike,
+
+} = require('../db/helpers');
 
 module.exports = () => {
 
@@ -49,8 +54,6 @@ module.exports = () => {
   router.get("/:username", (req, res) => {
 
   });
-
-
 
   return router;
 }

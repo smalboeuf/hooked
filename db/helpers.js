@@ -94,7 +94,13 @@ const isAnExistingUser = function(username, email) {
     OR email = $2
   `
   return db.query(queryStr, [username, email])
-    .then(() => true)
+    .then(res => {
+      if (res.rows.length !== 0) {
+        return true;
+      } else {
+        return false;
+      }
+    })
 
 };
 // exports.isAnExistingUser = isAnExistingUser;
@@ -193,6 +199,35 @@ const findUsernameBasedOnId = function (userId) {
   .then(res => res.rows[0]);
 };
 
+const getCategories = function() {
+  const queryString = `
+    SELECT name
+    FROM categories
+  `
+  return db.query(queryString)
+    .then(res => res.rows)
+}
+
+const getCategoryId = function(name) {
+  const queryStr = `
+    SELECT id
+    FROM categories
+    WHERE name = $1
+  `
+  return db.query(queryString, [name])
+    .then(res => res.rows[0])
+}
+
+const showCategory = function(id) {
+  const queryString = `
+  SELECT *
+  FROM hooks
+  WHERE category_id = $1
+`
+  return db.query(queryString, [id])
+    .then(res => res.rows)
+}
+
 module.exports = {
 
   addUser,
@@ -208,5 +243,8 @@ module.exports = {
   profileEditor,
   postComments,
   findUsernameBasedOnId,
+  getCategories,
+  showCategory,
+  getCategoryId,
 
 }

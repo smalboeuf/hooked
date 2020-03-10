@@ -9,16 +9,16 @@ router.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000
 }));
 
-const { correctEmail, correctPassword } = require('../db/helpers')
+const { correctEmail, correctPassword, getCategories } = require('../db/helpers')
 
 module.exports = () => {
 
   router.get("/", (req, res) => {
-    let templateVars = {}
-     templateVars = {id: req.session.userId};
-
-     console.log(req.session);
-    res.render("index", templateVars);
+    getCategories().then(categories => {
+      const templateVars = {id: req.session.userId, categories: categories};
+      console.log(templateVars.categories)
+      res.render("index", templateVars);
+    })
   });
 
   router.get("/login", (req, res) => {
