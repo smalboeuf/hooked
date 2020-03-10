@@ -9,20 +9,20 @@ router.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000
 }));
 
-const { profileEditor } = require('../db/helpers')
+const { profileEditor, myPosts, newPost } = require('../db/helpers')
 
 module.exports = () => {
 
   router.get("/ownPage", (req, res) => {
+    // myPosts(req.session.userId.id).then(res => res.row[0]);
+    // console.log(req.session.userId.id);
     const templateVars = { id: req.session.userId };
     res.render("ownPage", templateVars);
   });
 
   router.post("/ownPage", (req, res) => {
 
-    console.log(req.body)
-    console.log(req.params);
-    // newHook()
+
     res.redirect("/ownPage")
   })
 

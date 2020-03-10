@@ -51,13 +51,13 @@ const myPosts = function (userId) {
 };
 // exports.myPosts = myPosts;
 
-const newHook = function (title, description, user_id, category_id, content) {
+const newPost = function (title, description, user_id, category_id, content) {
   const queryStr = `
   INSERT INTO hooks (title, description, content)
-  VALUES ($1, $2, $3)
+  VALUES ($1, $2, $3, $4)
   RETURNING *;
   `
-  return db.query(queryStr, [title, description, content])
+  return db.query(queryStr, [title, description, user_id, content])
     .then(res => res.rows)
 };
 
@@ -89,7 +89,7 @@ const rateTheHook = function (hookId, rating) {
 const isAnExistingUser =
 
   function (username, email) {
-
+    console.log('1');
     const queryStr = `
     SELECT id
     FROM users
@@ -99,7 +99,7 @@ const isAnExistingUser =
     return db.query(queryStr, [username, email])
 
       .then(res => {
-        console.log(res.rows)
+        // console.log(res.rows)
         if (res.rows[0].id) {
           return true;
         } else {
@@ -148,4 +148,4 @@ const addUser = function (username, email, password) {
 };
 // exports.addUser = addUser;
 
-module.exports = { addUser, howManyPeopleLike, avgRatings, myLikes, myPosts, isAnExistingUser, search, rateTheHook, correctEmail, correctPassword, newHook }
+module.exports = { addUser, howManyPeopleLike, avgRatings, myLikes, myPosts, isAnExistingUser, search, rateTheHook, correctEmail, correctPassword, newPost }

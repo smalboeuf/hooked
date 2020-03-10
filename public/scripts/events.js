@@ -12,18 +12,30 @@ const getPosts = function (userId) {
     url: `http://localhost:8080/user/${userId}/posts`,
     data: postData
   })
-    .done();
+    .done(loadPosts);
 }
 
-newPost = function (userId) {
-  let postData;
-  $.ajax({
-    method: "POST",
-    url: `http://localhost:8080/user/${userId}/newPost`,
-    data: postData
-  })
-    .done()
-}
+// const getCookie = function () {
+//   let postData;
+//   $.ajax({
+//     method: "POST",
+//     url: `http://localhost:8080/getCookie/`,
+//     data: postData
+//   })
+//     .done(newPost);
+// }
+
+// const newPost = function (userId) {
+//   let postData;
+//   $.ajax({
+//     method: "POST",
+//     url: `http://localhost:8080/user/${userId}/newPost`,
+//     data: postData
+//   })
+//     .done(result => {
+//       console.log(result);
+//     })
+// }
 
 const setUsername = function (userId, element) {
   let postData;

@@ -48,6 +48,16 @@ const myPosts = function (userId) {
 
 };
 
+const newPost = function (title, description, userId, content) {
+  const queryStr = `
+  INSERT INTO hooks (title, description, user_id, content)
+  VALUES ($1, $2, $3, $4)
+  RETURNING *;
+  `
+  return db.query(queryStr, [title, description, userId, content])
+    .then(res => res.rows)
+}
+
 const postComments = function (postId) {
   const queryStr = `
   SELECT *
@@ -80,8 +90,13 @@ const rateTheHook = function (hookId, rating) {
     RETURNING *;
   `
   return db.query(queryStr, [hookId, rating])
+    .then(res => res.rows)
+
+};
+// exports.rateTheHook = rateTheHook;
 
 
+const isAnExistingUser = function (username, email) {
   const queryStr = `
     SELECT id
     FROM users
@@ -201,5 +216,6 @@ module.exports = {
   profileEditor,
   postComments,
   findUsernameBasedOnId,
+  newPost,
 
 }
