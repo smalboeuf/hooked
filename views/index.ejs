@@ -69,7 +69,13 @@
               <input type="number" min="0" max="5"> /5 Stars
               </div>
               <div>
-              <span onclick="likePost(<%= Number(post+1) %>, this)" class="fa fa-thumbs-up"></span> <span class="numbOfLikes"> <%= likesArray[post].love %> </span>
+                <span onclick="likePost(<%= post %>, this)" class="fa fa-thumbs-up"></span> <span class="numbOfLikes">
+                  <% if (likesArray[post] !== undefined) { %>
+                  <%= likesArray[post].love %>
+                  <% } else { %>
+                    0
+                  <% } %>
+                </span>
             </div>
             </div>
             <hr>
