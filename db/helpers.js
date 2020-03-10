@@ -201,27 +201,18 @@ const findUsernameBasedOnId = function (userId) {
 
 const getCategories = function() {
   const queryString = `
-    SELECT name
+    SELECT *
     FROM categories
   `
   return db.query(queryString)
     .then(res => res.rows)
 }
 
-const getCategoryId = function(name) {
-  const queryStr = `
-    SELECT id
-    FROM categories
-    WHERE name = $1
-  `
-  return db.query(queryString, [name])
-    .then(res => res.rows[0])
-}
-
-const showCategory = function(id) {
+const geHooksIdbyCategId = function(id) {
   const queryString = `
-  SELECT *
+  SELECT hooks.id
   FROM hooks
+  JOIN categories ON hook_id = hooks.id
   WHERE category_id = $1
 `
   return db.query(queryString, [id])
@@ -246,6 +237,19 @@ const decreaseLikes = function (userId, hookId) {
     return db.query(queryStr, [userId, hookId]);
 }
 
+const allHooks = function() {
+  const queryStr = `
+    SELECT hooks.title, description, content, categories.name AS Category, users.username AS username, AVG(rating) AS rating
+    FROM hooks
+    FULL OUTER JOIN categories ON hooks.category_id = categories.id
+    FULL OUTER JOIN users ON users.id = hooks.user_id
+    FULL OUTER JOIN ratings ON ratings.hook_id = hooks.id
+    GROUP BY hooks.title, description, hooks.content, categories.name, users.username
+  `
+  return db.query(queryStr)
+    .then(res => res.rows)
+}
+
 
 module.exports = {
 
@@ -263,8 +267,8 @@ module.exports = {
   postComments,
   findUsernameBasedOnId,
   getCategories,
-  showCategory,
-  getCategoryId,
+  geHooksIdbyCategId,
   incrementLikes,
   decreaseLikes,
+  allHooks,
 }

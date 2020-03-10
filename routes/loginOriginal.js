@@ -9,7 +9,7 @@ router.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000
 }));
 
-const { allHooks, correctEmail, correctPassword, myPosts, findUsernameBasedOnId, postComments, howManyPeopleLike, getCategories } = require('../db/helpers')
+const { correctEmail, correctPassword, myPosts, findUsernameBasedOnId, postComments, howManyPeopleLike, getCategories } = require('../db/helpers')
 
 module.exports = () => {
 
@@ -19,30 +19,42 @@ module.exports = () => {
     let commentsPromise = [];
     let postLikesPromise = [];
 
-    allHooks().then(result => {
+    myPosts(1).then(result => {
       posts = result;
       for(const post of posts){
         commentsPromise.push(postComments(post.id));
       }
       Promise.all(commentsPromise).then(
         values => {
+          findUsernameBasedOnId(1).then( result => {
+            const postUsername = result.username;
+
             for (const post of posts) {
               postLikesPromise.push(howManyPeopleLike(post.id));
             }
             Promise.all(postLikesPromise).then(
               postLikes => {
+
                 getCategories().then(categories => {
                     templateVars = {
                       id: req.session.userId,
                       userPosts: posts,
+                      username: postUsername,
                       commentsArray: values,
                       likesArray: postLikes,
                       categories: categories,
                     };
                     res.render("index", templateVars);
                 })
+
               }
             );
+
+
+
+
+           }
+          );
         }
       );
     });
