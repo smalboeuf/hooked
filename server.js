@@ -40,6 +40,7 @@ const loginRoutes = require("./routes/login");
 const usersRoutes = require("./routes/users");
 const ownPageRoutes = require("./routes/ownPage");
 const widgetsRoutes = require("./routes/widgets");
+const apiRoutes = require("./routes/api");
 
 
 
@@ -48,17 +49,10 @@ const widgetsRoutes = require("./routes/widgets");
 app.use("/", registerRoutes());
 app.use("/", loginRoutes());
 app.use("/", ownPageRoutes());
+app.use("/", apiRoutes());
 app.use("/api/users", usersRoutes(db));
 app.use("/api/widgets", widgetsRoutes(db));
 // Note: mount other resources here, using the same pattern above
-
-
-// Home page
-// Warning: avoid creating more routes in this file!
-// Separate them into separate routes files (see above).
-// app.get("/", (req, res) => {
-//   res.render("index");
-// });
 
 
 app.listen(PORT, () => {

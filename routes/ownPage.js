@@ -9,8 +9,7 @@ router.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000
 }));
 
-let users = { id: 1, name: "Alice", email: "alice@email.ca", password: "password" };
-
+const { profileEditor } = require('../db/helpers')
 
 module.exports = () => {
 
@@ -23,6 +22,15 @@ module.exports = () => {
     const templateVars = {id: req.session.userId};
 
     res.render("editProfile", templateVars);
+  });
+
+  router.post("/editProfile", (req, res) => {
+    const userId = req.session.userId.id;
+    const {username, email, password} = req.body;
+
+    profileEditor(userId, username, email, password)
+      .then(() => res.render('editProfile', req.session.userId))
+
   });
 
   return router;

@@ -3,13 +3,17 @@ const bcrypt = require('bcrypt');
 
 const howManyPeopleLike = function (hookId) {
   const queryStr = `
-    SELECT COUNT(like.*) AS likes                 //shows # of likes of a hook
-    FROM likes
-    WHERE hook_id = $1
+  select hook_id, likes.favourite, count(favourite) as love
+  from likes
+  where hook_id = $1
+  group by hook_id, likes.favourite
   `
-  db.query(queryStr, [hookId])
+  return db.query(queryStr, [hookId])
     .then(res => res.rows[0])
+<<<<<<< HEAD
   //.catch(() => null)
+=======
+>>>>>>> 5b5480e03ca22d6998988b4cccf1aaa33d910b18
 };
 // exports.howManyPeopleLike = howManyPeopleLike;
 
@@ -19,45 +23,69 @@ const avgRatings = function (hookId) {
     FROM ratings
     WHERE hook_id = $1
   `
-  db.query(queryStr, [hookId])
+  return db.query(queryStr, [hookId])
     .then(res => res.rows[0])
+<<<<<<< HEAD
   // .catch(() => null)
 };
 // exports.avgRatings = avgRatings;
 
 const myLikes = function (userId) {
   const queryStr = `                                //this shows only hooks which a user likes.
+=======
+
+};
+// exports.avgRatings = avgRatings;
+
+const myLikes = function(userId) {
+  const queryStr = `
+>>>>>>> 5b5480e03ca22d6998988b4cccf1aaa33d910b18
     SELECT hooks.*
     FROM hooks
     JOIN likes ON likes.user_id = hooks.user_id
     WHERE likes.user_id = $1
   `
-  db.query(queryStr, [userId])
+  return db.query(queryStr, [userId])
     .then(res => res.rows)
+<<<<<<< HEAD
   //.catch(() => null)
+=======
+
+>>>>>>> 5b5480e03ca22d6998988b4cccf1aaa33d910b18
 }
 // exports.myLikes = myLikes;
 
 const myPosts = function (userId) {
   const queryStr = `
-    SELECT hooks.*                                    //shows hooks which a user posts.
+    SELECT hooks.*
     FROM hooks
     WHERE user_id = $1
   `
-  db.query(queryStr, [userId])
+    return db.query(queryStr, [userId])
     .then(res => res.rows)
-  //  .catch(() => null)
+
 };
+
+const postComments = function(postId) {
+  const queryStr = `
+  SELECT *
+  FROM comments
+  WHERE hook_id = $1
+  `;
+
+  return db.query(queryStr, [postId])
+  .then(res => res.rows);
+}
 // exports.myPosts = myPosts;
 
 const search = function (whatAUserIsLookingFor) {
   const queryStr = `
-    SELECT hooks.*                                      //search function. Check titles and descriptions.
+    SELECT hooks.*
     FROM hooks
-    WHERE description iLIKE $1                          //case insensitive
+    WHERE description iLIKE $1
     OR title iLIKE $1
   `
-  db.query(queryStr, [whatAUserIsLookingFor])
+  return db.query(queryStr, [whatAUserIsLookingFor])
     .then(res => res.rows)
 };
 // exports.search = search;
@@ -70,8 +98,13 @@ const rateTheHook = function (hookId, rating) {
     RETURNING *;
   `
   return db.query(queryStr, [hookId, rating])
+<<<<<<< HEAD
     .then(res => res.rows)
   //.catch(() => null)
+=======
+  .then(res => res.rows)
+
+>>>>>>> 5b5480e03ca22d6998988b4cccf1aaa33d910b18
 };
 // exports.rateTheHook = rateTheHook;
 
@@ -85,7 +118,11 @@ const isAnExistingUser = function (username, email) {
   `
   return db.query(queryStr, [username, email])
     .then(() => true)
+<<<<<<< HEAD
   // .catch(() => false)
+=======
+
+>>>>>>> 5b5480e03ca22d6998988b4cccf1aaa33d910b18
 };
 // exports.isAnExistingUser = isAnExistingUser;
 
@@ -125,9 +162,82 @@ const addUser = function (username, email, passwoord) {
   `
   return db.query(queryStr, [username, email, passwoord])
     .then(res => res.rows)
+<<<<<<< HEAD
   //.catch(e => null)
+=======
+
+>>>>>>> 5b5480e03ca22d6998988b4cccf1aaa33d910b18
 };
 // exports.addUser = addUser;
 
+const profileEditor = function(userId, username, email, password) {
 
-module.exports = { addUser, howManyPeopleLike, avgRatings, myLikes, myPosts, isAnExistingUser, search, rateTheHook, correctEmail, correctPassword }
+  let queryStr = `
+    UPDATE users
+    SET
+  `
+  const values = [userId];
+
+  if (username !== '') {
+    values.push(username);
+    queryStr += `username = $${values.length}`;
+  }
+
+  if (username !== '' && email !== '') {
+    values.push(email);
+    queryStr += `,
+    email = $${values.length}`;
+  } else if (username === '' && email !== '') {
+    values.push(email);
+    queryStr += `
+    email = $${values.length}`;
+  }
+
+  const hashedPwd = bcrypt.hashSync(password, 10);
+
+  if (username !== '' || email !== '') {
+    if (password !== '') {
+      values.push(hashedPwd);
+      queryStr += `,
+      password = $${values.length}`;
+    }
+  } else if (username === '' && email === '' && password !== '') {
+    values.push(hashedPwd);
+    queryStr += `password = $${values.length}`;
+  }
+  queryStr += `
+  WHERE id = $1
+  `;
+
+  return db.query(queryStr, values)
+    .then(res => res.rows[0])
+};
+
+const findUsernameBasedOnId = function (userId) {
+  const queryStr = `
+  SELECT username
+  FROM users
+  WHERE id = $1
+  `;
+
+  return db.query(queryStr, [userId])
+  .then(res => res.rows[0]);
+};
+
+module.exports = {
+
+  addUser,
+  howManyPeopleLike,
+  avgRatings,
+  myLikes,
+  myPosts,
+  isAnExistingUser,
+  search,
+  rateTheHook,
+  correctEmail,
+  correctPassword,
+  profileEditor,
+  postComments,
+  findUsernameBasedOnId,
+
+}
