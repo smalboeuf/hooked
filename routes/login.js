@@ -25,7 +25,6 @@ module.exports = () => {
       }
       Promise.all(commentsPromise).then(
         values => {
-          console.log(values);
           findUsernameBasedOnId(1).then( result => {
             const postUsername = result.username;
             templateVars = {id: req.session.userId, userPosts: posts, username: postUsername, commentsArray: values };
@@ -39,12 +38,12 @@ module.exports = () => {
   });
 
   router.get("/login", (req, res) => {
-    let templateVars = {id: req.session.userId};
+    let templateVars = { id: req.session.userId };
     res.render("login", templateVars);
   });
 
   router.post("/login", (req, res) => {
-    const {email, password} = req.body;
+    const { email, password } = req.body;
     const logInErrMsg = 'Please enter valid email and/or password'
 
     if (email === '' || password === '') {
@@ -52,7 +51,7 @@ module.exports = () => {
       res.send(logInErrMsg)
     } else {
       correctPassword(email, password)
-      .then(pwdCheck => {
+        .then(pwdCheck => {
           if (pwdCheck === true) {
             correctEmail(email)
               .then(result => {

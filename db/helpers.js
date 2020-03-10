@@ -1,7 +1,7 @@
 const db = require('./index');
 const bcrypt = require('bcrypt');
 
-const howManyPeopleLike = function(hookId) {
+const howManyPeopleLike = function (hookId) {
   const queryStr = `
   select hook_id, likes.favourite, count(favourite) as love
   from likes
@@ -13,7 +13,7 @@ const howManyPeopleLike = function(hookId) {
 };
 // exports.howManyPeopleLike = howManyPeopleLike;
 
-const avgRatings = function(hookId) {
+const avgRatings = function (hookId) {
   const queryStr = `
     SELECT AVG(ratings) AS rating
     FROM ratings
@@ -34,11 +34,10 @@ const myLikes = function(userId) {
   `
   return db.query(queryStr, [userId])
     .then(res => res.rows)
-
 }
 // exports.myLikes = myLikes;
 
-const myPosts = function(userId) {
+const myPosts = function (userId) {
   const queryStr = `
     SELECT hooks.*
     FROM hooks
@@ -62,7 +61,7 @@ const postComments = function(postId) {
 }
 // exports.myPosts = myPosts;
 
-const search = function(whatAUserIsLookingFor) {
+const search = function (whatAUserIsLookingFor) {
   const queryStr = `
     SELECT hooks.*
     FROM hooks
@@ -74,7 +73,7 @@ const search = function(whatAUserIsLookingFor) {
 };
 // exports.search = search;
 
-const rateTheHook = function(hookId, rating) {
+const rateTheHook = function (hookId, rating) {
 
   const queryStr = `
     INSERT INTO ratings (hook_id, rating)
@@ -87,7 +86,8 @@ const rateTheHook = function(hookId, rating) {
 };
 // exports.rateTheHook = rateTheHook;
 
-const isAnExistingUser = function(username, email) {
+
+const isAnExistingUser = function (username, email) {
   const queryStr = `
     SELECT id
     FROM users
@@ -96,11 +96,10 @@ const isAnExistingUser = function(username, email) {
   `
   return db.query(queryStr, [username, email])
     .then(() => true)
-
 };
 // exports.isAnExistingUser = isAnExistingUser;
 
-const correctPassword = function(email, password) {
+const correctPassword = function (email, password) {
   const queryStr = `
     SELECT password
     FROM users
@@ -116,19 +115,19 @@ const correctPassword = function(email, password) {
     })
 };
 
-const correctEmail = function(email) {
+const correctEmail = function (email) {
   const queryStr = `
     SELECT id
     FROM users
     WHERE email = $1
   `
   return db.query(queryStr, [email])
-    .then (res => res.rows[0])
+    .then(res => res.rows[0])
 
 };
 // exports.correctEmailAndPassword = correctEmailAndPassword;
 
-const addUser = function(username, email, passwoord) {
+const addUser = function (username, email, passwoord) {
   const queryStr = `
     INSERT INTO users (username, email, password)
     VALUES ($1, $2, $3)
@@ -136,9 +135,51 @@ const addUser = function(username, email, passwoord) {
   `
   return db.query(queryStr, [username, email, passwoord])
     .then(res => res.rows)
-
 };
 // exports.addUser = addUser;
+
+const profileEditor = function(userId, username, email, password) {
+
+  let queryStr = `
+    UPDATE users
+    SET
+  `
+  const values = [userId];
+
+  if (username !== '') {
+    values.push(username);
+    queryStr += `username = $${values.length}`;
+  }
+
+  if (username !== '' && email !== '') {
+    values.push(email);
+    queryStr += `,
+    email = $${values.length}`;
+  } else if (username === '' && email !== '') {
+    values.push(email);
+    queryStr += `
+    email = $${values.length}`;
+  }
+
+  const hashedPwd = bcrypt.hashSync(password, 10);
+
+  if (username !== '' || email !== '') {
+    if (password !== '') {
+      values.push(hashedPwd);
+      queryStr += `,
+      password = $${values.length}`;
+    }
+  } else if (username === '' && email === '' && password !== '') {
+    values.push(hashedPwd);
+    queryStr += `password = $${values.length}`;
+  }
+  queryStr += `
+  WHERE id = $1
+  `;
+
+  return db.query(queryStr, values)
+    .then(res => res.rows[0])
+};
 
 const findUsernameBasedOnId = function (userId) {
   const queryStr = `
@@ -149,7 +190,7 @@ const findUsernameBasedOnId = function (userId) {
 
   return db.query(queryStr, [userId])
   .then(res => res.rows[0]);
-}
+};
 
 const incrementLikes = function (userId, hookId) {
   const queryStr = `
