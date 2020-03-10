@@ -9,26 +9,14 @@ router.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000
 }));
 
-<<<<<<< HEAD
-const { profileEditor, getCategories } = require('../db/helpers')
-=======
 const { profileEditor, myPosts, newPost } = require('../db/helpers')
->>>>>>> createNewHook
 
 module.exports = () => {
 
   router.get("/ownPage", (req, res) => {
-<<<<<<< HEAD
-    getCategories().then(categories => {
-      const templateVars = {id: req.session.userId, categories: categories};
-      console.log(templateVars.categories)
-      res.render("ownPage", templateVars);
-    })
-=======
 
     const templateVars = { id: req.session.userId };
     res.render("ownPage", templateVars);
->>>>>>> createNewHook
   });
 
   router.post("/ownPage", (req, res) => {

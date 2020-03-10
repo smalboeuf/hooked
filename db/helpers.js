@@ -209,7 +209,7 @@ const findUsernameBasedOnId = function (userId) {
     .then(res => res.rows[0]);
 };
 
-const getCategories = function() {
+const getCategories = function () {
   const queryString = `
     SELECT name
     FROM categories
@@ -218,7 +218,7 @@ const getCategories = function() {
     .then(res => res.rows)
 }
 
-const getCategoryId = function(name) {
+const getCategoryId = function (name) {
   const queryStr = `
     SELECT id
     FROM categories
@@ -228,7 +228,7 @@ const getCategoryId = function(name) {
     .then(res => res.rows[0])
 }
 
-const showCategory = function(id) {
+const showCategory = function (id) {
   const queryString = `
   SELECT *
   FROM hooks
@@ -243,7 +243,7 @@ const incrementLikes = function (userId, hookId) {
       INSERT INTO likes (user_id, hook_id, favourite)
       VALUES ($1, $2, true)
     `;
-
+  console.log("userid: ", userId, hookId)
   return db.query(queryStr, [userId, hookId]);
 }
 
@@ -256,29 +256,14 @@ const decreaseLikes = function (userId, hookId) {
   return db.query(queryStr, [userId, hookId]);
 }
 
+const addComment = function (commentContent, userId, hookId) {
+  const queryStr = `
+  INSERT INTO comments (comment, user_id, hook_id)
+  VALUES ($1, $2, $3)
+  `;
 
-<<<<<<< HEAD
-module.exports = {
-
-  addUser,
-  howManyPeopleLike,
-  avgRatings,
-  myLikes,
-  myPosts,
-  isAnExistingUser,
-  search,
-  rateTheHook,
-  correctEmail,
-  correctPassword,
-  profileEditor,
-  postComments,
-  findUsernameBasedOnId,
-  getCategories,
-  showCategory,
-  getCategoryId,
-  incrementLikes,
-  decreaseLikes,
+  return db.query(queryStr, [commentContent, userId, hookId]);
 }
-=======
+
+
 module.exports = { addUser, howManyPeopleLike, avgRatings, myLikes, newPost, myPosts, isAnExistingUser, search, rateTheHook, correctEmail, correctPassword, postComments, findUsernameBasedOnId, incrementLikes, decreaseLikes }
->>>>>>> createNewHook

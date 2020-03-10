@@ -10,7 +10,7 @@ router.use(cookieSession({
 }));
 
 
-const { myPosts, postComments, findUsernameBasedOnId, howManyPeopleLike, incrementLikes, decreaseLikes } = require('../db/helpers');
+const { myPosts, postComments, findUsernameBasedOnId, howManyPeopleLike, incrementLikes, decreaseLikes, addComment } = require('../db/helpers');
 
 module.exports = () => {
 
@@ -56,19 +56,16 @@ module.exports = () => {
     });
   });
 
-  // router.post("/getCookie/", (req, res) => {
+  router.post("/user/:postid/comments/:commentContent", (req, res) => {
+    console.log("content", req.params.commentContent);
+    console.log("userid", req.session.userId.id);
+    console.log("postid", req.params.postid);
 
-  //   res.send(req.session.userId.id);
-  // });
-
-  router.post("/checkUserLogin", (req, res) => {
-    if (req.session.userId) {
-      console.log("Here and its true");
-      res.send(true);
-    } else {
-      res.send(false);
-    }
+    addComment(req.params.commentContent, req.session.userId.id, req.params.postid).then(result => {
+      res.send(result);
+    });
   });
+
   //Implement loading user into their page
 
   router.get("/:username", (req, res) => {
