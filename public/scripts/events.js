@@ -2,18 +2,41 @@
 $(document).ready(function () {
   $(".hookForm").hide();
 
-  getPosts(1);
+  //Adds new comment on click of the button
+$(function() {
+  $('#addNewComment').on('click', function(event) {
+    event.preventDefault();
+
+    let commentContent = $("#commentBox").val();
+
+    //Make sure they can only comment if they are logged in
+
+    if(commentContent){
+      $(".commentFeed").prepend(createComment(commentContent));
+      //COMMIT COMMENT TO DATABASE HERE
+    } else {
+      console.log("Please input a message to comment");
+    }
+
+    //Clearing the text area
+    $("#commentBox").val("");
+
+  });
 });
 
-const getPosts = function (userId) {
-  let postData;
-  $.ajax({
-    method: 'GET',
-    url: `http://localhost:8080/user/${userId}/posts`,
-    data: postData
+$(function () {
+  $("#createPostButton").on("click", function(event) {
+    event.preventDefault();
+    $("#createPostButton").hide();
+    $(".hookForm").slideDown();
   })
+<<<<<<< HEAD
     .done(loadPosts);
 }
+=======
+});
+});
+>>>>>>> 5c693f0856f7ef8f9493784ea3f6b179e23c045f
 
 // const getCookie = function () {
 //   let postData;
@@ -116,7 +139,7 @@ const createPost = function (postData, postId) {
   ratingDiv.append(" /5 Stars");
   let thumbsUpDiv = $("<div>");
   let thumbsUpSpan = $("<span>").addClass("fa fa-thumbs-up");
-  thumbsUpSpan.attr("onclick", "likePost()")
+  thumbsUpSpan.attr("onclick", `likePost(${postId}, this)`);
   let numbOfLikesSpan = $("<span>").addClass("numbOfLikes").text(24);
 
   thumbsUpDiv.append(thumbsUpSpan);
@@ -125,7 +148,8 @@ const createPost = function (postData, postId) {
   hookRatingsElement.append(ratingDiv);
   hookRatingsElement.append(thumbsUpDiv);
   postElement.append(hookRatingsElement);
-  postElement.append("<hr>");
+  postElement.append("<hr>").addClass("tempHr");
+
 
   //Add Comment
   let addCommentElement = $("<div>").addClass("addComment");
@@ -191,25 +215,39 @@ const renderLikes = function (amountOfLikes, element) {
   element.text(amountOfLikes.love);
 }
 
-const likePost = function (postId) {
+const likePost = function (postId, element) {
   $(".fa-thumbs-up").toggleClass("toggleBlue");
   $(".numbOfLikes").toggleClass("toggleBlue");
 
   //Increment 1 to the amount of likes this post has
   //After render it again
 
-  $.ajax({
-    method: 'POST',
-    url: '/:postid/increaseLikes'
-  });
+  if (!$(element).siblings(".numbOfLikes").hasClass("toggleBlue")) {
 
-  $(".numbOfLikes").text(25);
+    let postData;
+    $.ajax({
+      method: 'POST',
+      url: `http://localhost:8080/${postId}/decreaseLikes`,
+      data: postData
+    }).done(() => {
+      amountOfLikes(postId, $(element).siblings(".numbOfLikes"))
+    });
 
-  //INCREMENT THE AMOUNT OF LIKES ON THE DATABASE
+  } else {
+    let postData;
+    $.ajax({
+      method: 'POST',
+      url: `http://localhost:8080/${postId}/increaseLikes`,
+      data: postData
+    }).done(() => {
+      amountOfLikes(postId, $(element).siblings(".numbOfLikes"))
+    });
+  }
 }
 
 
 
+<<<<<<< HEAD
 //Adds new comment on click of the button
 $(function () {
   $('#addNewComment').on('click', function (event) {
@@ -239,3 +277,5 @@ $(function () {
     $(".hookForm").slideDown();
   })
 });
+=======
+>>>>>>> 5c693f0856f7ef8f9493784ea3f6b179e23c045f
