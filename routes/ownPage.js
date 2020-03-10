@@ -14,19 +14,27 @@ const { profileEditor } = require('../db/helpers')
 module.exports = () => {
 
   router.get("/ownPage", (req, res) => {
-    const templateVars = {id: req.session.userId};
+    const templateVars = { id: req.session.userId };
     res.render("ownPage", templateVars);
   });
 
+  router.post("/ownPage", (req, res) => {
+
+    console.log(req.body)
+    console.log(req.params);
+    // newHook()
+    res.redirect("/ownPage")
+  })
+
   router.get("/editProfile", (req, res) => {
-    const templateVars = {id: req.session.userId};
+    const templateVars = { id: req.session.userId };
 
     res.render("editProfile", templateVars);
   });
 
   router.post("/editProfile", (req, res) => {
     const userId = req.session.userId.id;
-    const {username, email, password} = req.body;
+    const { username, email, password } = req.body;
 
     profileEditor(userId, username, email, password)
       .then(() => res.render('editProfile', req.session.userId))

@@ -10,10 +10,6 @@ const howManyPeopleLike = function (hookId) {
   `
   return db.query(queryStr, [hookId])
     .then(res => res.rows[0])
-<<<<<<< HEAD
-  //.catch(() => null)
-=======
->>>>>>> 5b5480e03ca22d6998988b4cccf1aaa33d910b18
 };
 // exports.howManyPeopleLike = howManyPeopleLike;
 
@@ -25,21 +21,12 @@ const avgRatings = function (hookId) {
   `
   return db.query(queryStr, [hookId])
     .then(res => res.rows[0])
-<<<<<<< HEAD
-  // .catch(() => null)
+
 };
 // exports.avgRatings = avgRatings;
 
 const myLikes = function (userId) {
-  const queryStr = `                                //this shows only hooks which a user likes.
-=======
-
-};
-// exports.avgRatings = avgRatings;
-
-const myLikes = function(userId) {
   const queryStr = `
->>>>>>> 5b5480e03ca22d6998988b4cccf1aaa33d910b18
     SELECT hooks.*
     FROM hooks
     JOIN likes ON likes.user_id = hooks.user_id
@@ -47,11 +34,6 @@ const myLikes = function(userId) {
   `
   return db.query(queryStr, [userId])
     .then(res => res.rows)
-<<<<<<< HEAD
-  //.catch(() => null)
-=======
-
->>>>>>> 5b5480e03ca22d6998988b4cccf1aaa33d910b18
 }
 // exports.myLikes = myLikes;
 
@@ -61,12 +43,12 @@ const myPosts = function (userId) {
     FROM hooks
     WHERE user_id = $1
   `
-    return db.query(queryStr, [userId])
+  return db.query(queryStr, [userId])
     .then(res => res.rows)
 
 };
 
-const postComments = function(postId) {
+const postComments = function (postId) {
   const queryStr = `
   SELECT *
   FROM comments
@@ -74,7 +56,7 @@ const postComments = function(postId) {
   `;
 
   return db.query(queryStr, [postId])
-  .then(res => res.rows);
+    .then(res => res.rows);
 }
 // exports.myPosts = myPosts;
 
@@ -98,18 +80,8 @@ const rateTheHook = function (hookId, rating) {
     RETURNING *;
   `
   return db.query(queryStr, [hookId, rating])
-<<<<<<< HEAD
-    .then(res => res.rows)
-  //.catch(() => null)
-=======
-  .then(res => res.rows)
-
->>>>>>> 5b5480e03ca22d6998988b4cccf1aaa33d910b18
-};
-// exports.rateTheHook = rateTheHook;
 
 
-const isAnExistingUser = function (username, email) {
   const queryStr = `
     SELECT id
     FROM users
@@ -118,11 +90,6 @@ const isAnExistingUser = function (username, email) {
   `
   return db.query(queryStr, [username, email])
     .then(() => true)
-<<<<<<< HEAD
-  // .catch(() => false)
-=======
-
->>>>>>> 5b5480e03ca22d6998988b4cccf1aaa33d910b18
 };
 // exports.isAnExistingUser = isAnExistingUser;
 
@@ -162,15 +129,10 @@ const addUser = function (username, email, passwoord) {
   `
   return db.query(queryStr, [username, email, passwoord])
     .then(res => res.rows)
-<<<<<<< HEAD
-  //.catch(e => null)
-=======
-
->>>>>>> 5b5480e03ca22d6998988b4cccf1aaa33d910b18
 };
 // exports.addUser = addUser;
 
-const profileEditor = function(userId, username, email, password) {
+const profileEditor = function (userId, username, email, password) {
 
   let queryStr = `
     UPDATE users
@@ -221,7 +183,7 @@ const findUsernameBasedOnId = function (userId) {
   `;
 
   return db.query(queryStr, [userId])
-  .then(res => res.rows[0]);
+    .then(res => res.rows[0]);
 };
 
 module.exports = {

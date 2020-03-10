@@ -51,6 +51,16 @@ const myPosts = function (userId) {
 };
 // exports.myPosts = myPosts;
 
+const newHook = function (title, description, user_id, category_id, content) {
+  const queryStr = `
+  INSERT INTO hooks (title, description, content)
+  VALUES ($1, $2, $3)
+  RETURNING *;
+  `
+  return db.query(queryStr, [title, description, content])
+    .then(res => res.rows)
+};
+
 const search = function (whatAUserIsLookingFor) {
   const queryStr = `
     SELECT hooks.*                                      //search function. Check titles and descriptions.
@@ -138,4 +148,4 @@ const addUser = function (username, email, password) {
 };
 // exports.addUser = addUser;
 
-module.exports = { addUser, howManyPeopleLike, avgRatings, myLikes, myPosts, isAnExistingUser, search, rateTheHook, correctEmail, correctPassword }
+module.exports = { addUser, howManyPeopleLike, avgRatings, myLikes, myPosts, isAnExistingUser, search, rateTheHook, correctEmail, correctPassword, newHook }
