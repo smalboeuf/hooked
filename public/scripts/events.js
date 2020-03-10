@@ -1,30 +1,72 @@
 
-const loadPosts = function () {
-  //Get the amount of posts from the data base for a for loop
-  //Or can just loop through the top 10
-  const userPosts = USERPOSTSFROMDB;
+$(document).ready(function() {
+  $(".hookForm").hide();
 
-  for (let i = 0; i < USERPOSTSFROMDB.length; i++) {
+  getPosts(1);
+});
 
+const getPosts = function (userId) {
+  let postData;
+  $.ajax({
+    method: 'GET',
+    url: `http://localhost:8080/user/${userId}/posts`,
+    data: postData
+  })
+  .done(loadPosts);
+}
+
+const setUsername = function (userId, element) {
+  let postData;
+  $.ajax({
+    method: 'GET',
+    url: `http://localhost:8080/user/${userId}/`,
+    data: postData
+  })
+  .done((result) => renderUsername(result, element));
+}
+
+const renderUsername = function (userObj, element) {
+  element.text(userObj.username);
+}
+
+
+const loadPosts = function (postArray) {
+  for (let i = 0; i < postArray.length; i++) {
+    $(".hooked-feed").append(createPost(postArray[i], postArray[i].id));
   }
 }
 
+const getComments = function(postId, commentsElement) {
 
-const loadComments = function() {
-  //Load the top 10 comments
+  let postData;
+  $.ajax({
+    method: 'GET',
+    url: `http://localhost:8080/user/${postId}/comments`,
+    data: postData
+  })
+  .done((result) => renderComments(result, commentsElement));
+}
+
+const renderComments = function(commentArray, commentsElement){
+
+  for (let i = 0; i < commentArray.length; i++) {
+      commentsElement.append(createComment(commentArray[i]));
+  }
 }
 
 const loadOwnPage = function () {
-
+  //TO get a user who is logged in's data
+//req.session.userId
 }
 
-const createPost = function(postData) {
+const createPost = function(postData, postId) {
 
   let postElement = $("<div>").addClass("hooked-post rounded");
 
+
   //Title div
   let titleElement = $("<div>").addClass("title");
-  let titleSpan = $("<span>").addClass("titleSpan").text("Title");
+  let titleSpan = $("<span>").addClass("titleSpan").text(postData.title);
   let usernameSpan = $("<span>").addClass("usernameSpan").text("Username");
   titleElement.append(titleSpan);
   titleElement.append(usernameSpan);
@@ -33,8 +75,8 @@ const createPost = function(postData) {
 
   //Post content
   let postContent = $("<div>").addClass("content");
-  let postDescription = $("<span>").addClass("post-description").text("Description");
-  let postContentSpan = $("<span>").addClass("post-content").text("Content: https://reddit.com/");
+  let postDescription = $("<span>").addClass("post-description").text(postData.description);
+  let postContentSpan = $("<span>").addClass("post-content").text(postData.content);
   postContent.append(postDescription);
   postContent.append(postContentSpan);
   postElement.append(postContent);
@@ -43,19 +85,21 @@ const createPost = function(postData) {
   //Ratings
   let hookRatingsElement = $("<div>").addClass("hook-ratings");
   let ratingDiv = $("<div>").addClass("rating");
-  let ratingInput = $("<input>").addType("number");
+  let ratingInput = $("<input>").attr("type", "number");
   ratingInput.attr("min", "0");
   ratingInput.attr("max", "5");
   ratingDiv.append(ratingInput);
   ratingDiv.append(" /5 Stars");
   let thumbsUpDiv = $("<div>");
   let thumbsUpSpan = $("<span>").addClass("fa fa-thumbs-up");
-  let numbOfLikesSpan = $("<span>").addClass("numbOfLikes");
+  thumbsUpSpan.attr("onclick", "likePost()")
+  let numbOfLikesSpan = $("<span>").addClass("numbOfLikes").text(24);
+
   thumbsUpDiv.append(thumbsUpSpan);
   thumbsUpDiv.append(numbOfLikesSpan);
 
-  ratingDiv.append(thumbsUpDiv);
   hookRatingsElement.append(ratingDiv);
+  hookRatingsElement.append(thumbsUpDiv);
   postElement.append(hookRatingsElement);
   postElement.append("<hr>");
 
@@ -82,17 +126,16 @@ const createPost = function(postData) {
 
   commentFeedElement.append(commentsSpan);
 
-  //We will then run a function to append all the comments here for the commentFeed
   //GENERATE COMMENTS
-  for (let i = 0; i < AMOUNTOFCOMMENTS; i++) {
-    commentFeedElement.append(createComment(COMMENTDATAFROMDATABASE));
-  }
-
   postElement.append(commentFeedElement);
+
+  //CALL GET COMMENTS AND USE DATA FROM AJAX
+  amountOfLikes(postId, numbOfLikesSpan);
+  setUsername(postData.user_id, usernameSpan);
+  getComments(postId, commentFeedElement);
 
   return postElement;
 }
-
 
 const createComment = function (commentData) {
   //Create a comment element
@@ -101,22 +144,47 @@ const createComment = function (commentData) {
 
   let commentElement = $("<div>").addClass("comment");
   let usernameSpan = $("<span>").addClass("commentUsername").text("Username");
-  let commentContentElement = $("<p>").addClass("commentContent").text(commentData);
+  let commentContentElement = $("<p>").addClass("commentContent").text(commentData.comment);
 
-
-  console.log(commentData);
   commentElement.append(usernameSpan);
   commentElement.append(commentContentElement);
-
+  setUsername(commentData.user_id, usernameSpan);
 
   return commentElement;
 }
 
 
+const amountOfLikes = function(postId, element) {
+  let postData;
+  $.ajax({
+    method: 'GET',
+    url: `http://localhost:8080/${postId}/likes`,
+    data: postData
+  }).done((result) => renderLikes(result, element));
+}
 
-$(document).ready(function() {
-  $(".hookForm").hide();
-});
+const renderLikes = function(amountOfLikes, element) {
+  element.text(amountOfLikes.love);
+}
+
+const likePost = function (postId) {
+  $(".fa-thumbs-up").toggleClass("toggleBlue");
+  $(".numbOfLikes").toggleClass("toggleBlue");
+
+  //Increment 1 to the amount of likes this post has
+  //After render it again
+
+  $.ajax({
+    method: 'POST',
+    url: '/:postid/increaseLikes'
+  });
+
+  $(".numbOfLikes").text(25);
+
+  //INCREMENT THE AMOUNT OF LIKES ON THE DATABASE
+}
+
+
 
 //Adds new comment on click of the button
 $(function() {
@@ -147,17 +215,3 @@ $(function () {
     $(".hookForm").slideDown();
   })
 });
-
-$(function () {
-  $(".fa-thumbs-up").on("click", function (){
-    $(".fa-thumbs-up").toggleClass("toggleBlue");
-    $(".numbOfLikes").toggleClass("toggleBlue");
-
-    $(".numbOfLikes").text(13);
-
-    //INCREMENT THE AMOUNT OF LIKES ON THE DATABASE
-    console.log("dbHelpers");
-
-  });
-});
-
