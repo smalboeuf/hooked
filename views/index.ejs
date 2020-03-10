@@ -37,6 +37,14 @@
         </div>
         </form>
       </div>
+          <div diplay: flex>
+            <label for="category-filter">Category:</label>
+            <select class="category-filter">
+              <% for(let ele of categories) { %>
+                <option value="<%= ele.name %>"><%= ele.name %></option>
+              <% } %>
+            </select>
+          </div>
      <br>
     </main>
     <div class="hooked-feed rounded">

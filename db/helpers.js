@@ -95,7 +95,14 @@ const isAnExistingUser = function (username, email) {
     OR email = $2
   `
   return db.query(queryStr, [username, email])
-    .then(() => true)
+    .then(res => {
+      if (res.rows.length !== 0) {
+        return true;
+      } else {
+        return false;
+      }
+    })
+
 };
 // exports.isAnExistingUser = isAnExistingUser;
 
@@ -192,6 +199,35 @@ const findUsernameBasedOnId = function (userId) {
   .then(res => res.rows[0]);
 };
 
+const getCategories = function() {
+  const queryString = `
+    SELECT name
+    FROM categories
+  `
+  return db.query(queryString)
+    .then(res => res.rows)
+}
+
+const getCategoryId = function(name) {
+  const queryStr = `
+    SELECT id
+    FROM categories
+    WHERE name = $1
+  `
+  return db.query(queryString, [name])
+    .then(res => res.rows[0])
+}
+
+const showCategory = function(id) {
+  const queryString = `
+  SELECT *
+  FROM hooks
+  WHERE category_id = $1
+`
+  return db.query(queryString, [id])
+    .then(res => res.rows)
+}
+
 const incrementLikes = function (userId, hookId) {
   const queryStr = `
       INSERT INTO likes (user_id, hook_id, favourite)
@@ -220,4 +256,24 @@ const addComment = function (commentContent, userId, hookId) {
 }
 
 
-module.exports = { addUser, howManyPeopleLike, avgRatings, myLikes, myPosts, isAnExistingUser, search, rateTheHook, correctEmail, correctPassword, postComments, findUsernameBasedOnId, incrementLikes, decreaseLikes, addComment }
+module.exports = {
+
+  addUser,
+  howManyPeopleLike,
+  avgRatings,
+  myLikes,
+  myPosts,
+  isAnExistingUser,
+  search,
+  rateTheHook,
+  correctEmail,
+  correctPassword,
+  profileEditor,
+  postComments,
+  findUsernameBasedOnId,
+  getCategories,
+  showCategory,
+  getCategoryId,
+  incrementLikes,
+  decreaseLikes,
+}
