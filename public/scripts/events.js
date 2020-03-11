@@ -29,18 +29,6 @@ const addNewComment = function (username, postId) {
 }
 
 
-
-
-// const getCookie = function () {
-//   let postData;
-//   $.ajax({
-//     method: "POST",
-//     url: `http://localhost:8080/getCookie/`,
-//     data: postData
-//   })
-//     .done(newPost);
-// }
-
 // const newPost = function (userId) {
 //   let postData;
 //   $.ajax({

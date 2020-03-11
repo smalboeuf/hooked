@@ -35,28 +35,41 @@ module.exports = () => {
             Promise.all(postLikesPromise).then(
               postLikes => {
 
-<<<<<<< HEAD
-                const loggedUser = findUsernameBasedOnId(req.session.userId.id).then(
-                  user => {
+                if (req.session.userId) {
 
-                    templateVars = {id: req.session.userId, currentLoggedInUsername: user,userPosts: posts, username: postUsername, commentsArray: values, likesArray: postLikes };
-                    res.render("index", templateVars);
+                  findUsernameBasedOnId(req.session.userId.id).then(
+                    user => {
+                      getCategories().then(categories => {
+                        templateVars = {
+                          id: req.session.userId,
+                          userPosts: posts,
+                          username: postUsername,
+                          commentsArray: values,
+                          likesArray: postLikes,
+                          categories: categories,
+                          currentLoggedInUsername: user
+                        };
+                        res.render("index", templateVars);
+                    }
+                  )
+
+                  })
+                } else {
+
+                    getCategories().then(categories => {
+                      templateVars = {
+                        id: req.session.userId,
+                        userPosts: posts,
+                        username: postUsername,
+                        commentsArray: values,
+                        likesArray: postLikes,
+                        categories: categories,
+                        currentLoggedInUsername: undefined
+                      };
+                      res.render("index", templateVars);
                   }
-                );
-=======
-                getCategories().then(categories => {
-                    templateVars = {
-                      id: req.session.userId,
-                      userPosts: posts,
-                      username: postUsername,
-                      commentsArray: values,
-                      likesArray: postLikes,
-                      categories: categories,
-                    };
-                    res.render("index", templateVars);
-                })
-
->>>>>>> 99f074d6952142bff7cda8a98498190c975d388d
+                )
+              }
               }
             );
            }
