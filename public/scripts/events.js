@@ -220,12 +220,15 @@ const likePost = function (postId, element) {
     });
 
   } else {
+
+
     let postData;
     $.ajax({
       method: 'POST',
       url: `http://localhost:8080/${postId}/increaseLikes`,
       data: postData
     }).done(() => {
+      console.log("testing again");
       amountOfLikes(postId, $(element).siblings(".numbOfLikes"))
     });
   }

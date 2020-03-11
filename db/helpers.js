@@ -78,6 +78,15 @@ const newPost = function (title, description, userId, categoryId, content) {
     .then(res => res.rows)
 }
 
+const deletePost = function (postId) {
+  const queryStr = `
+  DELETE FROM hooks
+  WHERE id = $1;
+  `;
+
+  return db.query(queryStr, [postId]).then(res => res.rows);
+}
+
 const postComments = function (postId) {
   const queryStr = `
   SELECT *
@@ -90,6 +99,17 @@ const postComments = function (postId) {
     .then(res => res.rows);
 }
 // exports.myPosts = myPosts;
+
+const getPostInfo = function (postId) {
+  const queryStr = `
+  SELECT *
+  FROM hooks
+  WHERE id = $1
+  `;
+  return db.query(queryStr, [postId])
+  .then(res => res.rows[0]);
+}
+
 
 const search = function (whatAUserIsLookingFor) {
   const queryStr = `
@@ -312,5 +332,10 @@ module.exports = {
   avgRatings, myLikes,
   newPost, myPosts, allHooks,
   isAnExistingUser,
+<<<<<<< HEAD
   search, rateTheHook, myHooks, usersLikesThisHook,
   correctEmail, correctPassword, postComments, findUsernameBasedOnId, incrementLikes, decreaseLikes, addComment, getCategories, profileEditor, getUserInfo }
+=======
+  search, rateTheHook, myHooks,
+  correctEmail, correctPassword, postComments, findUsernameBasedOnId, incrementLikes, decreaseLikes, addComment, getCategories, profileEditor, getUserInfo, getPostInfo, deletePost }
+>>>>>>> master
