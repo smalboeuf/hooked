@@ -10,7 +10,7 @@ router.use(cookieSession({
 }));
 
 
-const { myPosts, postComments, findUsernameBasedOnId, howManyPeopleLike, incrementLikes, decreaseLikes, addComment } = require('../db/helpers');
+const { myPosts, postComments, findUsernameBasedOnId, howManyPeopleLike, incrementLikes, decreaseLikes, addComment, usersLikesThisHook } = require('../db/helpers');
 
 module.exports = () => {
 
@@ -40,6 +40,7 @@ module.exports = () => {
 
   router.get("/:postId/likes", (req, res) => {
     howManyPeopleLike(req.params.postId).then(result => {
+      usersLikesThisHook(req.params.postId)
       res.send(result);
     })
   });

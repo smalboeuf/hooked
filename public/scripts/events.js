@@ -195,7 +195,6 @@ const amountOfLikes = function (postId, element) {
 }
 
 const renderLikes = function (amountOfLikes, element) {
-  console.log('renderlikes', amountOfLikes)
   element.text(amountOfLikes.love);
 }
 

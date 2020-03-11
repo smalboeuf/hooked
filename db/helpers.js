@@ -2,7 +2,6 @@ const db = require('./index');
 const bcrypt = require('bcrypt');
 
 const howManyPeopleLike = function (hookId) {
-  console.log('hookid from howmanypeplike', hookId)
   const queryStr = `
   select hook_id, likes.favourite, count(favourite) as love
   from likes
@@ -18,6 +17,21 @@ const howManyPeopleLike = function (hookId) {
       })
 };
 // exports.howManyPeopleLike = howManyPeopleLike;
+
+const usersLikesThisHook = function (hookId) {
+  const queryStr = `
+  select hook_id, user_id
+  from likes
+  where hook_id = $1
+  `
+  return db.query(queryStr, [hookId])
+    .then(res => {
+      if (!res.rows[0]) {
+        return {hook_id: hookId, love: 0}
+      } else {
+        return res.rows[0]}
+      })
+}
 
 const avgRatings = function (hookId) {
   const queryStr = `
@@ -250,6 +264,7 @@ const allHooks = function () {
     left JOIN users ON users.id = hooks.user_id
     left JOIN ratings ON ratings.hook_id = hooks.id
     GROUP BY hooks.id, hooks.title, description, hooks.content, categories.name, users.username
+    ORDER BY id DESC
     `
   return db.query(queryStr)
     .then(res => res.rows)
@@ -287,5 +302,5 @@ module.exports = {
   avgRatings, myLikes,
   newPost, myPosts, allHooks,
   isAnExistingUser,
-  search, rateTheHook, myHooks,
+  search, rateTheHook, myHooks, usersLikesThisHook,
   correctEmail, correctPassword, postComments, findUsernameBasedOnId, incrementLikes, decreaseLikes, addComment, getCategories, profileEditor }
