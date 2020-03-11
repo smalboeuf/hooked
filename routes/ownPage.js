@@ -35,6 +35,7 @@ module.exports = () => {
             }
             Promise.all(postLikesPromise).then(
               postLikes => {
+                console.log(posts)
                 if (req.session.userId) {
 
                   findUsernameBasedOnId(req.session.userId.id).then(
