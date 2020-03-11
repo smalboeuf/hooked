@@ -2,10 +2,12 @@
 INSERT INTO categories (name)
 VALUES ('github'),
 ('google doc'),
-('comapass'),
+('compass'),
 ('blog'),
 ('wikipedia'),
 ('steam'),
 ('google'),
 ('css-trick'),
-('yahoo');
+('yahoo'),
+('other')
+;
