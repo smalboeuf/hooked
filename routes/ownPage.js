@@ -9,14 +9,75 @@ router.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000
 }));
 
-const { profileEditor, myPosts, newPost } = require('../db/helpers')
+const { profileEditor, myPosts, newPost, postComments, findUsernameBasedOnId, howManyPeopleLike, getCategories } = require('../db/helpers')
 
 module.exports = () => {
 
   router.get("/ownPage", (req, res) => {
 
-    const templateVars = { id: req.session.userId };
-    res.render("ownPage", templateVars);
+    let templateVars = {};
+    let posts;
+    let commentsPromise = [];
+    let postLikesPromise = [];
+
+    myPosts(req.session.userId.id).then(result => {
+      posts = result;
+      for (const post of posts) {
+        commentsPromise.push(postComments(post.id));
+      }
+      Promise.all(commentsPromise).then(
+        values => {
+          findUsernameBasedOnId(req.session.userId.id).then(result => {
+            const postUsername = result.username;
+
+            for (const post of posts) {
+              postLikesPromise.push(howManyPeopleLike(post.id));
+            }
+            Promise.all(postLikesPromise).then(
+              postLikes => {
+
+                if (req.session.userId) {
+
+                  findUsernameBasedOnId(req.session.userId.id).then(
+                    user => {
+                      getCategories().then(categories => {
+                        templateVars = {
+                          id: req.session.userId,
+                          userPosts: posts,
+                          username: postUsername,
+                          commentsArray: values,
+                          likesArray: postLikes,
+                          categories: categories,
+                          currentLoggedInUsername: user
+                        };
+                        res.render("ownPage", templateVars);
+                      }
+                      );
+
+                    });
+                } else {
+
+                  getCategories().then(categories => {
+                    templateVars = {
+                      id: req.session.userId,
+                      userPosts: posts,
+                      username: postUsername,
+                      commentsArray: values,
+                      likesArray: postLikes,
+                      categories: categories,
+                      currentLoggedInUsername: undefined
+                    };
+                    res.render("index", templateVars);
+                  }
+                  );
+                }
+              }
+            );
+          }
+          );
+        }
+      );
+    });
   });
 
   router.post("/ownPage", (req, res) => {

@@ -40,7 +40,7 @@
 }
 
 .post-content {
-
+  word-break: break-word;
 }
 
 .hook-ratings {
