@@ -42,6 +42,7 @@
     <div>
       <label for="category-filter">Category:</label>
       <select class="category-filter">
+        <option value="all">all</option>
         <% for(let ele of categories) { %>
           <option value="<%= ele.name %>"><%= ele.name %></option>
         <% } %>
@@ -65,9 +66,9 @@
       </form>
     </div>
 
-    <div class="hooked-feed rounded">
+    <div class="hooked-feed rounded" id="hooksContainer">
         <% for (const post in userPosts){ %>
-          <div class="hooked-post rounded">
+          <div class="hooked-post rounded" name="<%= userPosts[post].category %>">
           <div class="title">
               <span class="titleSpan"><%= userPosts[post].title %>:</span>
               <span class="usernameSpan"><%= username %></span>
