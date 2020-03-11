@@ -41,6 +41,7 @@
       <div>
         <label for="category-filter">Category:</label>
         <select class="category-filter">
+          <option value="all">all</option>
           <% for(let ele of categories) { %>
           <option value="<%= ele.name %>"><%= ele.name %></option>
           <% } %>
@@ -60,9 +61,8 @@
         <input id="newPO" type="text" name="content" />
         <br>
         <div diplay: flex>
-          <label for="category-filter">Category:</label>
-          <select class="category-filter" name="category_id">
-            <option value="all">all</option>
+          <label for="category-selector">Category:</label>
+          <select class="category-selector">
             <% for(let ele of categories) { %>
               <option value="<%= ele.id %>"><%= ele.name %></option>
               <% } %>
@@ -77,9 +77,9 @@
       </div>
     </div>
 
-    <div class="hooked-feed rounded">
+    <div class="hooked-feed rounded" id="hooksContainer">
       <% for (const post in userPosts){ %>
-      <div class="hooked-post rounded">
+      <div class="hooked-post rounded" name="<%= userPosts[post].category %>">
         <div class="title">
           <span class="titleSpan"><%= userPosts[post].title %>:</span>
           <span class="usernameSpan"><%= username %></span>

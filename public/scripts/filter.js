@@ -25,20 +25,6 @@ $(document).ready(function () {
 
   });
 
-  $('select.category-filter').change(function () {
 
-    let selectedCategory = $(this).children("option:selected").val();
-
-    $('#hooksContainer').children('div').each(function () {
-      if (selectedCategory === 'all') {
-        $(this).slideDown();
-      } else if ($(this).attr('name') !== selectedCategory) {
-        $(this).slideUp();
-      } else {
-        $(this).slideDown();
-      }
-    });
-
-  });
 
 });
