@@ -6,8 +6,8 @@ main {
   margin: 2rem;
   width: 60%;
   display: flex;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left:auto;
+  margin-right:auto;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -44,6 +44,7 @@ main {
 form {
   display: flex;
   flex-direction: row;
+
   width: 100%;
   margin: 0;
 }
