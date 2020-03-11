@@ -49,7 +49,7 @@
     </main>
     <div class="hooked-feed rounded">
         <% for (const post in userPosts){ %>
-          <div class="hooked-post rounded">
+          <div class="hooked-post rounded" name="postId">
           <div class="title">
               <span class="titleSpan"><%= userPosts[post].title %>:</span>
               <span class="usernameSpan"><%= userPosts[post].username %></span>

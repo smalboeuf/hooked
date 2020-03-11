@@ -3,9 +3,9 @@ $(document).ready(function() {
   $('select.category-filter').change(function(){
     let selectedCategory = $(this).children.val();
 
-
-    if (tweetLength > 140) {
-      $(this).siblings('.counter').addClass('over140');
+    for (const ele of $(document).userPosts[post])
+    if (selectedCategory === ele.category) {
+      ;
     } else {
       $(this).siblings('.counter').removeClass('over140');
     }
