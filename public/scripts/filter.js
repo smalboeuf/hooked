@@ -7,11 +7,13 @@ $(document).ready(function() {
     let selectedCategory = $(this).children("option:selected").val();
 
     $('#hooksContainer').children('div').each(function () {
-      if ($(this).attr('name') !== selectedCategory) {
-            $(this).slideUp();
-          } else {
-            $(this).slideDown();
-          }
+      if (selectedCategory === 'all') {
+
+      } if ($(this).attr('name') !== selectedCategory) {
+        $(this).slideUp();
+      } else {
+        $(this).slideDown();
+      }
   });
 
     // for (const ele of $('#hooksContainer').childNodes)

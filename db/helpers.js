@@ -239,12 +239,12 @@ const decreaseLikes = function (userId, hookId) {
 
 const allHooks = function() {
   const queryStr = `
-    SELECT hooks.title, description, content, categories.name AS Category, users.username AS username, AVG(rating) AS rating
+    SELECT hooks.id, hooks.title, description, content, categories.name AS Category, users.username AS username, AVG(rating) AS rating
     FROM hooks
-    FULL OUTER JOIN categories ON hooks.category_id = categories.id
-    FULL OUTER JOIN users ON users.id = hooks.user_id
-    FULL OUTER JOIN ratings ON ratings.hook_id = hooks.id
-    GROUP BY hooks.title, description, hooks.content, categories.name, users.username
+    left JOIN categories ON hooks.category_id = categories.id
+    left JOIN users ON users.id = hooks.user_id
+    left JOIN ratings ON ratings.hook_id = hooks.id
+    GROUP BY hooks.id, hooks.title, description, hooks.content, categories.name, users.username
   `
   return db.query(queryStr)
     .then(res => res.rows)
