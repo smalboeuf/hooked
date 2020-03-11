@@ -35,6 +35,7 @@ module.exports = () => {
             Promise.all(postLikesPromise).then(
               postLikes => {
 
+<<<<<<< HEAD
                 getCategories().then(categories => {
                   templateVars = {
                     id: req.session.userId,
@@ -47,6 +48,43 @@ module.exports = () => {
                   res.render("index", templateVars);
                 })
 
+=======
+                if (req.session.userId) {
+
+                  findUsernameBasedOnId(req.session.userId.id).then(
+                    user => {
+                      getCategories().then(categories => {
+                        templateVars = {
+                          id: req.session.userId,
+                          userPosts: posts,
+                          username: postUsername,
+                          commentsArray: values,
+                          likesArray: postLikes,
+                          categories: categories,
+                          currentLoggedInUsername: user
+                        };
+                        res.render("index", templateVars);
+                    }
+                  )
+
+                  })
+                } else {
+
+                    getCategories().then(categories => {
+                      templateVars = {
+                        id: req.session.userId,
+                        userPosts: posts,
+                        username: postUsername,
+                        commentsArray: values,
+                        likesArray: postLikes,
+                        categories: categories,
+                        currentLoggedInUsername: undefined
+                      };
+                      res.render("index", templateVars);
+                  }
+                )
+              }
+>>>>>>> 500b4abc56930f30f40e161e1ba8d5f08d29bde3
               }
             );
           }

@@ -266,4 +266,4 @@ const addComment = function (commentContent, userId, hookId) {
 }
 
 
-module.exports = { addUser, howManyPeopleLike, avgRatings, myLikes, newPost, myPosts, isAnExistingUser, search, rateTheHook, correctEmail, correctPassword, postComments, findUsernameBasedOnId, incrementLikes, decreaseLikes }
+module.exports = { addUser, howManyPeopleLike, avgRatings, myLikes, newPost, myPosts, isAnExistingUser, search, rateTheHook, correctEmail, correctPassword, postComments, findUsernameBasedOnId, incrementLikes, decreaseLikes, addComment, getCategories }
