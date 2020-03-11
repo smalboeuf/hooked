@@ -84,10 +84,13 @@ module.exports = () => {
 
     const id = req.session.userId.id;
     const { title, description, content } = req.body;
+    console.log(title, description, content);
 
-    newPost(title, description, id, content).then()
-
-    res.redirect("/ownPage")
+    newPost(title, description, id, content).then(
+      result => {
+        res.send(result);
+      }
+    )
   })
 
   router.get("/editProfile", (req, res) => {

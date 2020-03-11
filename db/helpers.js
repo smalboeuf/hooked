@@ -51,11 +51,9 @@ const myPosts = function (userId) {
 const newPost = function (title, description, userId, content) {
   const queryStr = `
   INSERT INTO hooks (title, description, user_id, content)
-  VALUES ($1, $2, $3, $4)
-  RETURNING *;
+  VALUES ($1, $2, $3, $4);
   `
-  return db.query(queryStr, [title, description, userId, content])
-    .then(res => res.rows)
+  return db.query(queryStr, [title, description, userId, content]);
 }
 
 const postComments = function (postId) {
