@@ -218,27 +218,6 @@ const getCategories = function () {
     .then(res => res.rows)
 }
 
-const getCategoryId = function (name) {
-  const queryStr = `
-  SELECT id
-  FROM categories
-  WHERE name = $1
-  `
-  return db.query(queryString, [name])
-  .then(res => res.rows[0])
-}
-
-const showCategory = function (id) {
-  const queryString = `
-  SELECT hooks.id
-  FROM hooks
-  JOIN categories ON hook_id = hooks.id
-  WHERE category_id = $1
-  `
-  return db.query(queryString, [id])
-  .then(res => res.rows)
-}
-
 const incrementLikes = function (userId, hookId) {
   const queryStr = `
       INSERT INTO likes (user_id, hook_id, favourite)
