@@ -41,6 +41,7 @@
       <div>
         <label for="category-filter">Category:</label>
         <select class="category-filter">
+            <option value="all">all</option>
           <% for(let ele of categories) { %>
           <option value="<%= ele.name %>"><%= ele.name %></option>
           <% } %>
@@ -50,7 +51,7 @@
     <div class="createPost">
       <button id="createPostButton">Create a post</button>
 
-      <form class="hookForm" method="POST">
+      <form class="hookForm" method="POST" action="/ownPage">
         <h3>Create a Post</h3>
         Title:
         <input type="title" name="title" />
@@ -62,7 +63,6 @@
         <div diplay: flex>
           <label for="category-filter">Category:</label>
           <select class="category-filter" name="category_id">
-            <option value="all">all</option>
             <% for(let ele of categories) { %>
               <option value="<%= ele.id %>"><%= ele.name %></option>
               <% } %>

@@ -26,7 +26,7 @@ module.exports = () => {
       }
       Promise.all(commentsPromise).then(
         values => {
-          findUsernameBasedOnId(1).then(result => {
+          findUsernameBasedOnId(req.session.userId.id).then(result => {
             const postUsername = result.username;
 
             for (const post of posts) {

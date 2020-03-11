@@ -268,6 +268,7 @@ const allHooks = function () {
     left JOIN users ON users.id = hooks.user_id
     left JOIN ratings ON ratings.hook_id = hooks.id
     GROUP BY hooks.id, hooks.title, description, hooks.content, categories.name, users.username
+    ORDER BY id DESC;
     `
   return db.query(queryStr)
     .then(res => res.rows)

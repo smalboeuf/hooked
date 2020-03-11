@@ -95,9 +95,16 @@ module.exports = () => {
   })
 
   router.get("/editProfile", (req, res) => {
-    const templateVars = { id: req.session.userId };
 
-    res.render("editProfile", templateVars);
+    findUsernameBasedOnId(req.session.userId.id).then( result => {
+      const user = result;
+      const templateVars = { id: req.session.userId, currentLoggedInUsername: user };
+
+      res.render("editProfile", templateVars);
+      }
+    );
+
+
   });
 
   router.post("/editProfile", (req, res) => {
