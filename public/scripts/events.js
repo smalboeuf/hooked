@@ -1,9 +1,9 @@
 
-$(document).ready(function() {
+$(document).ready(function () {
   $(".hookForm").hide();
 
   $(function () {
-    $("#createPostButton").on("click", function(event) {
+    $("#createPostButton").on("click", function (event) {
       event.preventDefault();
       $("#createPostButton").hide();
       $(".hookForm").slideDown();
@@ -12,12 +12,12 @@ $(document).ready(function() {
 
 });
 
-const addNewComment = function (username, postId){
+const addNewComment = function (username, postId) {
   let commentContent = $("#commentBox").val();
 
   //Make sure they can only comment if they are logged in
 
-  if(commentContent){
+  if (commentContent) {
 
     $(".commentFeed").prepend(createComment(commentContent, username, postId));
   } else {
@@ -50,7 +50,7 @@ const setUsername = function (userId, element) {
     url: `http://localhost:8080/user/${userId}/`,
     data: postData
   })
-  .done((result) => renderUsername(result, element));
+    .done((result) => renderUsername(result, element));
 }
 
 const renderUsername = function (userObj, element) {
@@ -64,7 +64,8 @@ const loadPosts = function (postArray) {
   }
 }
 
-const getComments = function(postId, commentsElement) {
+// const addToPosts = function ()
+const getComments = function (postId, commentsElement) {
 
   let postData;
   $.ajax({
@@ -72,16 +73,16 @@ const getComments = function(postId, commentsElement) {
     url: `http://localhost:8080/user/${postId}/comments`,
     data: postData
   })
-  .done((result) => renderComments(result, commentsElement));
+    .done((result) => renderComments(result, commentsElement));
 }
 
 
 const loadOwnPage = function () {
   //TO get a user who is logged in's data
-//req.session.userId
+  //req.session.userId
 }
 
-const createPost = function(postData, postId) {
+const createPost = function (postData, postId) {
 
   let postElement = $("<div>").addClass("hooked-post rounded");
 
@@ -166,7 +167,7 @@ const createComment = function (commentData, username, postId) {
   //Send comment to the database
 
   let commentElement = $("<div>").addClass("comment");
-  let usernameSpan = $("<span>").addClass("commentUsername").text(username+":");
+  let usernameSpan = $("<span>").addClass("commentUsername").text(username + ":");
   let commentContentElement = $("<p>").addClass("commentContent").text(commentData);
 
   commentElement.append(usernameSpan);
@@ -185,7 +186,7 @@ const createComment = function (commentData, username, postId) {
 }
 
 
-const amountOfLikes = function(postId, element) {
+const amountOfLikes = function (postId, element) {
   let postData;
   $.ajax({
     method: 'GET',
@@ -194,7 +195,7 @@ const amountOfLikes = function(postId, element) {
   }).done((result) => renderLikes(result, element));
 }
 
-const renderLikes = function(amountOfLikes, element) {
+const renderLikes = function (amountOfLikes, element) {
   element.text(amountOfLikes.love);
 }
 
