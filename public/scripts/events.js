@@ -29,10 +29,16 @@ const addNewComment = function (username, postId){
 }
 
 const processPost = function() {
-$.ajax({
-  method: 'POST',
-  url:
-});
+  let postData;
+  $.ajax({
+    method: 'POST',
+    url: '',
+    data: postData
+  }).done(
+    result => {
+      createPost(result);
+    }
+  );
 
 }
 
