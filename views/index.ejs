@@ -22,6 +22,7 @@
 
   <!-- JS -->
   <script src="/scripts/events.js"></script>
+  <script type='text/javascript' src="/scripts/filter.js"></script>
 
 </head>
 <body>
@@ -47,9 +48,9 @@
           </div>
      <br>
     </main>
-    <div class="hooked-feed rounded">
+    <div class="hooked-feed rounded" id="hooksContainer">
         <% for (const post in userPosts){ %>
-          <div class="hooked-post rounded" name="postId">
+          <div class="hooked-post rounded" name="<%= userPosts[post].category %>">
           <div class="title">
               <span class="titleSpan"><%= userPosts[post].title %>:</span>
               <span class="usernameSpan"><%= userPosts[post].username %></span>
