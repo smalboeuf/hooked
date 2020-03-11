@@ -9,7 +9,7 @@ router.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000
 }));
 
-const { profileEditor, myPosts, newPost, getCategories, allHooks, postComments, findUsernameBasedOnId, howManyPeopleLike } = require('../db/helpers')
+const { profileEditor, myHooks, newPost, getCategories, allHooks, postComments, findUsernameBasedOnId, howManyPeopleLike } = require('../db/helpers')
 
 module.exports = () => {
 
@@ -20,14 +20,14 @@ module.exports = () => {
     let commentsPromise = [];
     let postLikesPromise = [];
 
-    allHooks().then(result => {
+    myHooks(req.session.userId.id).then(result => {
       posts = result;
       for (const post of posts) {
         commentsPromise.push(postComments(post.id));
       }
       Promise.all(commentsPromise).then(
         values => {
-          findUsernameBasedOnId(1).then(result => {
+          findUsernameBasedOnId(req.session.userId.id).then(result => {
             const postUsername = result.username;
 
             for (const post of posts) {
@@ -35,14 +35,13 @@ module.exports = () => {
             }
             Promise.all(postLikesPromise).then(
               postLikes => {
-                console.log(posts)
                 if (req.session.userId) {
 
                   findUsernameBasedOnId(req.session.userId.id).then(
                     user => {
                       getCategories().then(categories => {
                         templateVars = {
-                          id: req.session.userId,
+                          id: req.session.userId.id,
                           userPosts: posts,
                           username: postUsername,
                           commentsArray: values,
@@ -50,6 +49,7 @@ module.exports = () => {
                           categories: categories,
                           currentLoggedInUsername: user
                         };
+                        console.log('userspost', templateVars.userPosts)
                         res.render("ownPage", templateVars);
                       }
                       );

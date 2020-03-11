@@ -8,4 +8,5 @@ VALUES ('midterm project', 'lighthouse labs midterm project lecture', 1, 1, 'htt
 ('Float', 'is gone. Now it is flex!', 6, 8, 'https://css-tricks.com/snippets/css/a-guide-to-flexbox/'),
 ('Being a manager is hard.', 'Turning your underwear inside out save on washing', 7, 6, 'https://store.steampowered.com/app/1100600/Football_Manager_2020/'),
 ('a lesson', 'this was a market leader back in the day...', 8, 9, 'https://ca.yahoo.com/?p=us'),
-('Horizontal', '= many silos', 9, 5, 'https://upload.wikimedia.org/wikipedia/commons/f/fb/Ralls_Texas_Grain_Silos_2010.jpg')
+('Horizontal', '= many silos', 9, 5, 'https://upload.wikimedia.org/wikipedia/commons/f/fb/Ralls_Texas_Grain_Silos_2010.jpg'),
+('abc', '2nd', 2, 5, 'https://upload.wikimedia.org/wikipedia/commons/f/fb/Ralls_Texas_Grain_Silos_2010.jpg')

@@ -195,12 +195,14 @@ const amountOfLikes = function (postId, element) {
 }
 
 const renderLikes = function (amountOfLikes, element) {
+  console.log('renderlikes', amountOfLikes)
   element.text(amountOfLikes.love);
 }
 
 const likePost = function (postId, element) {
-  $(".fa-thumbs-up").toggleClass("toggleBlue");
-  $(".numbOfLikes").toggleClass("toggleBlue");
+  $(element).toggleClass("toggleBlue");
+  $(element).siblings(".numbOfLikes").toggleClass("toggleBlue");
+  // $(".numbOfLikes").toggleClass("toggleBlue");
 
   //Increment 1 to the amount of likes this post has
   //After render it again
