@@ -264,7 +264,7 @@ const allHooks = function () {
     left JOIN users ON users.id = hooks.user_id
     left JOIN ratings ON ratings.hook_id = hooks.id
     GROUP BY hooks.id, hooks.title, description, hooks.content, categories.name, users.username
-    ORDER BY id DESC
+    ORDER BY id DESC;
     `
   return db.query(queryStr)
     .then(res => res.rows)
@@ -282,6 +282,16 @@ const myHooks = function(id) {
     `
     return db.query(queryStr, [id])
     .then(res => res.rows)
+}
+
+const getUserInfo = function (userId) {
+  const queryStr = `
+  SELECT *
+  FROM users
+  WHERE id = $1
+  `;
+
+  return db.query(queryStr, [userId]).then(res => res.rows[0]);
 }
 
 const addComment = function (commentContent, userId, hookId) {
@@ -303,4 +313,4 @@ module.exports = {
   newPost, myPosts, allHooks,
   isAnExistingUser,
   search, rateTheHook, myHooks, usersLikesThisHook,
-  correctEmail, correctPassword, postComments, findUsernameBasedOnId, incrementLikes, decreaseLikes, addComment, getCategories, profileEditor }
+  correctEmail, correctPassword, postComments, findUsernameBasedOnId, incrementLikes, decreaseLikes, addComment, getCategories, profileEditor, getUserInfo }

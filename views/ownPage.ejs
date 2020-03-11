@@ -51,7 +51,7 @@
     <div class="createPost">
       <button id="createPostButton">Create a post</button>
 
-      <form class="hookForm" method="POST">
+      <form class="hookForm" method="POST" action="/ownPage">
         <h3>Create a Post</h3>
         Title:
         <input type="title" name="title" />
@@ -82,7 +82,7 @@
       <div class="hooked-post rounded" name="<%= userPosts[post].category %>">
         <div class="title">
           <span class="titleSpan"><%= userPosts[post].title %>:</span>
-          <span class="usernameSpan"><%= username %></span>
+          <span class="usernameSpan"><%= userPosts[post].username %></span>
         </div>
         <hr />
         <div class="content">

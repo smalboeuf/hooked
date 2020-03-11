@@ -28,18 +28,20 @@ const addNewComment = function (username, postId) {
   $("#commentBox").val("");
 }
 
+const processPost = function() {
+  let postData;
+  $.ajax({
+    method: 'POST',
+    url: '',
+    data: postData
+  }).done(
+    result => {
+      createPost(result);
+    }
+  );
 
-// const newPost = function (userId) {
-//   let postData;
-//   $.ajax({
-//     method: "POST",
-//     url: `http://localhost:8080/user/${userId}/newPost`,
-//     data: postData
-//   })
-//     .done(result => {
-//       console.log(result);
-//     })
-// }
+}
+
 
 const setUsername = function (userId, element) {
   let postData;
@@ -63,7 +65,6 @@ const loadPosts = function (postArray) {
 }
 
 // const addToPosts = function ()
-
 const getComments = function (postId, commentsElement) {
 
   let postData;

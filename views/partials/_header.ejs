@@ -9,7 +9,7 @@
     <% if (id) { %>
       <div class="navElements">
       <div class="navbar-nav float-right">
-      <label style="color: #fff;">Logged in as ! &nbsp;</label>
+      <label style="color: #fff;">Logged in as <%= currentLoggedInUsername.username %>! &nbsp;</label>
       </div>
       <div class="loggedIn">
       <form method="GET" class="inline-block" action="/ownPage"><button class="btn btn-outline-light myPagebtn">My Page</button></form>
