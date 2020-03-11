@@ -8,8 +8,8 @@ $(document).ready(function() {
 
     $('#hooksContainer').children('div').each(function () {
       if (selectedCategory === 'all') {
-
-      } if ($(this).attr('name') !== selectedCategory) {
+        $(this).slideDown();
+      } else if ($(this).attr('name') !== selectedCategory) {
         $(this).slideUp();
       } else {
         $(this).slideDown();

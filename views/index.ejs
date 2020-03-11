@@ -71,13 +71,11 @@
               <input type="number" min="0" max="5"> /5 Stars
               </div>
               <div>
-              <span onclick="likePost(<%= post %>, this)" class="fa fa-thumbs-up"></span> <span class="numbOfLikes">
-                <% if (likesArray[post] !== undefined) { %>
+              <span onclick="likePost(<%= Number(post+1) %>, this)" class="fa fa-thumbs-up"></span> <span class="numbOfLikes"> <% if (likesArray[post]) { %>
                 <%= likesArray[post].love %>
                 <% } else { %>
                   0
-                <% } %>
-              </span>
+                <% } %></span>
             </div>
             </div>
             <hr>
@@ -85,7 +83,7 @@
             <div class="addComment">
               <span>Add Comment:</span>
               <textarea name="comment" id="commentBox" cols="20" rows="10"></textarea>
-              <button id="addNewComment" value="Hook a comment!">Hook a comment!</button>
+              <button onclick="addNewComment('<%= currentLoggedInUsername.username %>', <%= Number(post+1) %>)" id="addNewComment" value="Hook a comment!">Hook a comment!</button>
               <br>
               <span>Comments: </span>
             </div>
@@ -101,12 +99,6 @@
                 </div>
 
             <% } %>
-
-<!--
-              <div class="comment">
-                <span class="commentUsername">Username:</span>
-                <p class="commentContent">This is where the comment is going to be written. Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus obcaecati ea, officiis aperiam voluptas iusto, numquam dolor, eligendi alias dolorum saepe porro. Cupiditate, rerum. In alias magni corporis ad ratione!</p>
-              </div> -->
             </div>
 
           </div>

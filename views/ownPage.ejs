@@ -1,37 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>hooked - User's Page</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>hooked - User's Page</title>
 
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+      crossorigin="anonymous"
+    />
 
-  <!-- Font-Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Font-Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
 
-  <!-- Stylings -->
-  <link rel="stylesheet" href="/styles/header.css" type="text/css">
-  <link rel="stylesheet" href="/styles/main.css">
-  <link rel="stylesheet" href="/styles/hooked-feed.css">
-  <link rel="stylesheet" href="/styles/ownPosts.css">
+    <!-- Stylings -->
+    <link rel="stylesheet" href="/styles/header.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/main.css" />
+    <link rel="stylesheet" href="/styles/hooked-feed.css" />
+    <link rel="stylesheet" href="/styles/ownPosts.css" />
 
-  <!-- External JS -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- External JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-  <!-- JS -->
-  <script src="/scripts/events.js"></script>
-
-
-</head>
+    <!-- JS -->
+    <script src="/scripts/events.js"></script>
+  </head>
 <body>
  <%- include('partials/_header.ejs') %>
   <main class="rounded">
-    <h2>Username's Page</h2>
+    <h2><%= currentLoggedInUsername.username %>'s Page</h2>
 
-    <div diplay: flex>
+    <div>
       <label for="category-filter">Category:</label>
       <select class="category-filter">
         <% for(let ele of categories) { %>
@@ -44,55 +50,74 @@
 
     <button id="createPostButton">Create a post</button>
 
-    <form class="hookForm" action="">
+    <form class="hookForm" action="ßß">
         <h3>Create a Post</h3>
-      Title:
-      <input type="text">
-      Description:
-      <input type="text">
-      Content:
-      <input type="text">
-      <br>
-      <input id="addNewHook" type="submit" value="Hook it!">
-    </form>
-</div>
-
-<div class="hooked-feed rounded">
-    <div class="hooked-post rounded">
-        <div class="title">
-          <span class="titleSpan">Title</span>
-          <span class="usernameSpan">Username</span>
-        </div>
-        <hr>
-        <div class="content">
-          <span class="post-description">Description:</span>
-          <span class="post-content">Content:
-            https://reddit.com/
-          </span>
-        </div>
-        <hr>
-        <div class="hook-ratings">
-          <div class="rating">
-          <input type="number" min="0" max="5"> /5 Stars</div>
-          <span class="fa fa-thumbs-up"></span>
-        </div>
-        <hr>
-        <div class="addComment">
-          <span>Add Comment:</span>
-          <textarea name="comment" id="commentBox" cols="20" rows="10"></textarea>
-          <input id="addNewComment" value="Hook a comment!">
-          <br>
-          <span>Comments: </span>
-        </div>
-
-        <div class="commentFeed">
-          <div class="comment">
-            <span class="commentUsername">Username:</span>
-            <p class="commentContent">This is where the comment is going to be written. Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus obcaecati ea, officiis aperiam voluptas iusto, numquam dolor, eligendi alias dolorum saepe porro. Cupiditate, rerum. In alias magni corporis ad ratione!</p>
-          </div>
-        </div>
-
+        Title:
+        <input type="title" name="title" />
+        Description:
+        <input type="description" name="description" />
+        Content:
+        <input id="newPO" type="text" name="content" />
+        <br/>
+        <button onclick="processPost()" id="addNewHook" type="submit" >Hook it!</button>
+      </form>
     </div>
-  </div>
-</body>
+
+    <div class="hooked-feed rounded">
+        <% for (const post in userPosts){ %>
+          <div class="hooked-post rounded">
+          <div class="title">
+              <span class="titleSpan"><%= userPosts[post].title %>:</span>
+              <span class="usernameSpan"><%= username %></span>
+            </div>
+            <hr>
+            <div class="content">
+              <span class="post-description">Description: <%= userPosts[post].description %></span>
+              <span class="post-content">Content:
+                <%= userPosts[post].content %>
+              </span>
+            </div>
+
+          <% if(id) { %>
+            <hr>
+            <div class="hook-ratings">
+              <div class="rating">
+              <input type="number" min="0" max="5"> /5 Stars
+              </div>
+              <div>
+              <span onclick="likePost(<%= Number(post+1) %>, this)" class="fa fa-thumbs-up"></span> <span class="numbOfLikes"> <% if (likesArray[post]) { %>
+                <%= likesArray[post].love %>
+                <% } else { %>
+                  0
+                <% } %></span>
+            </div>
+            </div>
+            <hr>
+
+            <div class="addComment">
+              <span>Add Comment:</span>
+              <textarea name="comment" id="commentBox" cols="20" rows="10"></textarea>
+              <button onclick="addNewComment('<%= currentLoggedInUsername.username %>', <%= Number(post+1) %>)" id="addNewComment" value="Hook a comment!">Hook a comment!</button>
+              <br>
+              <span>Comments: </span>
+            </div>
+          <% } %>
+          <div class="commentFeed">
+
+            <% for (comment of commentsArray[post]) { %>
+              <div class="comment">
+                  <span class="commentUsername"><%= comment.username %>:</span>
+                  <p class="commentContent">
+                    <%= comment.comment %>
+                  </p>
+                </div>
+
+            <% } %>
+            </div>
+
+          </div>
+
+        <% } %>
+    </div>
+  </body>
 </html>

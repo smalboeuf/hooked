@@ -9,44 +9,77 @@ router.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000
 }));
 
-const { allHooks, correctEmail, correctPassword, myPosts, findUsernameBasedOnId, postComments, howManyPeopleLike, getCategories } = require('../db/helpers')
+const { allHooks, correctEmail, correctPassword, myPosts, findUsernameBasedOnId, postComments, howManyPeopleLike, getCategories } = require('../db/helpers');
 
 module.exports = () => {
 
   router.get("/", (req, res) => {
-    let templateVars = {}
+    let templateVars = {};
     let posts;
     let commentsPromise = [];
     let postLikesPromise = [];
 
     allHooks().then(result => {
       posts = result;
-      for(const post of posts){
+      for (const post of posts) {
         commentsPromise.push(postComments(post.id));
       }
       Promise.all(commentsPromise).then(
         values => {
+          findUsernameBasedOnId(1).then(result => {
+            const postUsername = result.username;
+
             for (const post of posts) {
               postLikesPromise.push(howManyPeopleLike(post.id));
             }
             Promise.all(postLikesPromise).then(
               postLikes => {
-                getCategories().then(categories => {
+                if (req.session.userId) {
+
+                  findUsernameBasedOnId(req.session.userId.id).then(
+                    user => {
+                      getCategories().then(categories => {
+                        templateVars = {
+                          id: req.session.userId,
+                          userPosts: posts,
+                          username: postUsername,
+                          commentsArray: values,
+                          likesArray: postLikes,
+                          categories: categories,
+                          currentLoggedInUsername: user
+                        };
+                        res.render("index", templateVars);
+                      }
+                      );
+
+                    });
+                } else {
+
+                  getCategories().then(categories => {
                     templateVars = {
                       id: req.session.userId,
                       userPosts: posts,
+                      username: postUsername,
                       commentsArray: values,
                       likesArray: postLikes,
                       categories: categories,
+                      currentLoggedInUsername: undefined
                     };
                     res.render("index", templateVars);
-                })
+                  }
+                  );
+                }
               }
             );
+          }
+          );
         }
       );
-    });
+
+    }
+    );
   });
+
 
   router.get("/login", (req, res) => {
     let templateVars = { id: req.session.userId };
@@ -55,11 +88,11 @@ module.exports = () => {
 
   router.post("/login", (req, res) => {
     const { email, password } = req.body;
-    const logInErrMsg = 'Please enter valid email and/or password'
+    const logInErrMsg = 'Please enter valid email and/or password';
 
     if (email === '' || password === '') {
-      console.log('validation')
-      res.send(logInErrMsg)
+      console.log('validation');
+      res.send(logInErrMsg);
     } else {
       correctPassword(email, password)
         .then(pwdCheck => {
