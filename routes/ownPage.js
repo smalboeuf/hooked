@@ -9,7 +9,7 @@ router.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000
 }));
 
-const { profileEditor, myHooks, newPost, getCategories, allHooks, postComments, findUsernameBasedOnId, howManyPeopleLike } = require('../db/helpers')
+const { profileEditor, myHooks, newPost, getCategories, allHooks, postComments, findUsernameBasedOnId, howManyPeopleLike, getUserInfo } = require('../db/helpers')
 
 module.exports = () => {
 
@@ -98,9 +98,13 @@ module.exports = () => {
 
     findUsernameBasedOnId(req.session.userId.id).then( result => {
       const user = result;
-      const templateVars = { id: req.session.userId, currentLoggedInUsername: user };
+
+      getUserInfo(req.session.userId.id).then(userInfo => {
+
+        const templateVars = { id: req.session.userId, currentLoggedInUsername: user, userInfo: userInfo };
 
       res.render("editProfile", templateVars);
+      })
       }
     );
 
