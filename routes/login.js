@@ -26,7 +26,7 @@ module.exports = () => {
       }
       Promise.all(commentsPromise).then(
         values => {
-          findUsernameBasedOnId(req.session.userId.id).then(result => {
+
             const postUsername = result.username;
 
             for (const post of posts) {
@@ -54,7 +54,6 @@ module.exports = () => {
                         templateVars = {
                           id: req.session.userId,
                           userPosts: posts,
-                          username: postUsername,
                           commentsArray: values,
                           likesArray: postLikes,
                           categories: categories,
@@ -71,7 +70,6 @@ module.exports = () => {
                     templateVars = {
                       id: req.session.userId,
                       userPosts: posts,
-                      username: postUsername,
                       commentsArray: values,
                       likesArray: postLikes,
                       categories: categories,
@@ -83,8 +81,6 @@ module.exports = () => {
                 }
               }
             );
-          }
-          );
         }
       );
 

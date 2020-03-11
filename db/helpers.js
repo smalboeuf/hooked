@@ -270,6 +270,16 @@ const myHooks = function(id) {
     .then(res => res.rows)
 }
 
+const getUserInfo = function (userId) {
+  const queryStr = `
+  SELECT *
+  FROM users
+  WHERE id = $1
+  `;
+
+  return db.query(queryStr, [userId]).then(res => res.rows[0]);
+}
+
 const addComment = function (commentContent, userId, hookId) {
   const queryStr = `
     INSERT INTO comments (comment, user_id, hook_id)
@@ -289,4 +299,4 @@ module.exports = {
   newPost, myPosts, allHooks,
   isAnExistingUser,
   search, rateTheHook, myHooks,
-  correctEmail, correctPassword, postComments, findUsernameBasedOnId, incrementLikes, decreaseLikes, addComment, getCategories, profileEditor }
+  correctEmail, correctPassword, postComments, findUsernameBasedOnId, incrementLikes, decreaseLikes, addComment, getCategories, profileEditor, getUserInfo }
