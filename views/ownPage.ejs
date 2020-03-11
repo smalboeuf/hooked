@@ -31,6 +31,7 @@
 
     <!-- JS -->
     <script src="/scripts/events.js"></script>
+    <script type='text/javascript' src="/scripts/filter.js"></script>
   </head>
   <body>
     <%- include('partials/_header.ejs') %>
@@ -49,7 +50,7 @@
     <div class="createPost">
       <button id="createPostButton">Create a post</button>
 
-      <form class="hookForm" action="ßß">
+      <form class="hookForm" method="POST">
         <h3>Create a Post</h3>
         Title:
         <input type="title" name="title" />
@@ -60,15 +61,16 @@
         <br>
         <div diplay: flex>
           <label for="category-filter">Category:</label>
-          <select class="category-filter">
+          <select class="category-filter" name="category_id">
             <option value="all">all</option>
             <% for(let ele of categories) { %>
-              <option value="<%= ele.name %>"><%= ele.name %></option>
+              <option value="<%= ele.id %>"><%= ele.name %></option>
               <% } %>
             </select>
           </div>
           <br />
-          <button onclick="processPost()" id="addNewHook" type="submit">
+          <!-- <button onclick="processPost()" id="addNewHook" type="submit"> -->
+            <button  type="submit">
             Hook it!
           </button>
         </form>

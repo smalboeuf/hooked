@@ -48,13 +48,13 @@ const myPosts = function (userId) {
 
 };
 
-const newPost = function (title, description, userId, content) {
+const newPost = function (title, description, userId, categoryId, content) {
   const queryStr = `
-  INSERT INTO hooks (title, description, user_id, content)
-  VALUES ($1, $2, $3, $4)
+  INSERT INTO hooks (title, description, user_id, category_id, content)
+  VALUES ($1, $2, $3, $4, $5)
   RETURNING *;
   `
-  return db.query(queryStr, [title, description, userId, content])
+  return db.query(queryStr, [title, description, userId, categoryId, content])
     .then(res => res.rows)
 }
 
@@ -225,7 +225,7 @@ const getCategoryId = function (name) {
   WHERE name = $1
   `
   return db.query(queryString, [name])
-  .then(res => res.rows[0])
+    .then(res => res.rows[0])
 }
 
 const showCategory = function (id) {
@@ -236,7 +236,7 @@ const showCategory = function (id) {
   WHERE category_id = $1
   `
   return db.query(queryString, [id])
-  .then(res => res.rows)
+    .then(res => res.rows)
 }
 
 const incrementLikes = function (userId, hookId) {
@@ -257,7 +257,7 @@ const decreaseLikes = function (userId, hookId) {
   return db.query(queryStr, [userId, hookId]);
 }
 
-const allHooks = function() {
+const allHooks = function () {
   const queryStr = `
     SELECT hooks.id, hooks.title, description, content, categories.name AS Category, users.username AS username, AVG(rating) AS rating
     FROM hooks
@@ -266,26 +266,28 @@ const allHooks = function() {
     left JOIN ratings ON ratings.hook_id = hooks.id
     GROUP BY hooks.id, hooks.title, description, hooks.content, categories.name, users.username
     `
-    return db.query(queryStr)
+  return db.query(queryStr)
     .then(res => res.rows)
-  }
+}
 
-  const addComment = function (commentContent, userId, hookId) {
-    const queryStr = `
+const addComment = function (commentContent, userId, hookId) {
+  const queryStr = `
     INSERT INTO comments (comment, user_id, hook_id)
     VALUES ($1, $2, $3)
     `;
 
-    return db.query(queryStr, [commentContent, userId, hookId]);
-  }
+  return db.query(queryStr, [commentContent, userId, hookId]);
+}
 
 
 
 
-module.exports = { addUser,
+module.exports = {
+  addUser,
   howManyPeopleLike,
   avgRatings, myLikes,
   newPost, myPosts, allHooks,
   isAnExistingUser,
   search, rateTheHook,
-  correctEmail, correctPassword, postComments, findUsernameBasedOnId, incrementLikes, decreaseLikes, addComment, getCategories, profileEditor }
+  correctEmail, correctPassword, postComments, findUsernameBasedOnId, incrementLikes, decreaseLikes, addComment, getCategories, getCategoryId, profileEditor
+}

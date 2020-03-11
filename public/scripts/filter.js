@@ -1,8 +1,8 @@
 
 
-$(document).ready(function() {
+$(document).ready(function () {
 
-  $('select.category-filter').change(function(){
+  $('select.category-filter').change(function () {
 
     let selectedCategory = $(this).children("option:selected").val();
 
@@ -14,7 +14,7 @@ $(document).ready(function() {
       } else {
         $(this).slideDown();
       }
-  });
+    });
 
     // for (const ele of $('#hooksContainer').childNodes)
     //   if (ele.attribute.name === selectedCategory) {
@@ -22,6 +22,22 @@ $(document).ready(function() {
     //   } else {
     //     $(this).removeClass('display');
     //   }
+
+  });
+
+  $('select.category-filter').change(function () {
+
+    let selectedCategory = $(this).children("option:selected").val();
+
+    $('#hooksContainer').children('div').each(function () {
+      if (selectedCategory === 'all') {
+        $(this).slideDown();
+      } else if ($(this).attr('name') !== selectedCategory) {
+        $(this).slideUp();
+      } else {
+        $(this).slideDown();
+      }
+    });
 
   });
 

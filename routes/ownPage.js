@@ -84,11 +84,11 @@ module.exports = () => {
   });
 
   router.post("/ownPage", (req, res) => {
+    console.log(req.body.category_id);
 
     const id = req.session.userId.id;
-    const { title, description, content } = req.body;
-
-    newPost(title, description, id, content).then()
+    const { title, description, category_id, content } = req.body;
+    newPost(title, description, id, category_id, content).then()
 
     res.redirect("/ownPage")
   })
