@@ -27,60 +27,60 @@ module.exports = () => {
       Promise.all(commentsPromise).then(
         values => {
 
-            const postUsername = result.username;
+          const postUsername = result.username;
 
-            for (const post of posts) {
+          for (const post of posts) {
 
-              postLikesPromise.push(howManyPeopleLike(post.id));
-            }
-            Promise.all(postLikesPromise).then(
-              postLikes => {
+            postLikesPromise.push(howManyPeopleLike(post.id));
+          }
+          Promise.all(postLikesPromise).then(
+            postLikes => {
 
-                for (let i = 0; i < postLikes.length; i++){
-                  if (!postLikes[i]) {
-                    postLikes[i] = 0;
-                  } else {
-                    postLikes[i] = postLikes[i].love;
-                  }
-                }
-                console.log(postLikes);
-
-
-                if (req.session.userId) {
-
-                  findUsernameBasedOnId(req.session.userId.id).then(
-                    user => {
-                      getCategories().then(categories => {
-                        templateVars = {
-                          id: req.session.userId,
-                          userPosts: posts,
-                          commentsArray: values,
-                          likesArray: postLikes,
-                          categories: categories,
-                          currentLoggedInUsername: user
-                        };
-                        res.render("index", templateVars);
-                      }
-                      );
-
-                    });
+              for (let i = 0; i < postLikes.length; i++) {
+                if (!postLikes[i]) {
+                  postLikes[i] = 0;
                 } else {
-
-                  getCategories().then(categories => {
-                    templateVars = {
-                      id: req.session.userId,
-                      userPosts: posts,
-                      commentsArray: values,
-                      likesArray: postLikes,
-                      categories: categories,
-                      currentLoggedInUsername: undefined
-                    };
-                    res.render("index", templateVars);
-                  }
-                  );
+                  postLikes[i] = postLikes[i].love;
                 }
               }
-            );
+              console.log(postLikes);
+
+
+              if (req.session.userId) {
+
+                findUsernameBasedOnId(req.session.userId.id).then(
+                  user => {
+                    getCategories().then(categories => {
+                      templateVars = {
+                        id: req.session.userId,
+                        userPosts: posts,
+                        commentsArray: values,
+                        likesArray: postLikes,
+                        categories: categories,
+                        currentLoggedInUsername: user
+                      };
+                      res.render("index", templateVars);
+                    }
+                    );
+
+                  });
+              } else {
+
+                getCategories().then(categories => {
+                  templateVars = {
+                    id: req.session.userId,
+                    userPosts: posts,
+                    commentsArray: values,
+                    likesArray: postLikes,
+                    categories: categories,
+                    currentLoggedInUsername: undefined
+                  };
+                  res.render("index", templateVars);
+                }
+                );
+              }
+            }
+          );
         }
       );
 
@@ -122,6 +122,8 @@ module.exports = () => {
     req.session = null;
     res.redirect("/login");
   });
+
+
 
   return router;
 };

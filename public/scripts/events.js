@@ -12,6 +12,8 @@ $(document).ready(function () {
 
 });
 
+
+
 const addNewComment = function (username, postId) {
   let commentContent = $("#commentBox").val();
 
@@ -28,7 +30,7 @@ const addNewComment = function (username, postId) {
   $("#commentBox").val("");
 }
 
-const processPost = function() {
+const processPost = function () {
   let postData;
   $.ajax({
     method: 'POST',

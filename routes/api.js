@@ -10,7 +10,7 @@ router.use(cookieSession({
 }));
 
 
-const { myPosts, postComments, findUsernameBasedOnId, howManyPeopleLike, incrementLikes, decreaseLikes, addComment } = require('../db/helpers');
+const { myPosts, postComments, findUsernameBasedOnId, howManyPeopleLike, incrementLikes, decreaseLikes, addComment, rateTheHook, avgRatings } = require('../db/helpers');
 
 module.exports = () => {
 
@@ -42,6 +42,15 @@ module.exports = () => {
     howManyPeopleLike(req.params.postId).then(result => {
       res.send(result);
     })
+  });
+
+  router.post("/:postId/rating", (req, res) => {
+
+    rateTheHook(req.params.postId, req.body.rating).then(result => {
+      avgRatings(req.params.postId).then(res => {
+        res.send(result);
+      });
+    });
   });
 
   router.post("/:postId/increaseLikes", (req, res) => {

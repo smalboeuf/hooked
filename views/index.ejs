@@ -24,6 +24,7 @@
   <script src="/scripts/events.js"></script>
   <script type='text/javascript' src="/scripts/filter.js"></script>
 
+
 </head>
 <body>
  <%- include('partials/_header.ejs') %>
@@ -68,8 +69,13 @@
             <hr>
             <div class="hook-ratings">
               <div class="rating">
-              <input type="number" min="0" max="5"> /5 Stars
+                <form class="rate-post" method="POST" action="/<%= userPosts[post].id %>/rating">
+                  <input  name="rating" type="number" min="0" max="5"> /5 Stars
+                  <button type="submit" class="btn btn-primary" >Rate Me</button>
+
+                </form>
               </div>
+
               <div>
               <span onclick="likePost(<%= userPosts[post].id %>, this)" class="fa fa-thumbs-up"></span> <span class="numbOfLikes"> <% if (likesArray[post]) { %>
                 <%= likesArray[post].love %>
