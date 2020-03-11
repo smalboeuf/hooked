@@ -332,10 +332,5 @@ module.exports = {
   avgRatings, myLikes,
   newPost, myPosts, allHooks,
   isAnExistingUser,
-<<<<<<< HEAD
-  search, rateTheHook, myHooks, usersLikesThisHook,
-  correctEmail, correctPassword, postComments, findUsernameBasedOnId, incrementLikes, decreaseLikes, addComment, getCategories, profileEditor, getUserInfo }
-=======
   search, rateTheHook, myHooks,
   correctEmail, correctPassword, postComments, findUsernameBasedOnId, incrementLikes, decreaseLikes, addComment, getCategories, profileEditor, getUserInfo, getPostInfo, deletePost }
->>>>>>> master
