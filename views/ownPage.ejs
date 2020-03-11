@@ -88,7 +88,8 @@
               <input type="number" min="0" max="5"> /5 Stars
               </div>
               <div>
-              <span onclick="likePost(<%= Number(post+1) %>, this)" class="fa fa-thumbs-up"></span> <span class="numbOfLikes"> <% if (likesArray[post]) { %>
+              <span onclick="likePost(<%= Number(post+1) %>, this)" class="fa fa-thumbs-up"></span> <span class="numbOfLikes">
+                <% if (likesArray[post]) { %>
                 <%= likesArray[post].love %>
                 <% } else { %>
                   0
