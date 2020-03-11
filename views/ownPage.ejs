@@ -31,29 +31,25 @@
 
     <!-- JS -->
     <script src="/scripts/events.js"></script>
-    <script type='text/javascript' src="/scripts/filter.js"></script>
-
   </head>
-<body>
- <%- include('partials/_header.ejs') %>
-  <main class="rounded">
-    <h2><%= currentLoggedInUsername.username %>'s Page</h2>
+  <body>
+    <%- include('partials/_header.ejs') %>
+    <main class="rounded">
+      <h2><%= currentLoggedInUsername.username %>'s Page</h2>
 
-    <div>
-      <label for="category-filter">Category:</label>
-      <select class="category-filter">
-        <option value="all">all</option>
-        <% for(let ele of categories) { %>
+      <div>
+        <label for="category-filter">Category:</label>
+        <select class="category-filter">
+          <% for(let ele of categories) { %>
           <option value="<%= ele.name %>"><%= ele.name %></option>
-        <% } %>
-      </select>
-    </div>
-  </main>
-<div class="createPost">
+          <% } %>
+        </select>
+      </div>
+    </main>
+    <div class="createPost">
+      <button id="createPostButton">Create a post</button>
 
-    <button id="createPostButton">Create a post</button>
-
-    <form class="hookForm" action="ßß">
+      <form class="hookForm" action="ßß">
         <h3>Create a Post</h3>
         Title:
         <input type="title" name="title" />
@@ -61,66 +57,93 @@
         <input type="description" name="description" />
         Content:
         <input id="newPO" type="text" name="content" />
-        <br/>
-        <button onclick="processPost()" id="addNewHook" type="submit" >Hook it!</button>
-      </form>
+        <br>
+        <div diplay: flex>
+          <label for="category-filter">Category:</label>
+          <select class="category-filter">
+            <option value="all">all</option>
+            <% for(let ele of categories) { %>
+              <option value="<%= ele.name %>"><%= ele.name %></option>
+              <% } %>
+            </select>
+          </div>
+          <br />
+          <button onclick="processPost()" id="addNewHook" type="submit">
+            Hook it!
+          </button>
+        </form>
+      </div>
     </div>
 
-    <div class="hooked-feed rounded" id="hooksContainer">
-        <% for (const post in userPosts){ %>
-          <div class="hooked-post rounded" name="<%= userPosts[post].category %>">
-          <div class="title">
-              <span class="titleSpan"><%= userPosts[post].title %>:</span>
-              <span class="usernameSpan"><%= username %></span>
-            </div>
-            <hr>
-            <div class="content">
-              <span class="post-description">Description: <%= userPosts[post].description %></span>
-              <span class="post-content">Content:
-                <%= userPosts[post].content %>
-              </span>
-            </div>
+    <div class="hooked-feed rounded">
+      <% for (const post in userPosts){ %>
+      <div class="hooked-post rounded">
+        <div class="title">
+          <span class="titleSpan"><%= userPosts[post].title %>:</span>
+          <span class="usernameSpan"><%= username %></span>
+        </div>
+        <hr />
+        <div class="content">
+          <span class="post-description"
+            >Description: <%= userPosts[post].description %></span
+          >
+          <span class="post-content"
+            >Content: <%= userPosts[post].content %>
+          </span>
+        </div>
 
-          <% if(id) { %>
-            <hr>
-            <div class="hook-ratings">
-              <div class="rating">
-              <input type="number" min="0" max="5"> /5 Stars
-              </div>
-              <div>
-              <span onclick="likePost(<%= Number(post+1) %>, this)" class="fa fa-thumbs-up"></span> <span class="numbOfLikes"> <% if (likesArray[post]) { %>
-                <%= likesArray[post].love %>
-                <% } else { %>
-                  0
-                <% } %></span>
-            </div>
-            </div>
-            <hr>
+        <% if(id) { %>
+        <hr />
+        <div class="hook-ratings">
+          <div class="rating">
+            <input type="number" min="0" max="5" /> /5 Stars
+          </div>
+          <div>
+            <span
+              onclick="likePost(<%= Number(post+1) %>, this)"
+              class="fa fa-thumbs-up"
+            ></span>
+            <span class="numbOfLikes">
+              <% if (likesArray[post]) { %> <%= likesArray[post].love %> <% }
+              else { %> 0 <% } %></span
+            >
+          </div>
+        </div>
+        <hr />
 
-            <div class="addComment">
-              <span>Add Comment:</span>
-              <textarea name="comment" id="commentBox" cols="20" rows="10"></textarea>
-              <button onclick="addNewComment('<%= currentLoggedInUsername.username %>', <%= Number(post+1) %>)" id="addNewComment" value="Hook a comment!">Hook a comment!</button>
-              <br>
-              <span>Comments: </span>
-            </div>
-          <% } %>
-          <div class="commentFeed">
-
-            <% for (comment of commentsArray[post]) { %>
-              <div class="comment">
-                  <span class="commentUsername"><%= comment.username %>:</span>
-                  <p class="commentContent">
-                    <%= comment.comment %>
-                  </p>
-                </div>
-
-            <% } %>
-            </div>
-
+        <div class="addComment">
+          <span>Add Comment:</span>
+          <textarea
+            name="comment"
+            id="commentBox"
+            cols="20"
+            rows="10"
+          ></textarea>
+          <button
+            onclick="addNewComment('<%= currentLoggedInUsername.username %>', <%= Number(post+1) %>)"
+            id="addNewComment"
+            value="Hook a comment!"
+          >
+            Hook a comment!
+          </button>
+          <br />
+          <span>Comments: </span>
+        </div>
+        <% } %>
+        <div class="commentFeed">
+          <% for (comment of commentsArray[post]) { %>
+          <div class="comment">
+            <span class="commentUsername"><%= comment.username %>:</span>
+            <p class="commentContent">
+              <%= comment.comment %>
+            </p>
           </div>
 
-        <% } %>
+          <% } %>
+        </div>
+      </div>
+
+      <% } %>
     </div>
   </body>
 </html>
