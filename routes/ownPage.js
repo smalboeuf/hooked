@@ -35,6 +35,7 @@ module.exports = () => {
             }
             Promise.all(postLikesPromise).then(
               postLikes => {
+                console.log(posts)
                 if (req.session.userId) {
 
                   findUsernameBasedOnId(req.session.userId.id).then(
@@ -84,16 +85,13 @@ module.exports = () => {
   });
 
   router.post("/ownPage", (req, res) => {
+    console.log(req.body.category_id);
 
     const id = req.session.userId.id;
-    const { title, description, content } = req.body;
-    console.log(title, description, content);
+    const { title, description, category_id, content } = req.body;
+    newPost(title, description, id, category_id, content).then()
 
-    newPost(title, description, id, content).then(
-      result => {
-        res.send(result);
-      }
-    )
+    res.redirect("/ownPage")
   })
 
   router.get("/editProfile", (req, res) => {

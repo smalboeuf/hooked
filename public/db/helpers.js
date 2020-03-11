@@ -51,9 +51,9 @@ const myPosts = function (userId) {
 };
 // exports.myPosts = myPosts;
 
-const newPost = function (title, description, user_id, category_id, content) {
+const newPost = function (title, description, user_id, content) {
   const queryStr = `
-  INSERT INTO hooks (title, description, content)
+  INSERT INTO hooks (title, description, user_id, content)
   VALUES ($1, $2, $3, $4)
   RETURNING *;
   `
