@@ -151,7 +151,7 @@ module.exports = () => {
               postLikes => {
                 if (req.session.userId) {
 
-                  findUsernameBasedOnId(userInfo.id).then(
+                  findUsernameBasedOnId(req.session.userId.id).then(
                     user => {
                       getCategories().then(categories => {
                         templateVars = {
