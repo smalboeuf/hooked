@@ -128,13 +128,14 @@
 
           <div class="addComment">
             <span>Add Comment:</span>
-            <textarea name="comment" id="commentBox" cols="20" rows="5"></textarea>
-            <button onclick="addNewComment('<%= currentLoggedInUsername.username %>', <%= Number(post+1) %>)" id="addNewComment" value="Hook a comment!">Hook a comment!</button>
+            <textarea name="comment" id="commentBox-<%= userPosts[post].id %>" cols="20" rows="10"></textarea>
+            <button onclick="addNewComment('<%= currentLoggedInUsername.username %>', <%= userPosts[post].id %>)" class="addNewComment" value="Hook a comment!">Hook a comment!</button>
             <br>
             <span>Comments: </span>
           </div>
         <% } %>
-        <div class="commentFeed">
+        <div class="commentFeed" id="hooks-<%= userPosts[post].id %>">
+
           <% for (comment of commentsArray[post]) { %>
           <div class="comment">
             <span class="commentUsername"><%= comment.username %>:</span>
