@@ -36,7 +36,7 @@
     <%- include('partials/_header.ejs') %>
     <main class="rounded">
 
-      <h2 class="userTitle"><%= currentLoggedInUsername.username %>'s Page</h2>
+      <h2 class="userTitle"><%= username %>'s Page</h2>
 
       <div>
         <label for="category-filter">Category:</label>
@@ -81,17 +81,16 @@
       <% for (const post in userPosts){ %>
       <div class="hooked-post rounded" name="<%= userPosts[post].category %>">
         <div class="title">
-          <span class="titleSpan"><%= userPosts[post].title %>:</span>
+          <span class="titleSpan"><%= userPosts[post].title %></span>
           <span class="usernameSpan"><%= userPosts[post].username %></span>
         </div>
-        <hr />
+        <hr class="mainHeader">
         <div class="content">
-          <span class="post-description"
-            > <%= userPosts[post].description %></span
-          >
+          <span class="post-description">
+           <%= userPosts[post].description %></span>
           <br>
-          <span class="post-content"
-            ><a href="<%= userPosts[post].content %>"><%= userPosts[post].content %></a>
+          <span class="post-content">
+            <a href="<%= userPosts[post].content %>"><%= userPosts[post].content %></a>
           </span>
         </div>
 

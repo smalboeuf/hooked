@@ -53,10 +53,10 @@
         <% for (const post in userPosts){ %>
           <div class="hooked-post rounded" name="<%= userPosts[post].category %>">
           <div class="title">
-              <span class="titleSpan"><%= userPosts[post].title %>:</span>
+              <span class="titleSpan"><%= userPosts[post].title %></span>
               <span class="usernameSpan"><%= userPosts[post].username %></span>
             </div>
-            <hr>
+            <hr class="mainHeader">
             <div class="content">
               <span class="post-description">Description: <%= userPosts[post].description %></span>
               <span class="post-content">Content:

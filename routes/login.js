@@ -36,16 +36,6 @@ module.exports = () => {
             Promise.all(postLikesPromise).then(
               postLikes => {
 
-                // for (let i = 0; i < postLikes.length; i++){
-                //   if (!postLikes[i]) {
-                //     postLikes[i] = 0;
-                //   } else {
-                //     postLikes[i] = postLikes[i].love;
-                //   }
-                // }
-                // console.log(postLikes);
-
-
                 if (req.session.userId) {
 
                   findUsernameBasedOnId(req.session.userId.id).then(
