@@ -34,6 +34,8 @@
   height: 3.5rem;
 }
 
+
+
 .hook-ratings {
   display: flex;
   flex-direction: row;
@@ -51,7 +53,7 @@
   padding: 1em;
   display: flex;
   flex-direction: column;
-  background-color: whitesmoke;
+  background-color:  rgb(213, 233, 250);
 }
 
 #ratingNumb {

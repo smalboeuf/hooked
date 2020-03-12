@@ -26,14 +26,26 @@ module.exports = () => {
       }
       Promise.all(commentsPromise).then(
         values => {
-          findUsernameBasedOnId(1).then(result => {
+
             const postUsername = result.username;
 
             for (const post of posts) {
+
               postLikesPromise.push(howManyPeopleLike(post.id));
             }
             Promise.all(postLikesPromise).then(
               postLikes => {
+
+                // for (let i = 0; i < postLikes.length; i++){
+                //   if (!postLikes[i]) {
+                //     postLikes[i] = 0;
+                //   } else {
+                //     postLikes[i] = postLikes[i].love;
+                //   }
+                // }
+                // console.log(postLikes);
+
+
                 if (req.session.userId) {
 
                   findUsernameBasedOnId(req.session.userId.id).then(
@@ -42,7 +54,6 @@ module.exports = () => {
                         templateVars = {
                           id: req.session.userId,
                           userPosts: posts,
-                          username: postUsername,
                           commentsArray: values,
                           likesArray: postLikes,
                           categories: categories,
@@ -59,7 +70,6 @@ module.exports = () => {
                     templateVars = {
                       id: req.session.userId,
                       userPosts: posts,
-                      username: postUsername,
                       commentsArray: values,
                       likesArray: postLikes,
                       categories: categories,
@@ -71,8 +81,6 @@ module.exports = () => {
                 }
               }
             );
-          }
-          );
         }
       );
 

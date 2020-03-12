@@ -14,6 +14,7 @@
 
     <!-- Stylings -->
     <link rel="stylesheet" href="/styles/combined.css">
+    <link href="https://fonts.googleapis.com/css?family=Sen&display=swap" rel="stylesheet">
 
     <title>hooked - Edit Profile</title>
   </head>
@@ -29,6 +30,7 @@
             name="username"
             class="form-control"
             placeholder="Enter Username"
+            value="<%= currentLoggedInUsername.username %>"
           />
         </div>
         <div class="form-group">
@@ -37,6 +39,7 @@
             name="email"
             class="form-control"
             placeholder="Enter email"
+            value="<%= userInfo.email %>"
           />
         </div>
         <div class="form-group">
@@ -45,6 +48,7 @@
             name="password"
             class="form-control"
             placeholder="Password"
+            value=""
           />
         </div>
         <div>

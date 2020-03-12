@@ -1,8 +1,8 @@
 
 
-$(document).ready(function() {
+$(document).ready(function () {
 
-  $('select.category-filter').change(function(){
+  $('select.category-filter').change(function () {
 
     let selectedCategory = $(this).children("option:selected").val();
 
@@ -14,7 +14,7 @@ $(document).ready(function() {
       } else {
         $(this).slideDown();
       }
-  });
+    });
 
     // for (const ele of $('#hooksContainer').childNodes)
     //   if (ele.attribute.name === selectedCategory) {
@@ -24,5 +24,7 @@ $(document).ready(function() {
     //   }
 
   });
+
+
 
 });

@@ -28,18 +28,20 @@ const addNewComment = function (username, postId) {
   $("#commentBox").val("");
 }
 
+const processPost = function() {
+  let postData;
+  $.ajax({
+    method: 'POST',
+    url: '',
+    data: postData
+  }).done(
+    result => {
+      createPost(result);
+    }
+  );
 
-// const newPost = function (userId) {
-//   let postData;
-//   $.ajax({
-//     method: "POST",
-//     url: `http://localhost:8080/user/${userId}/newPost`,
-//     data: postData
-//   })
-//     .done(result => {
-//       console.log(result);
-//     })
-// }
+}
+
 
 const setUsername = function (userId, element) {
   let postData;
@@ -63,7 +65,6 @@ const loadPosts = function (postArray) {
 }
 
 // const addToPosts = function ()
-
 const getComments = function (postId, commentsElement) {
 
   let postData;
@@ -195,12 +196,14 @@ const amountOfLikes = function (postId, element) {
 }
 
 const renderLikes = function (amountOfLikes, element) {
+  console.log('renderlikes', amountOfLikes)
   element.text(amountOfLikes.love);
 }
 
 const likePost = function (postId, element) {
-  $(".fa-thumbs-up").toggleClass("toggleBlue");
-  $(".numbOfLikes").toggleClass("toggleBlue");
+  $(element).toggleClass("toggleBlue");
+  $(element).siblings(".numbOfLikes").toggleClass("toggleBlue");
+  // $(".numbOfLikes").toggleClass("toggleBlue");
 
   //Increment 1 to the amount of likes this post has
   //After render it again
@@ -218,12 +221,15 @@ const likePost = function (postId, element) {
     });
 
   } else {
+
+
     let postData;
     $.ajax({
       method: 'POST',
       url: `http://localhost:8080/${postId}/increaseLikes`,
       data: postData
     }).done(() => {
+      console.log("testing again");
       amountOfLikes(postId, $(element).siblings(".numbOfLikes"))
     });
   }

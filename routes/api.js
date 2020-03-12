@@ -10,7 +10,7 @@ router.use(cookieSession({
 }));
 
 
-const { myPosts, postComments, findUsernameBasedOnId, howManyPeopleLike, incrementLikes, decreaseLikes, addComment } = require('../db/helpers');
+const { myPosts, postComments, findUsernameBasedOnId, howManyPeopleLike, incrementLikes, decreaseLikes, addComment, newPost, getPostInfo, deletePost } = require('../db/helpers');
 
 module.exports = () => {
 
@@ -26,8 +26,8 @@ module.exports = () => {
     });
   })
 
-  router.get("/user/:postid/comments", (req, res) => {
-    postComments(req.params.postid).then(result => {
+  router.get("/user/:postId/comments", (req, res) => {
+    postComments(req.params.postId).then(result => {
       res.send(result);
     })
   });
@@ -38,44 +38,42 @@ module.exports = () => {
     })
   });
 
-  router.get("/:postid/likes", (req, res) => {
-    howManyPeopleLike(req.params.postid).then(result => {
+  router.get("/:postId/likes", (req, res) => {
+    howManyPeopleLike(req.params.postId).then(result => {
       res.send(result);
     })
   });
 
-  router.post("/:postid/increaseLikes", (req, res) => {
-    incrementLikes(req.session.userId.id, req.params.postid).then(result => {
+  router.post("/:postId/increaseLikes", (req, res) => {
+    incrementLikes(req.session.userId.id, req.params.postId).then(result => {
       res.send(result);
+      getPostInfo(req.params.postId).then(postInfo => {
+        newPost(postInfo.title, postInfo.description, req.session.userId.id, postInfo.category_id, postInfo.content).then(res => res.send(postInfo));
+
+      })
     });
   });
 
-  router.post("/:postid/decreaseLikes", (req, res) => {
-    decreaseLikes(req.session.userId.id, req.params.postid).then(result => {
+  router.post("/:postId/decreaseLikes", (req, res) => {
+    decreaseLikes(req.session.userId.id, req.params.postId).then(result => {
       res.send(result);
+      getPostInfo(req.params.postId).then( postInfo => {
+        deletePost(postInfo.id);
+      });
     });
   });
 
-  router.post("/user/:postid/comments/:commentContent", (req, res) => {
+  router.post("/user/:postId/comments/:commentContent", (req, res) => {
     console.log("content", req.params.commentContent);
     console.log("userid", req.session.userId.id);
-    console.log("postid", req.params.postid);
+    console.log("postId", req.params.postId);
 
-    addComment(req.params.commentContent, req.session.userId.id, req.params.postid).then(result => {
+    addComment(req.params.commentContent, req.session.userId.id, req.params.postId).then(result => {
       res.send(result);
     });
   });
 
-  //Implement loading user into their page
 
-  router.get("/:username", (req, res) => {
-
-  });
-
-
-  router.get("/search/:searchContent", (req, res) => {
-
-  });
 
   return router;
 }

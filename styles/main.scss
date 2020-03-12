@@ -12,6 +12,15 @@ main {
   justify-content: center;
   align-items: center;
   background-color: white;
+  border: solid rgb(187, 158, 118);
+  border-width: 0.25em;
+  padding-bottom: 1em;
+
+}
+
+.createPost {
+  border: solid rgb(187, 158, 118);
+  border-width: 0.25em;
 }
 
 .searchDiv {
@@ -55,4 +64,12 @@ form {
 
 .fa-thumbs-up:hover {
   cursor: pointer;
+}
+
+.userTitle {
+  margin: 1em;
+}
+
+.categoryDiv {
+  margin-bottom: 1em;
 }

@@ -1,3 +1,7 @@
+body {
+  font-family: 'Sen', sans-serif;
+}
+
 .hooked-feed {
   display: flex;
   flex-direction: column;
@@ -18,8 +22,14 @@
   background-color: white;
   padding: 3em;
   overflow: visible;
-  // border: solid #ffc107;
+  border: solid rgb(187, 158, 118);
+  border-width: 0.25em;
 }
+
+.comment:hover {
+  box-shadow: 5px 7px rgb(184, 199, 222);
+}
+
 
 .title {
   display: flex;
@@ -29,6 +39,8 @@
 .content {
   display: flex;
   flex-direction: column;
+  padding-top: 1.5em;
+  padding-bottom: 1.5em;
 }
 
 #commentBox {
@@ -40,7 +52,7 @@
 }
 
 .post-content {
-
+  word-break: break-word;
 }
 
 .hook-ratings {
@@ -64,7 +76,7 @@
   padding: 1em;
   display:flex;
   flex-direction: column;
-  background-color: whitesmoke;
+  background-color:  rgb(213, 233, 250);
 }
 
 #ratingNumb {

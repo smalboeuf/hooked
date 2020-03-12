@@ -2,6 +2,7 @@ const db = require('./index');
 const bcrypt = require('bcrypt');
 
 const howManyPeopleLike = function (hookId) {
+  console.log('hookid from howmanypeplike', hookId)
   const queryStr = `
   select hook_id, likes.favourite, count(favourite) as love
   from likes
@@ -9,7 +10,12 @@ const howManyPeopleLike = function (hookId) {
   group by hook_id, likes.favourite
   `
   return db.query(queryStr, [hookId])
-    .then(res => res.rows[0])
+    .then(res => {
+      if (!res.rows[0]) {
+        return {hook_id: hookId, love: 0}
+      } else {
+        return res.rows[0]}
+      })
 };
 // exports.howManyPeopleLike = howManyPeopleLike;
 
@@ -48,14 +54,23 @@ const myPosts = function (userId) {
 
 };
 
-const newPost = function (title, description, userId, content) {
+const newPost = function (title, description, userId, categoryId, content) {
   const queryStr = `
-  INSERT INTO hooks (title, description, user_id, content)
-  VALUES ($1, $2, $3, $4)
+  INSERT INTO hooks (title, description, user_id, category_id, content)
+  VALUES ($1, $2, $3, $4, $5)
   RETURNING *;
   `
-  return db.query(queryStr, [title, description, userId, content])
+  return db.query(queryStr, [title, description, userId, categoryId, content])
     .then(res => res.rows)
+}
+
+const deletePost = function (postId) {
+  const queryStr = `
+  DELETE FROM hooks
+  WHERE id = $1;
+  `;
+
+  return db.query(queryStr, [postId]).then(res => res.rows);
 }
 
 const postComments = function (postId) {
@@ -70,6 +85,17 @@ const postComments = function (postId) {
     .then(res => res.rows);
 }
 // exports.myPosts = myPosts;
+
+const getPostInfo = function (postId) {
+  const queryStr = `
+  SELECT *
+  FROM hooks
+  WHERE id = $1
+  `;
+  return db.query(queryStr, [postId])
+  .then(res => res.rows[0]);
+}
+
 
 const search = function (whatAUserIsLookingFor) {
   const queryStr = `
@@ -218,27 +244,6 @@ const getCategories = function () {
     .then(res => res.rows)
 }
 
-const getCategoryId = function (name) {
-  const queryStr = `
-  SELECT id
-  FROM categories
-  WHERE name = $1
-  `
-  return db.query(queryString, [name])
-  .then(res => res.rows[0])
-}
-
-const showCategory = function (id) {
-  const queryString = `
-  SELECT hooks.id
-  FROM hooks
-  JOIN categories ON hook_id = hooks.id
-  WHERE category_id = $1
-  `
-  return db.query(queryString, [id])
-  .then(res => res.rows)
-}
-
 const incrementLikes = function (userId, hookId) {
   const queryStr = `
       INSERT INTO likes (user_id, hook_id, favourite)
@@ -257,7 +262,7 @@ const decreaseLikes = function (userId, hookId) {
   return db.query(queryStr, [userId, hookId]);
 }
 
-const allHooks = function() {
+const allHooks = function () {
   const queryStr = `
     SELECT hooks.id, hooks.title, description, content, categories.name AS Category, users.username AS username, AVG(rating) AS rating
     FROM hooks
@@ -265,27 +270,63 @@ const allHooks = function() {
     left JOIN users ON users.id = hooks.user_id
     left JOIN ratings ON ratings.hook_id = hooks.id
     GROUP BY hooks.id, hooks.title, description, hooks.content, categories.name, users.username
+    ORDER BY id DESC;
     `
-    return db.query(queryStr)
+  return db.query(queryStr)
     .then(res => res.rows)
-  }
+}
 
-  const addComment = function (commentContent, userId, hookId) {
-    const queryStr = `
+const myHooks = function(id) {
+  const queryStr = `
+    SELECT hooks.id, hooks.title, description, content, categories.name AS Category, users.username AS username, AVG(rating) AS rating
+    FROM hooks
+    left JOIN categories ON hooks.category_id = categories.id
+    left JOIN users ON users.id = hooks.user_id
+    left JOIN ratings ON ratings.hook_id = hooks.id
+    WHERE hooks.user_id = $1
+    GROUP BY hooks.id, hooks.title, description, hooks.content, categories.name, users.username
+    `
+    return db.query(queryStr, [id])
+    .then(res => res.rows)
+}
+
+const getUserInfo = function (userId) {
+  const queryStr = `
+  SELECT *
+  FROM users
+  WHERE id = $1
+  `;
+
+  return db.query(queryStr, [userId]).then(res => res.rows[0]);
+}
+
+const addComment = function (commentContent, userId, hookId) {
+  const queryStr = `
     INSERT INTO comments (comment, user_id, hook_id)
     VALUES ($1, $2, $3)
     `;
 
-    return db.query(queryStr, [commentContent, userId, hookId]);
-  }
+  return db.query(queryStr, [commentContent, userId, hookId]);
+}
+
+const getUserInfoByUsername = function (username) {
+  const queryStr = `
+  SELECT *
+  FROM users
+  WHERE username = $1
+  `;
+
+  return db.query(queryStr, [username]).then(res => res.rows[0]);
+}
 
 
 
 
-module.exports = { addUser,
+module.exports = {
+  addUser,
   howManyPeopleLike,
   avgRatings, myLikes,
   newPost, myPosts, allHooks,
   isAnExistingUser,
-  search, rateTheHook,
-  correctEmail, correctPassword, postComments, findUsernameBasedOnId, incrementLikes, decreaseLikes, addComment, getCategories, profileEditor }
+  search, rateTheHook, myHooks,
+  correctEmail, correctPassword, postComments, findUsernameBasedOnId, incrementLikes, decreaseLikes, addComment, getCategories, profileEditor, getUserInfo, getPostInfo, deletePost, getUserInfoByUsername }
