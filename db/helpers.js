@@ -11,10 +11,11 @@ const howManyPeopleLike = function (hookId) {
   return db.query(queryStr, [hookId])
     .then(res => {
       if (!res.rows[0]) {
-        return {hook_id: hookId, love: 0}
+        return { hook_id: hookId, love: 0 }
       } else {
-        return res.rows[0]}
-      })
+        return res.rows[0]
+      }
+    })
 };
 // exports.howManyPeopleLike = howManyPeopleLike;
 
@@ -37,13 +38,13 @@ const userLikesThisHook = function (userId, hookId) {
 
 const avgRatings = function (hookId) {
   const queryStr = `
-    SELECT AVG(ratings) AS rating
+    SELECT round(avg(rating), 1)
     FROM ratings
     WHERE hook_id = $1
   `
   return db.query(queryStr, [hookId])
-    .then(res => res.rows[0])
-
+    .then(res =>
+      res.rows[0])
 };
 // exports.avgRatings = avgRatings;
 
@@ -109,7 +110,7 @@ const getPostInfo = function (postId) {
   WHERE id = $1
   `;
   return db.query(queryStr, [postId])
-  .then(res => res.rows[0]);
+    .then(res => res.rows[0]);
 }
 
 
@@ -309,7 +310,7 @@ const allHooks = function () {
     .then(res => res.rows)
 }
 
-const myHooks = function(id) {
+const myHooks = function (id) {
   const queryStr = `
     SELECT hooks.id, hooks.title, description, content, categories.name AS Category, users.username AS username, AVG(rating) AS rating
     FROM hooks
@@ -321,7 +322,7 @@ const myHooks = function(id) {
     GROUP BY hooks.id, hooks.title, description, hooks.content, categories.name, users.username
     ORDER BY hooks.id DESC;
     `
-    return db.query(queryStr, [id])
+  return db.query(queryStr, [id])
     .then(res => res.rows)
 }
 
@@ -344,6 +345,16 @@ const addComment = function (commentContent, userId, hookId) {
   return db.query(queryStr, [commentContent, userId, hookId]);
 }
 
+const getUserInfoByUsername = function (username) {
+  const queryStr = `
+  SELECT *
+  FROM users
+  WHERE username = $1
+  `;
+
+  return db.query(queryStr, [username]).then(res => res.rows[0]);
+}
+
 
 
 
@@ -354,8 +365,5 @@ module.exports = {
   newPost, myPosts, allHooks,
   isAnExistingUser, userLikesThisHook,
   search, rateTheHook, myHooks,
-  correctEmail, correctPassword,
-  postComments, findUsernameBasedOnId,
-  incrementLikes, decreaseLikes, addComment,
-  getCategories, profileEditor, getUserInfo,
-  getPostInfo, deletePost }
+  correctEmail, correctPassword, postComments, findUsernameBasedOnId, incrementLikes, decreaseLikes, addComment, getCategories, profileEditor, getUserInfo, getPostInfo, deletePost, getUserInfoByUsername
+}

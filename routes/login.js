@@ -9,7 +9,7 @@ router.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000
 }));
 
-const { allHooks, correctEmail, correctPassword, myPosts, findUsernameBasedOnId, postComments, howManyPeopleLike, getCategories } = require('../db/helpers');
+const { allHooks, correctEmail, correctPassword, myPosts, avgRatings, findUsernameBasedOnId, postComments, howManyPeopleLike, getCategories } = require('../db/helpers');
 
 module.exports = () => {
 
@@ -18,6 +18,7 @@ module.exports = () => {
     let posts;
     let commentsPromise = [];
     let postLikesPromise = [];
+    let ratingsPromise = [];
 
     allHooks().then(result => {
       posts = result;
@@ -27,60 +28,80 @@ module.exports = () => {
       Promise.all(commentsPromise).then(
         values => {
 
-            const postUsername = result.username;
+          const postUsername = result.username;
 
-            for (const post of posts) {
+          for (const post of posts) {
 
-              postLikesPromise.push(howManyPeopleLike(post.id));
-            }
-            Promise.all(postLikesPromise).then(
-              postLikes => {
+            postLikesPromise.push(howManyPeopleLike(post.id));
+          }
+          Promise.all(postLikesPromise).then(
+            postLikes => {
 
-                // for (let i = 0; i < postLikes.length; i++){
-                //   if (!postLikes[i]) {
-                //     postLikes[i] = 0;
-                //   } else {
-                //     postLikes[i] = postLikes[i].love;
-                //   }
-                // }
-                // console.log(postLikes);
+              // for (let i = 0; i < postLikes.length; i++){
+              //   if (!postLikes[i]) {
+              //     postLikes[i] = 0;
+              //   } else {
+              //     postLikes[i] = postLikes[i].love;
+              //   }
+              // }
+              // console.log(postLikes);
 
 
-                if (req.session.userId) {
+              if (req.session.userId) {
 
-                  findUsernameBasedOnId(req.session.userId.id).then(
-                    user => {
-                      getCategories().then(categories => {
+                findUsernameBasedOnId(req.session.userId.id).then(
+                  user => {
+                    getCategories().then(categories => {
+
+                      for (const post of posts) {
+                        ratingsPromise.push(avgRatings(post.id));
+                      }
+
+                      Promise.all(ratingsPromise).then(avgRatingArray => {
+
                         templateVars = {
                           id: req.session.userId,
                           userPosts: posts,
                           commentsArray: values,
                           likesArray: postLikes,
                           categories: categories,
-                          currentLoggedInUsername: user
+                          currentLoggedInUsername: user,
+                          avgRatings: avgRatingArray
                         };
+                        console.log(avgRatingArray);
                         res.render("index", templateVars);
-                      }
-                      );
+                      })
 
-                    });
-                } else {
+                    }
+                    );
 
-                  getCategories().then(categories => {
+                  });
+              } else {
+
+                getCategories().then(categories => {
+
+                  for (const post of posts) {
+                    ratingsPromise.push(avgRatings(post.id));
+                  }
+                  Promise.all(ratingsPromise).then(avgRatingArray => {
+
                     templateVars = {
                       id: req.session.userId,
                       userPosts: posts,
                       commentsArray: values,
                       likesArray: postLikes,
                       categories: categories,
-                      currentLoggedInUsername: undefined
+                      currentLoggedInUsername: undefined,
+                      avgRatings: avgRatingArray
                     };
+
                     res.render("index", templateVars);
-                  }
-                  );
+                  })
                 }
+                );
               }
-            );
+            }
+          );
         }
       );
 
@@ -122,6 +143,8 @@ module.exports = () => {
     req.session = null;
     res.redirect("/login");
   });
+
+
 
   return router;
 };

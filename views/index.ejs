@@ -13,9 +13,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
   <!-- Stylings -->
-  <link rel="stylesheet" href="/styles/header.css" type="text/css">
-  <link rel="stylesheet" href="/styles/main.css">
-  <link rel="stylesheet" href="/styles/hooked-feed.css">
+
+  <link rel="stylesheet" href="/styles/combined.css">
+  <link href="https://fonts.googleapis.com/css?family=Sen&display=swap" rel="stylesheet">
+
 
    <!-- External JS -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -24,6 +25,7 @@
   <script src="/scripts/events.js"></script>
   <script type='text/javascript' src="/scripts/filter.js"></script>
   <script type='text/javascript' src="/scripts/search.js"></script>
+
 
 </head>
 <body>
@@ -52,23 +54,39 @@
         <% for (const post in userPosts){ %>
           <div class="hooked-post rounded" name="<%= userPosts[post].category %>">
           <div class="title">
-              <span class="titleSpan"><%= userPosts[post].title %>:</span>
+              <span class="titleSpan"><%= userPosts[post].title %></span>
               <span class="usernameSpan"><%= userPosts[post].username %></span>
             </div>
-            <hr>
+            <hr class="mainHeader">
             <div class="content">
               <span class="post-description">Description: <%= userPosts[post].description %></span>
               <span class="post-content">Content:
-                <%= userPosts[post].content %>
+              <a href="<%= userPosts[post].content%>"><%= userPosts[post].content %> </a>
               </span>
             </div>
 
           <% if(id) { %>
             <hr>
             <div class="hook-ratings">
-              <div class="rating">
-              <input type="number" min="0" max="5"> /5 Stars
+              <div class="avgRating">
+                <div class="rating">
+                  <span class="avgRating">Rating:
+                    <% if (avgRatings[post].round) { %>
+                      <%=avgRatings[post].round %>
+                    <% } else { %>
+                      0
+                    <% } %>
+
+                    </span>
+                </div>
+                <div class="ratingInputs">
+                <form class="rate-post" method="POST" action="/posts/<%= userPosts[post].id %>/rating">
+                  <input class="ratingValue"  name="rating" value="0" type="number" min="0" max="5"> /5 Stars
+                  <button onclick="makeNewRating(<%= userPosts[post].id %>, this)" class="addRatingSubmit" type="submit" class="btn btn-primary" >Rate Post</button>
+                </form>
               </div>
+              </div>
+
               <div>
               <span onclick="likePost(<%= userPosts[post].id %>, this)" class="fa fa-thumbs-up"></span> <span class="numbOfLikes"> <% if (likesArray[post]) { %>
                 <%= likesArray[post].love %>
@@ -81,13 +99,13 @@
 
             <div class="addComment">
               <span>Add Comment:</span>
-              <textarea name="comment" id="commentBox" cols="20" rows="10"></textarea>
-              <button onclick="addNewComment('<%= currentLoggedInUsername.username %>', <%= Number(post+1) %>)" id="addNewComment" value="Hook a comment!">Hook a comment!</button>
+              <textarea name="comment" id="commentBox-<%= userPosts[post].id %>" cols="20" rows="10"></textarea>
+              <button onclick="addNewComment('<%= currentLoggedInUsername.username %>', <%= userPosts[post].id %>)" class="addNewComment" value="Hook a comment!">Hook a comment!</button>
               <br>
               <span>Comments: </span>
             </div>
           <% } %>
-          <div class="commentFeed">
+          <div class="commentFeed" id="hooks-<%= userPosts[post].id %>">
 
             <% for (comment of commentsArray[post]) { %>
               <div class="comment">

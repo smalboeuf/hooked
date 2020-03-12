@@ -10,25 +10,58 @@ $(document).ready(function () {
     })
   });
 
+
+  $('.addRatingSubmit').on("click", function(event) {
+    event.preventDefault();
+  });
+
+
 });
 
+const makeNewRating = function (postId, element) {
+
+
+  const ratingNumb = $(element).siblings(".ratingValue").val();
+
+  let postData;
+  $.ajax({
+    method: 'POST',
+    url: `http://localhost:8080/posts/${postId}/rating/${ratingNumb}`,
+    data: postData
+  }).done(() => {
+    $.ajax({
+      method: 'GET',
+      url: `http://localhost:8080/posts/${postId}/rating`,
+      data: postData
+    }).done( result => {
+      const averageRatings = $(element).parents('.rate-post').parents('.ratingInputs').siblings('.rating').children('.avgRating');
+      averageRatings.text("Rating: " + result.round);
+      $('.ratingInputs').hide();
+    }
+    );
+    }
+  );
+}
+
+
+
 const addNewComment = function (username, postId) {
-  let commentContent = $("#commentBox").val();
+  let commentContent = $("#commentBox-"+postId).val();
 
   //Make sure they can only comment if they are logged in
 
   if (commentContent) {
 
-    $(".commentFeed").prepend(createComment(commentContent, username, postId));
+    $("#hooks-"+postId).prepend(createComment(commentContent, username, postId));
   } else {
     console.log("Please input a message to comment");
   }
 
   //Clearing the text area
-  $("#commentBox").val("");
+  $("textarea").val("");
 }
 
-const processPost = function() {
+const processPost = function () {
   let postData;
   $.ajax({
     method: 'POST',
@@ -74,6 +107,22 @@ const getComments = function (postId, commentsElement) {
     data: postData
   })
     .done((result) => renderComments(result, commentsElement));
+}
+
+// Get average rating for a post
+const getAvgRating = function (postId) {
+
+  $.ajax({
+    method: "GET",
+    url: `http://localhost:8080/posts/${postId}/rating`,
+
+  })
+    .done((result) => renderRatings(result.avg));
+}
+
+const renderRatings = function (avg) {
+  $(".avgRating").text(avg)
+  console.log(avg);
 }
 
 

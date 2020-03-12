@@ -1,17 +1,26 @@
 body {
-  background-color: #F9D199;
+  background-color: #fdd8b5;
 }
 
 main {
   margin: 2rem;
   width: 60%;
   display: flex;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left:auto;
+  margin-right:auto;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: white;
+  border: solid rgb(187, 158, 118);
+  border-width: 0.25em;
+  padding-bottom: 1em;
+
+}
+
+.createPost {
+  border: solid rgb(187, 158, 118);
+  border-width: 0.25em;
 }
 
 .searchDiv {
@@ -44,6 +53,7 @@ main {
 form {
   display: flex;
   flex-direction: row;
+
   width: 100%;
   margin: 0;
 }
@@ -54,4 +64,12 @@ form {
 
 .fa-thumbs-up:hover {
   cursor: pointer;
+}
+
+.userTitle {
+  margin: 1em;
+}
+
+.categoryDiv {
+  margin-bottom: 1em;
 }
