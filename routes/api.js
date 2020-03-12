@@ -47,7 +47,7 @@ module.exports = () => {
   router.post("/posts/:postId/rating", (req, res) => {
 
     rateTheHook(req.params.postId, req.body.rating).then()
-    res.redirect("/index")
+    res.redirect("/")
   });
 
   router.get("/posts/:postId/rating", (req, res) => {
