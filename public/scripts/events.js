@@ -10,7 +10,39 @@ $(document).ready(function () {
     })
   });
 
+
+  $('.addRatingSubmit').on("click", function(event) {
+    event.preventDefault();
+  });
+
+
 });
+
+const makeNewRating = function (postId, element) {
+
+
+  const ratingNumb = $(element).siblings(".ratingValue").val();
+
+  let postData;
+  $.ajax({
+    method: 'POST',
+    url: `http://localhost:8080/posts/${postId}/rating/${ratingNumb}`,
+    data: postData
+  }).done(() => {
+    $.ajax({
+      method: 'GET',
+      url: `http://localhost:8080/posts/${postId}/rating`,
+      data: postData
+    }).done( result => {
+      const averageRatings = $(element).parents('.rate-post').parents('.ratingInputs').siblings('.rating').children('.avgRating');
+      averageRatings.text("Rating: " + result.round);
+      $('.ratingInputs').hide();
+    }
+    );
+    }
+  );
+}
+
 
 
 const addNewComment = function (username, postId) {

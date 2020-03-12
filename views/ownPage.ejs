@@ -95,42 +95,44 @@
         </div>
 
         <% if(id) { %>
-        <hr />
-        <div class="hook-ratings">
-          <div class="rating">
-            <input type="number" min="0" max="5" /> /5 Stars
-          </div>
-          <div>
-            <span
-              onclick="likePost(<%= userPosts[post].id %>, this)"
-              class="fa fa-thumbs-up"
-            ></span>
-            <span class="numbOfLikes">
-              <% if (likesArray[post]) { %> <%= likesArray[post].love %> <% }
-              else { %> 0 <% } %></span
-            >
-          </div>
-        </div>
-        <hr />
+          <hr>
+          <div class="hook-ratings">
+            <div class="avgRating">
+              <div class="rating">
+                <span class="avgRating">Rating:
+                  <% if (avgRatings[post].round) { %>
+                    <%=avgRatings[post].round %>
+                  <% } else { %>
+                    0
+                  <% } %>
 
-        <div class="addComment">
-          <span>Add Comment:</span>
-          <textarea
-            name="comment"
-            id="commentBox"
-            cols="20"
-            rows="10"
-          ></textarea>
-          <button
-            onclick="addNewComment('<%= currentLoggedInUsername.username %>', <%= Number(post+1) %>)"
-            id="addNewComment"
-            value="Hook a comment!"
-          >
-            Hook a comment!
-          </button>
-          <br />
-          <span>Comments: </span>
-        </div>
+                  </span>
+              </div>
+              <div class="ratingInputs">
+              <form class="rate-post" method="POST" action="/posts/<%= userPosts[post].id %>/rating">
+                <input class="ratingValue"  name="rating" value="0" type="number" min="0" max="5"> /5 Stars
+                <button onclick="makeNewRating(<%= userPosts[post].id %>, this)" class="addRatingSubmit" type="submit" class="btn btn-primary" >Rate Post</button>
+              </form>
+            </div>
+            </div>
+
+            <div>
+            <span onclick="likePost(<%= userPosts[post].id %>, this)" class="fa fa-thumbs-up"></span> <span class="numbOfLikes"> <% if (likesArray[post]) { %>
+              <%= likesArray[post].love %>
+              <% } else { %>
+                0
+              <% } %></span>
+          </div>
+          </div>
+          <hr>
+
+          <div class="addComment">
+            <span>Add Comment:</span>
+            <textarea name="comment" id="commentBox" cols="20" rows="10"></textarea>
+            <button onclick="addNewComment('<%= currentLoggedInUsername.username %>', <%= Number(post+1) %>)" id="addNewComment" value="Hook a comment!">Hook a comment!</button>
+            <br>
+            <span>Comments: </span>
+          </div>
         <% } %>
         <div class="commentFeed">
           <% for (comment of commentsArray[post]) { %>

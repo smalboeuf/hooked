@@ -39,21 +39,20 @@ module.exports = () => {
   });
 
   router.get("/:postId/likes", (req, res) => {
-    howManyPeopleLike(req.params.postId).then(result => {
-      res.send(result);
-    })
+    howManyPeopleLike(req.params.postId).then();
   });
 
-  router.post("/posts/:postId/rating", (req, res) => {
+  router.post("/posts/:postId/rating/:ratingNumber", (req, res) => {
 
-    rateTheHook(req.params.postId, req.body.rating).then()
-    res.redirect("/")
+    rateTheHook(req.params.postId, req.params.ratingNumber).then( result =>{
+      res.send(result);
+      }
+    );
   });
 
   router.get("/posts/:postId/rating", (req, res) => {
     console.log(req.params.postId)
     avgRatings(req.params.postId).then(result => {
-
       res.send(result);
     });
 

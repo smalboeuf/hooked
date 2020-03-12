@@ -9,7 +9,7 @@ router.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000
 }));
 
-const { profileEditor, myHooks, newPost, getCategories, allHooks, postComments, findUsernameBasedOnId, howManyPeopleLike, getUserInfo, getUserInfoByUsername } = require('../db/helpers')
+const { profileEditor, myHooks, newPost, getCategories, allHooks, postComments, findUsernameBasedOnId, howManyPeopleLike, getUserInfo, getUserInfoByUsername, avgRatings } = require('../db/helpers')
 
 module.exports = () => {
 
@@ -19,6 +19,7 @@ module.exports = () => {
     let posts;
     let commentsPromise = [];
     let postLikesPromise = [];
+    let ratingsPromise = [];
 
     myHooks(req.session.userId.id).then(result => {
       posts = result;
@@ -40,17 +41,27 @@ module.exports = () => {
                   findUsernameBasedOnId(req.session.userId.id).then(
                     user => {
                       getCategories().then(categories => {
-                        templateVars = {
-                          id: req.session.userId.id,
-                          userPosts: posts,
-                          username: postUsername,
-                          commentsArray: values,
-                          likesArray: postLikes,
-                          categories: categories,
-                          currentLoggedInUsername: user
-                        };
-                        console.log('userspost', templateVars.userPosts)
-                        res.render("ownPage", templateVars);
+
+                        for (const post of posts) {
+                          ratingsPromise.push(avgRatings(post.id));
+                        }
+                        Promise.all(ratingsPromise).then(
+                          avgRatingArray => {
+
+                            templateVars = {
+                              id: req.session.userId.id,
+                              userPosts: posts,
+                              username: postUsername,
+                              commentsArray: values,
+                              likesArray: postLikes,
+                              categories: categories,
+                              currentLoggedInUsername: user,
+                              avgRatings: avgRatingArray
+                            };
+
+                            res.render("ownPage", templateVars);
+                          }
+                        )
                       }
                       );
 
@@ -58,16 +69,27 @@ module.exports = () => {
                 } else {
 
                   getCategories().then(categories => {
-                    templateVars = {
-                      id: req.session.userId,
-                      userPosts: posts,
-                      username: postUsername,
-                      commentsArray: values,
-                      likesArray: postLikes,
-                      categories: categories,
-                      currentLoggedInUsername: undefined
-                    };
-                    res.render("ownPage", templateVars);
+
+                    for (const post of posts) {
+                      ratingsPromise.push(avgRatings(post.id));
+                    }
+
+                    Promise.all(ratingsPromise).then(
+                      avgRatingArray => {
+                        templateVars = {
+                          id: req.session.userId,
+                          userPosts: posts,
+                          username: postUsername,
+                          commentsArray: values,
+                          likesArray: postLikes,
+                          categories: categories,
+                          currentLoggedInUsername: undefined,
+                          avgRatings: avgRatingArray
+                        };
+                        res.render("ownPage", templateVars);
+                      }
+
+                    )
                   }
                   );
                 }
@@ -132,6 +154,7 @@ module.exports = () => {
     let posts;
     let commentsPromise = [];
     let postLikesPromise = [];
+    let ratingsPromise = [];
 
 
     myHooks(userInfo.id).then(result => {
@@ -154,17 +177,26 @@ module.exports = () => {
                   findUsernameBasedOnId(req.session.userId.id).then(
                     user => {
                       getCategories().then(categories => {
-                        templateVars = {
-                          id: req.session.userId.id,
-                          userPosts: posts,
-                          username: postUsername,
-                          commentsArray: values,
-                           likesArray: postLikes,
-                          categories: categories,
-                          currentLoggedInUsername: user
-                        };
-                        console.log(templateVars);
-                        res.render("ownPage", templateVars);
+
+                        for (const post of posts) {
+                          ratingsPromise.push(avgRatings(post.id));
+                        }
+
+                        Promise.all(ratingsPromise).then(
+                          avgRatingArray => {
+                            templateVars = {
+                              id: req.session.userId,
+                              userPosts: posts,
+                              commentsArray: values,
+                              likesArray: postLikes,
+                              categories: categories,
+                              currentLoggedInUsername: user,
+                              avgRatings: avgRatingArray
+                            };
+
+                            res.render("index", templateVars);
+                          }
+                        )
                       }
                       );
 
@@ -172,17 +204,30 @@ module.exports = () => {
                 } else {
 
                   getCategories().then(categories => {
-                    templateVars = {
-                      id: req.session.userId,
-                      userPosts: posts,
-                      username: postUsername,
-                      commentsArray: values,
-                      likesArray: postLikes,
-                      categories: categories,
-                      currentLoggedInUsername: undefined
-                    };
-                    console.log(templateVars);
-                    res.render("ownPage", templateVars);
+
+
+                    for (const post of posts) {
+                      ratingsPromise.push(avgRatings(post.id));
+                    }
+
+                    Promise.all(ratingsPromise).then(
+                      avgRatingArray => {
+                        templateVars = {
+                          id: req.session.userId,
+                          userPosts: posts,
+                          username: postUsername,
+                          commentsArray: values,
+                          likesArray: postLikes,
+                          categories: categories,
+                          currentLoggedInUsername: undefined,
+                          avgRatings: avgRatingArray
+                        };
+                        console.log(templateVars);
+                        res.render("ownPage", templateVars);
+                      }
+                    )
+
+
                   }
                   );
                 }
