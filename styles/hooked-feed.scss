@@ -22,7 +22,7 @@ body {
   background-color: white;
   padding: 3em;
   overflow: visible;
-  border: solid rgb(187, 158, 118);
+  border: solid rgb(136, 115, 85);
   border-width: 0.25em;
 }
 
@@ -54,15 +54,8 @@ body {
   flex-direction: column;
 }
 
-.post-description {
-
-}
 .ratingValue {
   min-width: 1rem;
-}
-
-.addRatingSubmit {
-
 }
 
 .post-content {
@@ -79,10 +72,6 @@ body {
   display: flex;
   flex-direction: column;
   margin-bottom: 1em;
-}
-
-.commentFeed {
-
 }
 
 .comment {
@@ -104,5 +93,5 @@ body {
 
 .hooked-post .mainHeader {
   height: 3px;
-  background-color: rgb(187, 158, 118);
+  background-color: rgb(136, 115, 85);
 }

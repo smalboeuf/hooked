@@ -102,8 +102,6 @@ module.exports = () => {
 
     }
     );
-    // const templateVars = { id: req.session.userId };
-    // res.render("ownPage", templateVars);
   });
 
   router.post("/ownPage", (req, res) => {
@@ -124,14 +122,17 @@ module.exports = () => {
 
       getUserInfo(req.session.userId.id).then(userInfo => {
 
-        const templateVars = { id: req.session.userId, currentLoggedInUsername: user, userInfo: userInfo };
-
-      res.render("editProfile", templateVars);
+        if (req.session.userId) {
+          const templateVars = { id: req.session.userId, currentLoggedInUsername: user, userInfo: userInfo };
+          console.log(templateVars);
+          res.render("editProfile", templateVars);
+        } else {
+          const templateVars = { id: req.session.userId, currentLoggedInUsername: undefined, userInfo: userInfo };
+          res.render("editProfile", templateVars);
+        }
       })
       }
     );
-
-
   });
 
   router.post("/editProfile", (req, res) => {
@@ -139,14 +140,13 @@ module.exports = () => {
     const { username, email, password } = req.body;
 
     profileEditor(userId, username, email, password)
-      .then(() => res.render('editProfile', req.session.userId))
+      .then(() => res.redirect('/ownPage'))
 
   });
 
 
   router.get("/profile/:username", (req, res) => {
 
-    console.log(req.next);
 
     getUserInfoByUsername(req.params.username).then( userInfo => {
 
@@ -187,6 +187,7 @@ module.exports = () => {
                             templateVars = {
                               id: req.session.userId,
                               userPosts: posts,
+                              username: postUsername,
                               commentsArray: values,
                               likesArray: postLikes,
                               categories: categories,
@@ -194,7 +195,7 @@ module.exports = () => {
                               avgRatings: avgRatingArray
                             };
 
-                            res.render("index", templateVars);
+                            res.render("ownPage", templateVars);
                           }
                         )
                       }
@@ -222,7 +223,6 @@ module.exports = () => {
                           currentLoggedInUsername: undefined,
                           avgRatings: avgRatingArray
                         };
-                        console.log(templateVars);
                         res.render("ownPage", templateVars);
                       }
                     )
