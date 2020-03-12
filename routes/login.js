@@ -9,7 +9,7 @@ router.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000
 }));
 
-const { allHooks, correctEmail, correctPassword, myPosts, findUsernameBasedOnId, postComments, howManyPeopleLike, getCategories } = require('../db/helpers');
+const { allHooks, correctEmail, correctPassword, myPosts, avgRatings, findUsernameBasedOnId, postComments, howManyPeopleLike, getCategories } = require('../db/helpers');
 
 module.exports = () => {
 
@@ -18,6 +18,7 @@ module.exports = () => {
     let posts;
     let commentsPromise = [];
     let postLikesPromise = [];
+    let ratingsPromise = [];
 
     allHooks().then(result => {
       posts = result;
@@ -51,15 +52,26 @@ module.exports = () => {
                 findUsernameBasedOnId(req.session.userId.id).then(
                   user => {
                     getCategories().then(categories => {
-                      templateVars = {
-                        id: req.session.userId,
-                        userPosts: posts,
-                        commentsArray: values,
-                        likesArray: postLikes,
-                        categories: categories,
-                        currentLoggedInUsername: user
-                      };
-                      res.render("index", templateVars);
+
+                      for (const post of posts) {
+                        ratingsPromise.push(avgRatings(post.id));
+                      }
+
+                      Promise.all(ratingsPromise).then(avgRatingArray => {
+
+                        templateVars = {
+                          id: req.session.userId,
+                          userPosts: posts,
+                          commentsArray: values,
+                          likesArray: postLikes,
+                          categories: categories,
+                          currentLoggedInUsername: user,
+                          avgRatings: avgRatingArray
+                        };
+                        console.log(avgRatingArray);
+                        res.render("index", templateVars);
+                      })
+
                     }
                     );
 
@@ -67,15 +79,24 @@ module.exports = () => {
               } else {
 
                 getCategories().then(categories => {
-                  templateVars = {
-                    id: req.session.userId,
-                    userPosts: posts,
-                    commentsArray: values,
-                    likesArray: postLikes,
-                    categories: categories,
-                    currentLoggedInUsername: undefined
-                  };
-                  res.render("index", templateVars);
+
+                  for (const post of posts) {
+                    ratingsPromise.push(avgRatings(post.id));
+                  }
+                  Promise.all(ratingsPromise).then(avgRatingArray => {
+
+                    templateVars = {
+                      id: req.session.userId,
+                      userPosts: posts,
+                      commentsArray: values,
+                      likesArray: postLikes,
+                      categories: categories,
+                      currentLoggedInUsername: undefined,
+                      avgRatings: avgRatingArray
+                    };
+
+                    res.render("index", templateVars);
+                  })
                 }
                 );
               }

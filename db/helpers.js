@@ -27,8 +27,8 @@ const avgRatings = function (hookId) {
     WHERE hook_id = $1
   `
   return db.query(queryStr, [hookId])
-    .then(res => res.rows[0])
-
+    .then(res =>
+      res.rows[0])
 };
 // exports.avgRatings = avgRatings;
 
