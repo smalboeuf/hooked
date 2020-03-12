@@ -261,12 +261,22 @@ const getCategories = function () {
 }
 
 const incrementLikes = function (userId, hookId) {
-  const queryStr = `
-      INSERT INTO likes (user_id, hook_id, favourite)
-      VALUES ($1, $2, true)
-    `;
-  console.log("userid: ", userId, hookId)
-  return db.query(queryStr, [userId, hookId]);
+  const queryString = `
+      SELECT favourite
+      FROM likes
+      WHERE user_id = $1
+      AND hook_id = $2
+    `
+  return db.query(queryString, [userId, hookId])
+    .then(res => {
+      if (!res.rows[0]) {
+        const queryStr = `
+            INSERT INTO likes (user_id, hook_id, favourite)
+            VALUES ($1, $2, true)
+          `;
+        return db.query(queryStr, [userId, hookId])
+      }
+    })
 }
 
 const decreaseLikes = function (userId, hookId) {
