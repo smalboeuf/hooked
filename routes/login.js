@@ -37,16 +37,6 @@ module.exports = () => {
           Promise.all(postLikesPromise).then(
             postLikes => {
 
-              // for (let i = 0; i < postLikes.length; i++){
-              //   if (!postLikes[i]) {
-              //     postLikes[i] = 0;
-              //   } else {
-              //     postLikes[i] = postLikes[i].love;
-              //   }
-              // }
-              // console.log(postLikes);
-
-
               if (req.session.userId) {
 
                 findUsernameBasedOnId(req.session.userId.id).then(
@@ -58,10 +48,11 @@ module.exports = () => {
                       }
 
                       Promise.all(ratingsPromise).then(avgRatingArray => {
-console.log(user)
+
                         templateVars = {
                           id: req.session.userId,
                           userPosts: posts,
+                          username: postUsername,
                           commentsArray: values,
                           likesArray: postLikes,
                           categories: categories,
@@ -88,6 +79,7 @@ console.log(user)
                     templateVars = {
                       id: req.session.userId,
                       userPosts: posts,
+                      username: postUsername,
                       commentsArray: values,
                       likesArray: postLikes,
                       categories: categories,
