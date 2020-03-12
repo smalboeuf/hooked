@@ -68,10 +68,13 @@
           <% if(id) { %>
             <hr>
             <div class="hook-ratings">
-              <div class="rating">
+              <div class="avgRating">
+                <div class="rating">
+                  <h4 class="avgRating">This post has an average rating of <%= %></h4>
+                </div>
                 <form class="rate-post" method="POST" action="/<%= userPosts[post].id %>/rating">
                   <input  name="rating" type="number" min="0" max="5"> /5 Stars
-                  <button type="submit" class="btn btn-primary" >Rate Me</button>
+                  <button type="submit" class="btn btn-primary" >Rate Post</button>
 
                 </form>
               </div>

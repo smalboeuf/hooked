@@ -22,7 +22,7 @@ const howManyPeopleLike = function (hookId) {
 
 const avgRatings = function (hookId) {
   const queryStr = `
-    SELECT avg(ratings) AS rating
+    SELECT round(avg(rating), 1)
     FROM ratings
     WHERE hook_id = $1
   `

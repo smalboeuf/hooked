@@ -13,7 +13,6 @@ $(document).ready(function () {
 });
 
 
-
 const addNewComment = function (username, postId) {
   let commentContent = $("#commentBox").val();
 
@@ -78,6 +77,24 @@ const getComments = function (postId, commentsElement) {
     .done((result) => renderComments(result, commentsElement));
 }
 
+// Get average rating for a post
+const getAvgRating = function (postId) {
+
+  $.ajax({
+    method: "GET",
+    url: `http://localhost:8080/posts/${postId}/rating`,
+
+  })
+    .done((result) => renderRatings(result.avg));
+}
+
+
+
+const renderRatings = function (avg) {
+  $(".avgRating").text(avg)
+  console.log(avg);
+
+}
 
 const loadOwnPage = function () {
   //TO get a user who is logged in's data

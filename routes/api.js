@@ -44,13 +44,19 @@ module.exports = () => {
     })
   });
 
-  router.post("/:postId/rating", (req, res) => {
+  router.post("/posts/:postId/rating", (req, res) => {
 
-    rateTheHook(req.params.postId, req.body.rating).then(result => {
-      avgRatings(req.params.postId).then(res => {
-        res.send(result);
-      });
+    rateTheHook(req.params.postId, req.body.rating).then()
+
+  });
+
+  router.get("/posts/:postId/rating", (req, res) => {
+    console.log(req.params.postId)
+    avgRatings(req.params.postId).then(result => {
+
+      res.send(result);
     });
+
   });
 
   router.post("/:postId/increaseLikes", (req, res) => {
@@ -61,7 +67,7 @@ module.exports = () => {
 
   router.post("/:postId/decreaseLikes", (req, res) => {
     decreaseLikes(req.session.userId.id, req.params.postId).then(result => {
-      res.send(result);
+      res.render("index", result);
     });
   });
 
