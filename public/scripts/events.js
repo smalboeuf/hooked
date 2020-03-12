@@ -14,19 +14,19 @@ $(document).ready(function () {
 
 
 const addNewComment = function (username, postId) {
-  let commentContent = $("#commentBox").val();
+  let commentContent = $("#commentBox-"+postId).val();
 
   //Make sure they can only comment if they are logged in
 
   if (commentContent) {
 
-    $(".commentFeed").prepend(createComment(commentContent, username, postId));
+    $("#hooks-"+postId).prepend(createComment(commentContent, username, postId));
   } else {
     console.log("Please input a message to comment");
   }
 
   //Clearing the text area
-  $("#commentBox").val("");
+  $("textarea").val("");
 }
 
 const processPost = function () {

@@ -51,7 +51,6 @@ module.exports = () => {
   });
 
   router.get("/posts/:postId/rating", (req, res) => {
-    console.log(req.params.postId)
     avgRatings(req.params.postId).then(result => {
 
       res.send(result);
