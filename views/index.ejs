@@ -72,17 +72,19 @@
                 <div class="rating">
                   <span class="avgRating">Rating:
                     <% if (avgRatings[post].round) { %>
-                      <%=avgRatings[post].round %>
+                      <%=avgRatings[post].round %>/5
                     <% } else { %>
-                      0
+                      0/5
                     <% } %>
 
                     </span>
                 </div>
                 <div class="ratingInputs">
                 <form class="rate-post" method="POST" action="/posts/<%= userPosts[post].id %>/rating">
+                  <div>
                   <input class="ratingValue"  name="rating" value="0" type="number" min="0" max="5"> /5 Stars
-                  <button onclick="makeNewRating(<%= userPosts[post].id %>, this)" class="addRatingSubmit" type="submit" class="btn btn-primary" >Rate Post</button>
+                  </div>
+                  <button onclick="makeNewRating(<%= userPosts[post].id %>, this)" class="btn btn-primary addRatingSubmit" type="submit">Rate Post</button>
                 </form>
               </div>
               </div>
@@ -99,8 +101,8 @@
 
             <div class="addComment">
               <span>Add Comment:</span>
-              <textarea name="comment" id="commentBox-<%= userPosts[post].id %>" cols="20" rows="10"></textarea>
-              <button onclick="addNewComment('<%= currentLoggedInUsername.username %>', <%= userPosts[post].id %>)" class="addNewComment" value="Hook a comment!">Hook a comment!</button>
+              <textarea name="comment" id="commentBox-<%= userPosts[post].id %>" cols="20" rows="3"></textarea>
+              <button onclick="addNewComment('<%= currentLoggedInUsername.username %>', <%= userPosts[post].id %>)" class="btn btn-primary addNewComment">Hook a comment!</button>
               <br>
               <span>Comments: </span>
             </div>

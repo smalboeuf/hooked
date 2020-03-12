@@ -49,11 +49,19 @@ body {
   padding-bottom: 1.5em;
 }
 
-#commentBox {
-  height: 3.5rem;
+.rate-post {
+  display: flex;
+  flex-direction: column;
 }
 
 .post-description {
+
+}
+.ratingValue {
+  min-width: 1rem;
+}
+
+.addRatingSubmit {
 
 }
 
