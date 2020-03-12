@@ -275,6 +275,13 @@ const incrementLikes = function (userId, hookId) {
             VALUES ($1, $2, true)
           `;
         return db.query(queryStr, [userId, hookId])
+      } else {
+        const queryStr = `
+        DELETE FROM likes
+        WHERE user_id = $1 AND hook_id = $2;
+      `;
+
+    return db.query(queryStr, [userId, hookId]);
       }
     })
 }

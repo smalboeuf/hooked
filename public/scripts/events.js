@@ -200,26 +200,27 @@ const renderLikes = function (amountOfLikes, element) {
 }
 
 const likePost = function (postId, element) {
-  $(element).toggleClass("toggleBlue");
-  $(element).siblings(".numbOfLikes").toggleClass("toggleBlue");
+  // $(element).toggleClass("toggleBlue");
+  // $(element).siblings(".numbOfLikes").toggleClass("toggleBlue");
   // $(".numbOfLikes").toggleClass("toggleBlue");
 
   //Increment 1 to the amount of likes this post has
   //After render it again
 
 
-  if (!$(element).siblings(".numbOfLikes").hasClass("toggleBlue")) {
+  // if (!$(element).siblings(".numbOfLikes").hasClass("toggleBlue")) {
 
-    let postData;
-    $.ajax({
-      method: 'POST',
-      url: `http://localhost:8080/${postId}/decreaseLikes`,
-      data: postData
-    }).done(() => {
-      amountOfLikes(postId, $(element).siblings(".numbOfLikes"))
-    });
+  //   let postData;
+  //   $.ajax({
+  //     method: 'POST',
+  //     url: `http://localhost:8080/${postId}/decreaseLikes`,
+  //     data: postData
+  //   }).done(() => {
+  //     amountOfLikes(postId, $(element).siblings(".numbOfLikes"))
+  //   });
 
-  } else {
+  // }
+  // else {
 
 
     let postData;
@@ -231,7 +232,7 @@ const likePost = function (postId, element) {
       console.log("testing again");
       amountOfLikes(postId, $(element).siblings(".numbOfLikes"))
     });
-  }
+  // }
 }
 
 
