@@ -29,6 +29,7 @@ const makeNewRating = function (postId, element) {
     url: `http://localhost:8080/posts/${postId}/rating/${ratingNumb}`,
     data: postData
   }).done(() => {
+
     $.ajax({
       method: 'GET',
       url: `http://localhost:8080/posts/${postId}/rating`,

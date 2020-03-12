@@ -80,12 +80,10 @@
                     </span>
                 </div>
                 <div class="ratingInputs">
-                <form class="rate-post" method="POST" action="/posts/<%= userPosts[post].id %>/rating">
-                  <div>
-                  <input class="ratingValue"  name="rating" value="0" type="number" min="0" max="5"> /5 Stars
-                  </div>
-                  <button onclick="makeNewRating(<%= userPosts[post].id %>, this)" class="btn btn-primary addRatingSubmit" type="submit">Rate Post</button>
-                </form>
+                  <form class="rate-post" method="POST" action="/posts/<%= userPosts[post].id %>/rating">
+                      <input class="ratingValue"  name="rating" value="0" type="number" min="0" max="5"> /5 Stars
+                      <button onclick="makeNewRating(<%= userPosts[post].id %>, this)" class="btn btn-primary addRatingSubmit" type="submit" >Rate Post</button>
+                  </form>
               </div>
               </div>
 
