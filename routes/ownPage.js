@@ -9,7 +9,7 @@ router.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000
 }));
 
-const { profileEditor, myHooks, newPost, getCategories, allHooks, postComments, findUsernameBasedOnId, howManyPeopleLike, getUserInfo } = require('../db/helpers')
+const { profileEditor, myHooks, newPost, getCategories, allHooks, postComments, findUsernameBasedOnId, howManyPeopleLike, getUserInfo, getUserInfoByUsername } = require('../db/helpers')
 
 module.exports = () => {
 
@@ -85,7 +85,6 @@ module.exports = () => {
   });
 
   router.post("/ownPage", (req, res) => {
-    console.log(req.body.category_id);
 
     const id = req.session.userId.id;
     const { title, description, category_id, content } = req.body;
@@ -93,6 +92,8 @@ module.exports = () => {
 
     res.redirect("/ownPage")
   })
+
+
 
   router.get("/editProfile", (req, res) => {
 
@@ -117,6 +118,85 @@ module.exports = () => {
 
     profileEditor(userId, username, email, password)
       .then(() => res.render('editProfile', req.session.userId))
+
+  });
+
+
+  router.get("/profile/:username", (req, res) => {
+
+    console.log(req.next);
+
+    getUserInfoByUsername(req.params.username).then( userInfo => {
+
+    let templateVars = {};
+    let posts;
+    let commentsPromise = [];
+    let postLikesPromise = [];
+
+
+    myHooks(userInfo.id).then(result => {
+      posts = result;
+      for (const post of posts) {
+        commentsPromise.push(postComments(post.id));
+      }
+      Promise.all(commentsPromise).then(
+        values => {
+          findUsernameBasedOnId(userInfo.id).then(result => {
+            const postUsername = result.username;
+
+            for (const post of posts) {
+              postLikesPromise.push(howManyPeopleLike(post.id));
+            }
+            Promise.all(postLikesPromise).then(
+              postLikes => {
+                if (req.session.userId) {
+
+                  findUsernameBasedOnId(req.session.userId.id).then(
+                    user => {
+                      getCategories().then(categories => {
+                        templateVars = {
+                          id: req.session.userId.id,
+                          userPosts: posts,
+                          username: postUsername,
+                          commentsArray: values,
+                           likesArray: postLikes,
+                          categories: categories,
+                          currentLoggedInUsername: user
+                        };
+                        console.log(templateVars);
+                        res.render("ownPage", templateVars);
+                      }
+                      );
+
+                    });
+                } else {
+
+                  getCategories().then(categories => {
+                    templateVars = {
+                      id: req.session.userId,
+                      userPosts: posts,
+                      username: postUsername,
+                      commentsArray: values,
+                      likesArray: postLikes,
+                      categories: categories,
+                      currentLoggedInUsername: undefined
+                    };
+                    console.log(templateVars);
+                    res.render("ownPage", templateVars);
+                  }
+                  );
+                }
+              }
+            );
+          }
+          );
+        }
+      );
+
+    }
+    );
+
+    });
 
   });
 

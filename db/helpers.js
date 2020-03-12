@@ -338,6 +338,16 @@ const addComment = function (commentContent, userId, hookId) {
   return db.query(queryStr, [commentContent, userId, hookId]);
 }
 
+const getUserInfoByUsername = function (username) {
+  const queryStr = `
+  SELECT *
+  FROM users
+  WHERE username = $1
+  `;
+
+  return db.query(queryStr, [username]).then(res => res.rows[0]);
+}
+
 
 
 
@@ -348,9 +358,5 @@ module.exports = {
   newPost, myPosts, allHooks,
   isAnExistingUser, userLikesThisHook,
   search, rateTheHook, myHooks,
-  correctEmail, correctPassword,
-  postComments, findUsernameBasedOnId,
-  incrementLikes, decreaseLikes, addComment,
-  getCategories, profileEditor, getUserInfo,
-  getPostInfo, deletePost
+  correctEmail, correctPassword, postComments, findUsernameBasedOnId, incrementLikes, decreaseLikes, addComment, getCategories, profileEditor, getUserInfo, getPostInfo, deletePost, getUserInfoByUsername
 }

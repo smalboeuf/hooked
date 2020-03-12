@@ -86,16 +86,7 @@ module.exports = () => {
     });
   });
 
-  //Implement loading user into their page
 
-  router.get("/:username", (req, res) => {
-
-  });
-
-
-  router.get("/search/:searchContent", (req, res) => {
-
-  });
 
   return router;
 }

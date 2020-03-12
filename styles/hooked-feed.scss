@@ -1,3 +1,7 @@
+body {
+  font-family: 'Sen', sans-serif;
+}
+
 .hooked-feed {
   display: flex;
   flex-direction: column;
@@ -6,7 +10,7 @@
   margin-right: auto;
   height: auto;
   width: 80%;
-  background-color: #F9D199;
+  background-color: #FDD8B5;
 }
 
 .hooked-post {
@@ -18,23 +22,44 @@
   background-color: white;
   padding: 3em;
   overflow: visible;
+  border: solid rgb(187, 158, 118);
+  border-width: 0.25em;
 }
+
+.comment:hover {
+  box-shadow: 5px 7px rgb(184, 199, 222);
+}
+.titleSpan {
+  font-weight: bold;
+  font-size: 1.15rem;
+}
+
 
 .title {
   display: flex;
   justify-content: space-between;
+  background-color: whitesmoke;
+  padding: 1em;
 }
 
 .content {
   display: flex;
   flex-direction: column;
+  padding-top: 1.5em;
+  padding-bottom: 1.5em;
 }
 
 #commentBox {
   height: 3.5rem;
 }
 
+.post-description {
 
+}
+
+.post-content {
+  word-break: break-word;
+}
 
 .hook-ratings {
   display: flex;
@@ -48,10 +73,14 @@
   margin-bottom: 1em;
 }
 
+.commentFeed {
+
+}
+
 .comment {
   margin-top: 2em;
   padding: 1em;
-  display: flex;
+  display:flex;
   flex-direction: column;
   background-color:  rgb(213, 233, 250);
 }
@@ -63,4 +92,9 @@
 #addNewComment {
   font-size: 100%;
   width: 30%;
+}
+
+.hooked-post .mainHeader {
+  height: 3px;
+  background-color: rgb(187, 158, 118);
 }

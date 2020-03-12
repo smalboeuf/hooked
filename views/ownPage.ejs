@@ -21,10 +21,9 @@
     />
 
     <!-- Stylings -->
-    <link rel="stylesheet" href="/styles/header.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/main.css" />
-    <link rel="stylesheet" href="/styles/hooked-feed.css" />
-    <link rel="stylesheet" href="/styles/ownPosts.css" />
+    <link rel="stylesheet" href="/styles/combined.css" />
+    <link href="https://fonts.googleapis.com/css?family=Sen&display=swap" rel="stylesheet">
+
 
     <!-- External JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -36,7 +35,8 @@
   <body>
     <%- include('partials/_header.ejs') %>
     <main class="rounded">
-      <h2><%= currentLoggedInUsername.username %>'s Page</h2>
+
+      <h2 class="userTitle"><%= username %>'s Page</h2>
 
       <div>
         <label for="category-filter">Category:</label>
@@ -60,7 +60,7 @@
         Content:
         <input id="newPO" type="text" name="content" />
         <br>
-        <div>
+        <div class="categoryDiv">
           <label for="category-selector">Category:</label>
           <select class="category-selector">
             <% for(let ele of categories) { %>
@@ -81,16 +81,16 @@
       <% for (const post in userPosts){ %>
       <div class="hooked-post rounded" name="<%= userPosts[post].category %>">
         <div class="title">
-          <span class="titleSpan"><%= userPosts[post].title %>:</span>
+          <span class="titleSpan"><%= userPosts[post].title %></span>
           <span class="usernameSpan"><%= userPosts[post].username %></span>
         </div>
-        <hr />
+        <hr class="mainHeader">
         <div class="content">
-          <span class="post-description"
-            >Description: <%= userPosts[post].description %></span
-          >
-          <span class="post-content"
-            >Content: <%= userPosts[post].content %>
+          <span class="post-description">
+           <%= userPosts[post].description %></span>
+          <br>
+          <span class="post-content">
+            <a href="<%= userPosts[post].content %>"><%= userPosts[post].content %></a>
           </span>
         </div>
 
