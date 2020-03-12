@@ -213,7 +213,6 @@ const amountOfLikes = function (postId, element) {
 }
 
 const renderLikes = function (amountOfLikes, element) {
-  console.log('renderlikes', amountOfLikes)
   element.text(amountOfLikes.love);
 }
 
@@ -238,12 +237,15 @@ const likePost = function (postId, element) {
     });
 
   } else {
+
+
     let postData;
     $.ajax({
       method: 'POST',
       url: `http://localhost:8080/${postId}/increaseLikes`,
       data: postData
     }).done(() => {
+      console.log("testing again");
       amountOfLikes(postId, $(element).siblings(".numbOfLikes"))
     });
   }

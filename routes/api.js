@@ -59,15 +59,20 @@ module.exports = () => {
 
   });
 
+
+
   router.post("/:postId/increaseLikes", (req, res) => {
     incrementLikes(req.session.userId.id, req.params.postId).then(result => {
       res.send(result);
+
     });
   });
 
   router.post("/:postId/decreaseLikes", (req, res) => {
     decreaseLikes(req.session.userId.id, req.params.postId).then(result => {
-      res.render("index", result);
+      res.send(result);
+      // getPostInfo(req.params.postId).then( postInfo => {
+      // });
     });
   });
 
