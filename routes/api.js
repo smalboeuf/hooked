@@ -39,7 +39,7 @@ module.exports = () => {
   });
 
   router.get("/:postId/likes", (req, res) => {
-    howManyPeopleLike(req.params.postId).then();
+    howManyPeopleLike(req.params.postId).then(result => res.send(result));
   });
 
   router.post("/posts/:postId/rating/:ratingNumber", (req, res) => {
