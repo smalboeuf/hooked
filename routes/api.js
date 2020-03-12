@@ -39,7 +39,7 @@ module.exports = () => {
   });
 
   router.get("/:postId/likes", (req, res) => {
-    howManyPeopleLike(req.params.postId).then();
+    howManyPeopleLike(req.params.postId).then(result => res.send(result));
   });
 
   router.post("/posts/:postId/rating/:ratingNumber", (req, res) => {
@@ -66,13 +66,13 @@ module.exports = () => {
     });
   });
 
-  router.post("/:postId/decreaseLikes", (req, res) => {
-    decreaseLikes(req.session.userId.id, req.params.postId).then(result => {
-      res.send(result);
-      // getPostInfo(req.params.postId).then( postInfo => {
-      // });
-    });
-  });
+  // router.post("/:postId/decreaseLikes", (req, res) => {
+  //   decreaseLikes(req.session.userId.id, req.params.postId).then(result => {
+  //     res.send(result);
+  //     // getPostInfo(req.params.postId).then( postInfo => {
+  //     // });
+  //   });
+  // });
 
   router.post("/user/:postId/comments/:commentContent", (req, res) => {
     console.log("content", req.params.commentContent);
