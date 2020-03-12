@@ -18,19 +18,21 @@ const howManyPeopleLike = function (hookId) {
 };
 // exports.howManyPeopleLike = howManyPeopleLike;
 
-const usersLikesThisHook = function (hookId) {
+const userLikesThisHook = function (userId, hookId) {
   const queryStr = `
-  select hook_id, user_id
-  from likes
-  where hook_id = $1
+  SELECT user_id
+  FROM likes
+  WHERE hook_id = $2
+  AND user_id = $1
   `
-  return db.query(queryStr, [hookId])
+  return db.query(queryStr, [userId, hookId])
     .then(res => {
       if (!res.rows[0]) {
-        return {hook_id: hookId, love: 0}
+        return false
       } else {
-        return res.rows[0]}
-      })
+        return true
+      }
+    })
 }
 
 const avgRatings = function (hookId) {
@@ -297,8 +299,10 @@ const myHooks = function(id) {
     left JOIN categories ON hooks.category_id = categories.id
     left JOIN users ON users.id = hooks.user_id
     left JOIN ratings ON ratings.hook_id = hooks.id
-    WHERE hooks.user_id = $1
+    left join likes on likes.hook_id = hooks.id
+    WHERE hooks.user_id = $1 or likes.user_id = $1
     GROUP BY hooks.id, hooks.title, description, hooks.content, categories.name, users.username
+    ORDER BY hooks.id DESC;
     `
     return db.query(queryStr, [id])
     .then(res => res.rows)
@@ -331,6 +335,10 @@ module.exports = {
   howManyPeopleLike,
   avgRatings, myLikes,
   newPost, myPosts, allHooks,
-  isAnExistingUser,
+  isAnExistingUser, userLikesThisHook,
   search, rateTheHook, myHooks,
-  correctEmail, correctPassword, postComments, findUsernameBasedOnId, incrementLikes, decreaseLikes, addComment, getCategories, profileEditor, getUserInfo, getPostInfo, deletePost }
+  correctEmail, correctPassword,
+  postComments, findUsernameBasedOnId,
+  incrementLikes, decreaseLikes, addComment,
+  getCategories, profileEditor, getUserInfo,
+  getPostInfo, deletePost }
