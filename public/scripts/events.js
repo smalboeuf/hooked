@@ -88,13 +88,11 @@ const getAvgRating = function (postId) {
     .done((result) => renderRatings(result.avg));
 }
 
-
-
 const renderRatings = function (avg) {
   $(".avgRating").text(avg)
   console.log(avg);
-
 }
+
 
 const loadOwnPage = function () {
   //TO get a user who is logged in's data

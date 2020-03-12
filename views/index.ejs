@@ -79,8 +79,8 @@
 
                     </span>
                 </div>
-                <form class="rate-post" method="POST" action="/<%= userPosts[post].id %>/rating">
-                  <input  name="rating" type="number" min="0" max="5"> /5 Stars
+                <form class="rate-post" method="POST" action="/posts/<%= userPosts[post].id %>/rating">
+                  <input  name="rating" type="number" min="1" max="5"> /5 Stars
                   <button type="submit" class="btn btn-primary" >Rate Post</button>
 
                 </form>
