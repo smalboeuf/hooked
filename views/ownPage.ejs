@@ -49,7 +49,7 @@
       </div>
     </main>
     <div class="createPost">
-      <button id="createPostButton">Create a post</button>
+      <button class="btn btn-dark" id="createPostButton">Create a post</button>
 
       <form class="hookForm" method="POST" action="/ownPage">
         <h3>Create a Post</h3>
@@ -70,7 +70,7 @@
           </div>
           <br />
           <!-- <button onclick="processPost()" id="addNewHook" type="submit"> -->
-            <button  type="submit">
+            <button class="btn btn-primary" type="submit">
             Hook it!
           </button>
         </form>
@@ -101,9 +101,9 @@
               <div class="rating">
                 <span class="avgRating">Rating:
                   <% if (avgRatings[post].round) { %>
-                    <%=avgRatings[post].round %>
+                    <%=avgRatings[post].round %>/5
                   <% } else { %>
-                    0
+                    0/5
                   <% } %>
 
                   </span>
@@ -111,7 +111,7 @@
               <div class="ratingInputs">
               <form class="rate-post" method="POST" action="/posts/<%= userPosts[post].id %>/rating">
                 <input class="ratingValue"  name="rating" value="0" type="number" min="0" max="5"> /5 Stars
-                <button onclick="makeNewRating(<%= userPosts[post].id %>, this)" class="addRatingSubmit" type="submit" class="btn btn-primary" >Rate Post</button>
+                <button onclick="makeNewRating(<%= userPosts[post].id %>, this)" class="btn btn-primary addRatingSubmit" type="submit" >Rate Post</button>
               </form>
             </div>
             </div>

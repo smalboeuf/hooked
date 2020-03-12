@@ -35,8 +35,9 @@ const makeNewRating = function (postId, element) {
       data: postData
     }).done( result => {
       const averageRatings = $(element).parents('.rate-post').parents('.ratingInputs').siblings('.rating').children('.avgRating');
-      averageRatings.text("Rating: " + result.round);
-      $('.ratingInputs').hide();
+      averageRatings.text("Rating: " + result.round + "/5");
+      const collapseDiv = $(element).parents('.rate-post').parents('.ratingInputs');
+      collapseDiv.hide();
     }
     );
     }
