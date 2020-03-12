@@ -58,7 +58,7 @@ module.exports = () => {
                       }
 
                       Promise.all(ratingsPromise).then(avgRatingArray => {
-
+console.log(user)
                         templateVars = {
                           id: req.session.userId,
                           userPosts: posts,

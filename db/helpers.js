@@ -355,7 +355,24 @@ const getUserInfoByUsername = function (username) {
   return db.query(queryStr, [username]).then(res => res.rows[0]);
 }
 
+const ratedThisHook = function (userId, postId) {
+  const queryStr = `
+  SELECT hook_id
+  FROM ratings
+  join hooks on hooks.id = hook_id
+  WHERE user_id = $1 and hook_id = $2
+  `;
 
+  return db.query(queryStr, [userId, postId])
+    .then(res => {
+      if (!res.rows[0]) {
+        return false
+      } else {
+        return true
+      }
+    })
+
+}
 
 
 module.exports = {
@@ -364,6 +381,6 @@ module.exports = {
   avgRatings, myLikes,
   newPost, myPosts, allHooks,
   isAnExistingUser, userLikesThisHook,
-  search, rateTheHook, myHooks,
+  search, rateTheHook, myHooks, ratedThisHook,
   correctEmail, correctPassword, postComments, findUsernameBasedOnId, incrementLikes, decreaseLikes, addComment, getCategories, profileEditor, getUserInfo, getPostInfo, deletePost, getUserInfoByUsername
 }
