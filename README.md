@@ -4,15 +4,15 @@ Hooked is a multi page website where users can post links and content of their c
 
 ## User Page
 
-![User Page](link-to-image)
+![User Page](https://github.com/smalboeuf/hooked/blob/master/docs/UserPage.png)
 
 ## Normal Post
 
-![Normal Post](link-to-image)
+![Normal Post](https://github.com/smalboeuf/hooked/blob/master/docs/NormalPost.png)
 
 ## Edit Profile 
 
-![Edit Profile](link-to-image)
+![Edit Profile](https://github.com/smalboeuf/hooked/blob/master/docs/EditProfile.png)
 
 ## Setup
 
