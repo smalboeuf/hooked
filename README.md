@@ -1,12 +1,26 @@
-Hooked
-=========
+# Hooked
+
 Hooked is a multi page website where users can post links and content of their choice for other people to see and interact with.
 
+## User Page
+
+![User Page](link-to-image)
+
+## Normal Post
+
+![Normal Post](link-to-image)
+
+## Edit Profile 
+
+![Edit Profile](link-to-image)
 
 ## Setup
 
 1. Create the `.env` by using `.env.example` as a reference: `cp .env.example .env`
 2. Update the .env file with your correct local information 
+  - username: `labber` 
+  - password: `labber` 
+  - database: `midterm`
 3. Install dependencies: `npm i`
 4. Fix to binaries for sass: `npm rebuild node-sass`
 5. Reset database: `npm run db:reset`
