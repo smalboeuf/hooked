@@ -2,17 +2,11 @@
 
 Hooked is a multi page website where users can post links and content of their choice for other people to see and interact with.
 
-## User Page
+## User Stories
+- Someone who wants to share links they find on the internet.
+- A bored internet user that wants to see content other people share.
+- A critique who wants to give their opinions on a user's content.
 
-![User Page](https://github.com/smalboeuf/hooked/blob/master/docs/UserPage.png)
-
-## Normal Post
-
-![Normal Post](https://github.com/smalboeuf/hooked/blob/master/docs/NormalPost.png)
-
-## Edit Profile 
-
-![Edit Profile](https://github.com/smalboeuf/hooked/blob/master/docs/EditProfile.png)
 
 ## Setup
 
@@ -26,8 +20,6 @@ Hooked is a multi page website where users can post links and content of their c
   - Note: nodemon is used, so you should not have to restart your server
 8. Visit `http://localhost:8080/`
 
-
-
 ## Dependencies
 
 - Express 4.17
@@ -36,3 +28,15 @@ Hooked is a multi page website where users can post links and content of their c
 - Node 10.x or above
 - NPM 5.x or above
 - PG 6.x
+
+## User Page
+
+![User Page](https://github.com/smalboeuf/hooked/blob/master/docs/UserPage.png)
+
+## Normal Post
+
+![Normal Post](https://github.com/smalboeuf/hooked/blob/master/docs/NormalPost.png)
+
+## Edit Profile 
+
+![Edit Profile](https://github.com/smalboeuf/hooked/blob/master/docs/EditProfile.png)
